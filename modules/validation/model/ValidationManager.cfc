@@ -114,7 +114,6 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 			constraints 	= allConstraints
 		};
 		var results = wirebox.getInstance( name="cbvalidation.model.result.ValidationResult", initArguments=initArgs );
-
 		// iterate over constraints defined
 		var thisField = "";
 		for( thisField in allConstraints ){

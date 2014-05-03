@@ -15,20 +15,20 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testProcessRules(){
-		results = getMockBox().createMock("cbvalidation.model.result.ValidationResult").init();
+		results = getMockBox().createMock( "cbvalidation.model.result.ValidationResult" ).init();
 		//mockValidator = getMockBox().createMock("coldbox.test.specs.validation.resources.MockValidator");
-		
+
 		//model.$("getValidator", mockValidator);
-		
+
 		mockRules = {
 			required = true,
 			sameAs = "joe",
 			udf = variables._validateit
 		};
-		
+
 		getMockBox().prepareMock( this ).$( "getName","luis" ).$( "getJoe", "luis" );
 		model.processRules( results=results, rules=mockRules, target=this, field="name" );
-		
+
 		assertEquals( 0, results.getErrorCount() );
 
 	}
@@ -63,7 +63,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			name = {required=true}, age = {required=true, max="35"}
 		};
 
-		r = model.validate(target=mockData, fields="name", constraints=mockConstraints);
+		r = model.validate( target=mockData, fields="name", constraints=mockConstraints);
 		assertEquals( true, r.hasErrors() );
 		assertEquals( 0, arrayLen( r.getFieldErrors("age") ) );
 		assertEquals( 1, arrayLen( r.getFieldErrors("name") ) );
