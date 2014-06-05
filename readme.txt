@@ -38,7 +38,7 @@ SYSTEM REQUIREMENTS
 ********************************************************************************
 - Railo 3.2 and above
 - ColdFusion MX 9 and above
-- ColdBox 3.5 and above
+- ColdBox 4.0 and above
 
 ----
 
