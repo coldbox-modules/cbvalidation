@@ -133,7 +133,9 @@ component accessors="true" implements="IValidationResult"{
 		// The validation type
 		arguments.message = replacenocase( arguments.message, "{validationType}", arguments.error.getValidationType(), "all");
 		// The validation data
-		arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
+		if( arguments.error.getValidationType() neq 'UDF' ){
+		 	arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
+		}
 		// The target name of the object
 		arguments.message = replacenocase( arguments.message, "{targetName}", getTargetName(), "all");
 
