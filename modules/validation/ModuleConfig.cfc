@@ -78,7 +78,7 @@ component{
 	/**
 	* Prepare settings and returns true if using i18n else false.
 	*/
-	private boolean function parseParentSettings(){
+	private function parseParentSettings(){
 		/**
 		Sample:
 		validation = {
