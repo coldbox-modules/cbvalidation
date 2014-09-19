@@ -60,7 +60,7 @@ component{
 		wirebox.getInstance( "validationManager@validation" )
 			.setSharedConstraints( configSettings.validation.sharedConstraints );
 		// Did you change the manager
-		if( configSettings.manager != this.COLDBOX_VALIDATION_MANAGER ){
+		if( configSettings.validation.manager != this.COLDBOX_VALIDATION_MANAGER ){
 			map( "validationManager@validation" )
 				.to( configSettings.validation.manager )
 				.asSingleton();
