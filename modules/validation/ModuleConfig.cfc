@@ -58,11 +58,11 @@ component{
 		parseParentSettings();
 		// setup shared constraints
 		wirebox.getInstance( "validationManager@validation" )
-			.setSharedConstraints( configSettings.sharedConstraints );
+			.setSharedConstraints( configSettings.validation.sharedConstraints );
 		// Did you change the manager
 		if( configSettings.manager != this.COLDBOX_VALIDATION_MANAGER ){
 			map( "validationManager@validation" )
-				.to( configSettings.manager )
+				.to( configSettings.validation.manager )
 				.asSingleton();
 		}
 
