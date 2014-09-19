@@ -17,6 +17,7 @@ Holy Ghost which is given unto us. ." Romans 5:5
 WELCOME TO THE COLDBOX VALIDATION MODULE
 ********************************************************************************
 Created & copyright by Luis Majano (Ortus Solutions, Corp)
+
 ColdBox sports its own server side validation engine so it can provide you with a unified 
 approach to object and form validation.
 
@@ -36,9 +37,8 @@ Source
 ********************************************************************************
 SYSTEM REQUIREMENTS
 ********************************************************************************
-- Railo 3.2 and above
-- ColdFusion MX 9 and above
-- ColdBox 4.0 and above
+- Railo 4+
+- ColdFusion 9+
 
 ----
 

@@ -5,3 +5,6 @@ settings.xml
 test/results/*.properties
 test/results/*.html
 test/results/*.log
+tests/results
+modules/javaloader
+modules/i18n

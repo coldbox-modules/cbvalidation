@@ -1,11 +1,17 @@
-component {
+/**
+*********************************************************************************
+* Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+* www.coldbox.org | www.luismajano.com | www.ortussolutions.com
+********************************************************************************
+*/
+component{
 
 	// Module Properties
 	this.title 				= "validation";
 	this.author 			= "Luis Majano";
 	this.webURL 			= "http://www.ortussolutions.com";
 	this.description 		= "This module provides server-side validation to ColdBox applications";
-	this.version			= "1.0.0";
+	this.version			= "1.0.0.@build.number@";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -16,13 +22,18 @@ component {
 	this.modelNamespace		= "validation";
 	// CF Mapping
 	this.cfmapping			= "cbvalidation";
+		// Module Dependencies That Must Be Loaded First, use internal names or aliases
+	this.dependencies		= [ "i18n" ];
 	// ColdBox Static path to validation manager
-	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.model.ValidationManager";
+	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
 
+	/**
+	* Configure module
+	*/
 	function configure(){
 
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
-		arrayAppend( controller.getSetting( "UDFLibraryFile" ), "#moduleMapping#/model/Mixins.cfm" );
+		arrayAppend( controller.getSetting( "UDFLibraryFile" ), "#moduleMapping#/models/Mixins.cfm" );
 
 		// Validation Settings
 		settings = {
@@ -36,28 +47,69 @@ component {
 			}
 		};
 
-		// Did you change the manager
-		if( settings.manager != this.COLDBOX_VALIDATION_MANAGER ){
-			map( "validationManager@validation" )
-				.to( settings.manager )
-				.asSingleton();
-		}
-
 	}
 
 	/**
 	* Fired when the module is registered and activated.
 	*/
 	function onLoad(){
+		var configSettings = controller.getConfigSettings();
+		// parse parent settings
+		parseParentSettings();
 		// setup shared constraints
 		wirebox.getInstance( "validationManager@validation" )
-			.setSharedConstraints( settings.sharedConstraints );
+			.setSharedConstraints( configSettings.sharedConstraints );
+		// Did you change the manager
+		if( configSettings.manager != this.COLDBOX_VALIDATION_MANAGER ){
+			map( "validationManager@validation" )
+				.to( configSettings.manager )
+				.asSingleton();
+		}
+
 	}
 
 	/**
 	* Fired when the module is unregistered and unloaded
 	*/
 	function onUnload(){
+
+	}
+
+	/**
+	* Prepare settings and returns true if using i18n else false.
+	*/
+	private boolean function parseParentSettings(){
+		/**
+		Sample:
+		validation = {
+			manager = "class path" // if overriding
+			sharedConstraints = {
+				name = {
+					field = { constraints here }
+				}
+			}
+
+		}
+		*/
+		// Read parent application config
+		var oConfig 		= controller.getSetting( "ColdBoxConfig" );
+		var validationDSL	= oConfig.getPropertyMixin( "validation", "variables", structnew() );
+		var configStruct 	= controller.getConfigSettings();
+
+		// Default Config Structure
+		configStruct.validation = {
+			manager = this.COLDBOX_VALIDATION_MANAGER,
+			sharedConstraints = {}
+		};
+
+		// manager
+		if( structKeyExists( validationDSL, "manager" ) ){
+			configStruct.validation.manager = validationDSL.manager;
+		}
+		// shared constraints
+		if( structKeyExists( validationDSL, "sharedConstraints" ) ){
+			structAppend( configStruct.validation.sharedConstraints, validationDSL.sharedConstraints, true );
+		}
 
 	}
 

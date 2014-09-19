@@ -1,0 +1,28 @@
+********************************************************************************
+INSTRUCTIONS
+********************************************************************************
+Just drop into your modules folder or use the box-cli to install
+
+box install validation
+
+The module will register several objects into WireBox using the @validation namespace.
+The validation manager is registered as ValidationManager@validation
+
+The module will also register two methods in your handlers/interceptors/layouts/views
+
+validateModel()
+getValidationManager()
+
+You can register shared constraints in the ColdBox.cfc by using the settings struct
+
+<pre>
+Sample:
+validation = {
+	manager = "class path" // if overriding
+	sharedConstraints = {
+		name = {
+			field = { constraints here }
+		}
+	}
+
+}</pre>
