@@ -60,7 +60,7 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 	/**
 	* A resource bundle plugin for i18n capabilities
 	*/
-	property name="resourceService" inject="ResourceService@i18n" required="false";
+	property name="resourceService" inject="ResourceService@i18n";
 
 	/**
 	* Shared constraints that can be loaded into the validation manager
