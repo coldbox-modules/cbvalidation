@@ -1,7 +1,7 @@
 {
 	"name" 		: "ColdBox Validation",
 	"author" 	: "Luis Majano <lmajano@ortussolutions.com",
-	"version"	: "1.0.0.@build.number@",
+	"version"	: "1.0.0+@build.number@",
 	"slug"		: "validation",
 	"type"		: "modules",
 	"homepage"	: "http://www.coldbox.org",
@@ -16,7 +16,7 @@
 	],
 	"engines"	: [
 		{ "type" : "railo", "version" : ">4.1" },
-		{ "type" : "adobe", "version" : ">9.02" },
+		{ "type" : "adobe", "version" : ">9.02" }
 	],
 	"dependencies" 	:{
 		"i18n" : "1.0.0"

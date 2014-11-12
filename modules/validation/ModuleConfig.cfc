@@ -11,7 +11,7 @@ component{
 	this.author 			= "Luis Majano";
 	this.webURL 			= "http://www.ortussolutions.com";
 	this.description 		= "This module provides server-side validation to ColdBox applications";
-	this.version			= "1.0.0.@build.number@";
+	this.version			= "1.0.0+@build.number@";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -33,7 +33,7 @@ component{
 	function configure(){
 
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
-		arrayAppend( controller.getSetting( "ApplicationHelper" ), "#moduleMapping#/models/Mixins.cfm" );
+		arrayAppend( controller.getSetting( "UDFLibraryFile" ), "#moduleMapping#/models/Mixins.cfm" );
 
 		// Validation Settings
 		settings = {
@@ -56,15 +56,15 @@ component{
 		var configSettings = controller.getConfigSettings();
 		// parse parent settings
 		parseParentSettings();
-		// setup shared constraints
-		wirebox.getInstance( "validationManager@validation" )
-			.setSharedConstraints( configSettings.validation.sharedConstraints );
-		// Did you change the manager
+		// Did you change the validation manager?
 		if( configSettings.validation.manager != this.COLDBOX_VALIDATION_MANAGER ){
-			map( "validationManager@validation" )
+			binder.map( "validationManager@validation" )
 				.to( configSettings.validation.manager )
 				.asSingleton();
 		}
+		// setup shared constraints
+		wirebox.getInstance( "validationManager@validation" )
+			.setSharedConstraints( configSettings.validation.sharedConstraints );
 
 	}
 
