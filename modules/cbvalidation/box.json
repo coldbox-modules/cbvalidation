@@ -1,90 +1,24 @@
 {
-    "name":"ColdBox Validation",
-    "version":"1.0.0",
-    "author":"Luis Majano <lmajano@ortussolutions.com",
-    "location":"",
-    "directory":"",
-    "createPackageDirectory":true,
-    "packageDirectory":"",
-    "homepage":"http://www.coldbox.org",
-    "documentation":"http://wiki.coldbox.org/wiki/Validation.cfm",
-    "repository":{
-        "type":"git",
-        "url":"https://github.com/ColdBox/cbox-validation"
-    },
-    "bugs":"",
-    "slug":"cbvalidation",
-    "shortDescription":"This module provides server side validation to ColdBox applications",
-    "description":"",
-    "instructions":"",
-    "changelog":"",
-    "type":"modules",
-    "keywords":[
-        
+    "name"      : "ColdBox Validation",
+    "author"    : "Luis Majano <lmajano@ortussolutions.com",
+    "version"   : "1.0.0",
+    "slug"      : "cbvalidation",
+    "type"      : "modules",
+    "homepage"  : "http://www.coldbox.org",
+    "documentation"     : "http://wiki.coldbox.org/wiki/Validation.cfm",
+    "repository"        : { "type" : "git", "url" : "https://github.com/ColdBox/cbox-validation" },
+    "shortDescription"  : "This module provides server side validation to ColdBox applications",
+    "license"           : [ 
+        { "type" : "Apache2", "url" : "http://www.apache.org/licenses/LICENSE-2.0.html" } 
     ],
-    "private":false,
-    "engines":[
-        {
-            "type":"railo",
-            "version":">4.1"
-        },
-        {
-            "type":"adobe",
-            "version":">9.02"
-        }
+    "contributors"      : [
+        "Brad Wood <bdw429s@gmail.com>", "Curt Gratz <gratz@computerknowhow.com>"
     ],
-    "defaultEngine":"",
-    "defaultPort":0,
-    "projectURL":"",
-    "license":[
-        {
-            "type":"Apache2",
-            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
+    "engines"   : [
+        { "type" : "railo", "version" : ">4.1" },
+        { "type" : "adobe", "version" : ">9.02" }
     ],
-    "contributors":[
-        "Brad Wood <bdw429s@gmail.com>",
-        "Curt Gratz <gratz@computerknowhow.com>"
-    ],
-    "dependencies":{
-        "cbi18n":"1.0.0"
-    },
-    "devDependencies":{
-        
-    },
-    "installPaths":{
-        "cbi18n":"modules/cbi18n"
-    },
-    "ignore":[
-        
-    ],
-    "testbox":{
-        "runner":[
-            {
-                "default":""
-            }
-        ],
-        "labels":[
-            
-        ],
-        "reporter":"",
-        "reporterResults":"",
-        "bundles":[
-            ""
-        ],
-        "directory":{
-            "mapping":"",
-            "recurse":true
-        },
-        "watchers":[
-            
-        ],
-        "notify":{
-            "emails":[
-                
-            ],
-            "growl":"",
-            "url":""
-        }
+    "dependencies"  :{
+        "cbi18n" : "1.0.0"
     }
 }
