@@ -3,9 +3,9 @@ INSTRUCTIONS
 
 Just drop into your **modules** folder or use the box-cli to install
 
-`box install validation`
+`box install cbvalidation`
 
-The module will register several objects into WireBox using the `@validation` namespace.  The validation manager is registered as `ValidationManager@validation`
+The module will register several objects into WireBox using the `@cbvalidation` namespace.  The validation manager is registered as `ValidationManager@cbvalidation`
 
 ## Mixins
 The module will also register two methods in your handlers/interceptors/layouts/views

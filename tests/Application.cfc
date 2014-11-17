@@ -12,8 +12,8 @@ component{
 	this.mappings[ "/tests" ] = getDirectoryFromPath( getCurrentTemplatePath() );
 	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
 	this.mappings[ "/root" ]   = rootPath;
-	this.mappings[ "/cbvalidation" ]   = rootPath & "modules/validation";
-	this.mappings[ "/i18n" ]   = rootPath & "modules/i18n";
+	this.mappings[ "/cbvalidation" ]   = rootPath & "modules/cbvalidation";
+	this.mappings[ "/cbi18n" ]   = rootPath & "modules/cbi18n";
 
 	// any orm definitions go here.
 

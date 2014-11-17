@@ -24,7 +24,7 @@ function validateModel(
 * Retrieve the application's configured Validation Manager
 */
 function getValidationManager(){
-	return wirebox.getInstance( "ValidationManager@validation" );	
+	return wirebox.getInstance( "ValidationManager@cbvalidation" );	
 } 
 
 </cfscript>

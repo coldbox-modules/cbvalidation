@@ -58,7 +58,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		mockError = getMockBox().createMock("cbvalidation.models.result.ValidationError").init();
 		mockError.configure("unit test","test","45","inList","1,2,3");
 		model.setLocale("en_US");
-		mockRB = getMockBox().createEmptyMock("i18n.models.ResourceService").$("getResource").$results("Your stuff doesn't work {field} {validationType} {validationData}");
+		mockRB = getMockBox().createEmptyMock("cbi18n.models.ResourceService").$("getResource").$results("Your stuff doesn't work {field} {validationType} {validationData}");
 		model.setResourceService( mockRB );
 
 		model.addError( mockError );

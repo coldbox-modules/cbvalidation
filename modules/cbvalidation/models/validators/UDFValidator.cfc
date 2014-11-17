@@ -24,7 +24,6 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	*/
 	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue, any validationData){
 
-
 		if( arguments.validationData( arguments.targetValue, arguments.target )  ){
 			return true;
 		}

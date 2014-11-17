@@ -17,13 +17,13 @@ component{
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
 	this.layoutParentLookup = true;
 	// Module Entry Point
-	this.entryPoint			= "validation";
+	this.entryPoint			= "cbvalidation";
 	// Model Namespace
-	this.modelNamespace		= "validation";
+	this.modelNamespace		= "cbvalidation";
 	// CF Mapping
 	this.cfmapping			= "cbvalidation";
 		// Module Dependencies That Must Be Loaded First, use internal names or aliases
-	this.dependencies		= [ "i18n" ];
+	this.dependencies		= [ "cbi18n" ];
 	// ColdBox Static path to validation manager
 	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
 
@@ -58,12 +58,12 @@ component{
 		parseParentSettings();
 		// Did you change the validation manager?
 		if( configSettings.validation.manager != this.COLDBOX_VALIDATION_MANAGER ){
-			binder.map( "validationManager@validation" )
+			binder.map( "validationManager@cbvalidation" )
 				.to( configSettings.validation.manager )
 				.asSingleton();
 		}
 		// setup shared constraints
-		wirebox.getInstance( "validationManager@validation" )
+		wirebox.getInstance( "validationManager@cbvalidation" )
 			.setSharedConstraints( configSettings.validation.sharedConstraints );
 
 	}

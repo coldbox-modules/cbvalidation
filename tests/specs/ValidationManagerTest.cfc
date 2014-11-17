@@ -8,7 +8,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function setup(){
 		super.setup();
-		mockRB = getMockBox().createEmptyMock("i18n.models.ResourceService");
+		mockRB = getMockBox().createEmptyMock("cbi18n.models.ResourceService");
 		model.init();
 		model.setWireBox( mockWireBox );
 		model.setResourceService( mockRB );
