@@ -48,7 +48,7 @@
 		};
 
 		// Activate WireBox
-		wirebox = { enabled = true, singletonReload=true };
+		wirebox = { enabled = true, singletonReload=false };
 
 		// Module Directives
 		modules = {
@@ -80,6 +80,14 @@
 			}
 		];
 
+		validation = {
+			sharedConstraints = {
+				"sharedUser" = { 
+					username = {required=true, size="6..20"},
+					password = {required=true, size="6..20"}
+				}
+			}
+		};
 	}
 </cfscript>
 </cfcomponent>

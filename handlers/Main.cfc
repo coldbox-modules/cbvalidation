@@ -26,6 +26,19 @@ component{
 
 	}
 
+	any function saveShared( event, rc, prc){
+		// validation
+		var result = validateModel( target=rc, constraints="sharedUser" );
+
+		if( !result.hasErrors() ){
+			flash.put( "User info validated!" );
+			setNextEvent('main');
+		} else {
+			flash.put( "notice", result.getAllErrors().tostring() );
+			return index(event,rc,prc);
+		}
+	}
+
 	// Run on first init
 	any function onAppInit( event, rc, prc ){
 

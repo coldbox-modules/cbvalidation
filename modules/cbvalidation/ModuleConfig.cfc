@@ -11,7 +11,7 @@ component{
 	this.author 			= "Luis Majano";
 	this.webURL 			= "http://www.ortussolutions.com";
 	this.description 		= "This module provides server-side validation to ColdBox applications";
-	this.version			= "1.0.0+@build.number@";
+	this.version			= "1.0.1+@build.number@";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -22,7 +22,9 @@ component{
 	this.modelNamespace		= "cbvalidation";
 	// CF Mapping
 	this.cfmapping			= "cbvalidation";
-		// Module Dependencies That Must Be Loaded First, use internal names or aliases
+	// Auto-map models
+	this.autoMapModels		= true;
+	// Module Dependencies That Must Be Loaded First, use internal names or aliases
 	this.dependencies		= [ "cbi18n" ];
 	// ColdBox Static path to validation manager
 	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
@@ -31,22 +33,8 @@ component{
 	* Configure module
 	*/
 	function configure(){
-
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
 		arrayAppend( controller.getSetting( "ApplicationHelper" ), "#moduleMapping#/models/Mixins.cfm" );
-
-		// Validation Settings
-		settings = {
-			// Change if overriding
-			manager = this.COLDBOX_VALIDATION_MANAGER,
-			// Setup shared constraints below
-			sharedConstraints = {
-				name = {
-					// field = { constraints here }
-				}
-			}
-		};
-
 	}
 
 	/**
@@ -58,14 +46,13 @@ component{
 		parseParentSettings();
 		// Did you change the validation manager?
 		if( configSettings.validation.manager != this.COLDBOX_VALIDATION_MANAGER ){
-			binder.map( "validationManager@cbvalidation" )
+			binder.map( alias="validationManager@cbvalidation", force=true )
 				.to( configSettings.validation.manager )
 				.asSingleton();
 		}
 		// setup shared constraints
 		wirebox.getInstance( "validationManager@cbvalidation" )
 			.setSharedConstraints( configSettings.validation.sharedConstraints );
-
 	}
 
 	/**
@@ -110,7 +97,6 @@ component{
 		if( structKeyExists( validationDSL, "sharedConstraints" ) ){
 			structAppend( configStruct.validation.sharedConstraints, validationDSL.sharedConstraints, true );
 		}
-
 	}
 
 }

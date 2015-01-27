@@ -50,7 +50,7 @@ vResults = validateModel(target=model);
 */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-component accessors="true" serialize="false" implements="IValidationManager"{
+component accessors="true" serialize="false" implements="IValidationManager" singleton{
 
 	/**
 	* WireBox Object Factory
@@ -67,16 +67,18 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 	*/
 	property name="sharedConstraints" type="struct";
 
+	this.id = createUUID();
+
 	/**
 	* Constructor
 	* @sharedConstraints.hint A structure of shared constraints
 	*/
-	ValidationManager function init(struct sharedConstraints=structNew()){
-
+	ValidationManager function init( struct sharedConstraints=structNew() ){
 		// valid validator registrations
-		validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
+		variables.validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
 		variables.sharedConstraints = arguments.sharedConstraints;
+		
 		return this;
 	}
 
@@ -185,16 +187,16 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 	* Retrieve the shared constraints, all of them or by name
 	* @name.hint Filter by name or not
 	*/
-	struct function getSharedConstraints(string name){
-		return ( structKeyExists(arguments,"name") ? sharedConstraints[arguments.name] : sharedConstraints );
+	struct function getSharedConstraints( string name ){
+		return ( structKeyExists( arguments, "name" ) ? variables.sharedConstraints[ arguments.name ] : variables.sharedConstraints );
 	}
 
 	/**
 	* Check if a shared constraint exists by name
 	* @name.hint The shared constraint to check
 	*/
-	boolean function sharedConstraintsExists(required string name){
-		return structKeyExists( sharedConstraints, arguments.name );
+	boolean function sharedConstraintsExists( required string name ){
+		return structKeyExists( variables.sharedConstraints, arguments.name );
 	}
 
 
@@ -202,7 +204,7 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 	* Set the entire shared constraints structure
 	* @constraints.hint Filter by name or not
 	*/
-	IValidationManager function setSharedConstraints(struct constraints){
+	IValidationManager function setSharedConstraints( struct constraints ){
 		variables.sharedConstraints = arguments.constraints;
 		return this;
 	}
@@ -212,8 +214,8 @@ component accessors="true" serialize="false" implements="IValidationManager"{
 	* @name.hint Filter by name or not
 	* @constraint.hint The constraint to store.
 	*/
-	IValidationManager function addSharedConstraint(required string name, required struct constraint){
-		sharedConstraints[ arguments.name ] = arguments.constraints;
+	IValidationManager function addSharedConstraint( required string name, required struct constraint ){
+		variables.sharedConstraints[ arguments.name ] = arguments.constraints;
 	}
 
 	/************************************** private *********************************************/
