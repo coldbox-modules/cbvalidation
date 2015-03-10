@@ -1,5 +1,7 @@
 CHANGELOG
 =========
+## 1.0.3
+* Ignore invalid validator keys, to allow for extra metadata and custom messages
 
 ## 1.0.2
 * production ignore lists

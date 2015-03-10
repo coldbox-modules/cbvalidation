@@ -138,18 +138,21 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	*/
 	ValidationManager function processRules(required cbvalidation.models.result.IValidationResult results, required struct rules, required any target, required any field){
 		// process the incoming rules
-		var key = "";
-		for( key in arguments.rules ){
+		for( var key in arguments.rules ){
 			// if message validators, just ignore
-			if( reFindNoCase("^(#replace(validValidators,",","|","all")#)Message$", key) ){ continue; }
+			if( reFindNoCase( "^(#replace( variables.validValidators, ",", "|", "all" )#)Message$", key ) ){ continue; }
+			// if not in list, ignore
+			if( !listFindNoCase( variables.validValidators, key ) ){ continue; }
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
-			getValidator(validatorType=key, validationData=arguments.rules[key])
-				.validate(validationResult=results,
-						  target=arguments.target,
-						  field=arguments.field,
-						  targetValue=evaluate("arguments.target.get#arguments.field#()"),
-						  validationData=arguments.rules[key]);
+			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
+				.validate(
+					validationResult	= results,
+					target				= arguments.target,
+					field				= arguments.field,
+					targetValue			= evaluate( "arguments.target.get#arguments.field#()" ),
+					validationData		= arguments.rules[key]
+				);
 
 		}
 		return this;

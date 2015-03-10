@@ -33,6 +33,23 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	}
 
+	function testProcessRulesIgnoresInvalidValidators(){
+		results = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+
+		mockRule = {
+			required = true,
+			testMessage="Hello",
+			uniqueMessage="Not Unique Man",
+			udf = variables._validateit
+		};
+
+		var mock = createStub().$( "getName","luis" );
+		model.processRules( results=results, rules=mockRule, target=mock, field="name" );
+
+		assertEquals( 0, results.getErrorCount() );
+
+	}
+
 	function testGetConstraints(){
 		assertTrue( structIsEmpty( model.getSharedConstraints() ) );
 		data = { 'test' = {} };
