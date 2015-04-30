@@ -96,7 +96,7 @@ component accessors="true" implements="IValidationResult"{
 	* Get a new error object
 	*/
 	IValidationError function newError(struct properties){
-		return duplicate( errorTemplate ).configure(argumentCollection=arguments);
+		return duplicate( errorTemplate ).configure(argumentCollection=arguments.properties);
 	}
 
 	/**
