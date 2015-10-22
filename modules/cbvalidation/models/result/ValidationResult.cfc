@@ -6,7 +6,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 The ColdBox validation results
 */
 import cbvalidation.models.result.*;
-component accessors="true" implements="IValidationResult"{
+component accessors="true" implements="cbvalidation.models.result.IValidationResult"{
 
 	/**
 	* A collection of error objects represented in this result object
