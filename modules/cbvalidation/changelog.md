@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 ## 1.0.3
+* Exception on Lucee/Railo reporting wrong interface types when using imports
+* Exception message was wrong on UDFValidator
 * Ignore invalid validator keys, to allow for extra metadata and custom messages
 
 ## 1.0.2

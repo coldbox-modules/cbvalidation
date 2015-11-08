@@ -4,8 +4,8 @@
     "version"   : "1.0.3",
     "slug"      : "cbvalidation",
     "type"      : "modules",
-    "homepage"  : "http://www.coldbox.org",
-    "documentation"     : "http://wiki.coldbox.org/wiki/Validation.cfm",
+    "homepage"  : "https://github.com/ColdBox/cbox-validation",
+    "documentation"     : "https://github.com/ColdBox/cbox-validation/wiki",
     "repository"        : { "type" : "git", "url" : "https://github.com/ColdBox/cbox-validation" },
     "shortDescription"  : "This module provides server side validation to ColdBox applications",
     "license"           : [ 
@@ -15,7 +15,6 @@
         "Brad Wood <bdw429s@gmail.com>", "Curt Gratz <gratz@computerknowhow.com>"
     ],
     "engines"   : [
-        { "type" : "railo", "version" : ">4.1" },
         { "type" : "lucee", "version" : ">4.5" },
         { "type" : "adobe", "version" : ">9.02" }
     ],

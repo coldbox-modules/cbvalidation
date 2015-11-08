@@ -1,14 +1,13 @@
 <cfparam name="url.version" default="0">
-<cfparam name="url.path" 	default="#expandPath( "./Validation-APIDocs" )#">
+<cfparam name="url.path" 	default="#expandPath( "./CBValidation-APIDocs" )#">
 <cfscript>
-	docName = "Validation-APIDocs";
-	base = expandPath( "/cbvalidation" );
-
-	colddoc 	= new ColdDoc();
-	strategy 	= new colddoc.strategy.api.HTMLAPIStrategy( url.path, "ColdBox Validation v#url.version#" );
-	colddoc.setStrategy( strategy );
-
-	colddoc.generate( inputSource=base, outputDir=url.path, inputMapping="cbvalidation" );
+	docName = "CBValidation-APIDocs";
+	base 	= expandPath( "/cbvalidation" );
+	docbox 	= new docbox.DocBox( properties = {
+		projectTitle 	= "CBValidation v#url.version#",
+		outputDir 		= url.path
+	} );
+	docbox.generate( source=base, mapping="cbvalidation" );
 </cfscript>
 
 <!---

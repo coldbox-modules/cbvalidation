@@ -5,8 +5,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 The ColdBox validation error, all inspired by awesome Hyrule Validation Framework by Dan Vega
 */
-import cbvalidation.models.result.*;
-component accessors="true" implements="IValidationError"{
+component accessors="true" implements="cbvalidation.models.result.IValidationError"{
 
 	// constructor
 	ValidationError function init(){

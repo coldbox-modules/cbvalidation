@@ -5,8 +5,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 The ColdBox validation results
 */
-import cbvalidation.models.result.*;
-component accessors="true" implements="IValidationResult"{
+component accessors="true" implements="cbvalidation.models.result.IValidationResult"{
 
 	/**
 	* A collection of error objects represented in this result object
@@ -38,15 +37,18 @@ component accessors="true" implements="IValidationResult"{
 	*/
 	property name="resourceService";
 
+	/**
+	* Constructor
+	*/
 	ValidationResult function init(
-		string locale="",
-		string targetName="",
-		any resourceService="",
-		struct constraints=structNew()
+		string locale		= "",
+		string targetName	= "",
+		any resourceService	= "",
+		struct constraints	= structNew()
 	){
-		errors 						= [];
-		resultMetadata 				= {};
-		errorTemplate   			= new ValidationError();
+		variables.errors 			= [];
+		variables.resultMetadata 	= {};
+		variables.errorTemplate   	= new ValidationError();
 
 		variables.locale			= arguments.locale;
 		variables.targetName 		= arguments.targetName;
@@ -58,7 +60,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Set the validation target object name
 	*/
-	IValidationResult function setTargetName(required string name){
+	IValidationResult function setTargetName( required string name ){
 		targetName = arguments.name;
 		return this;
 	}
@@ -87,7 +89,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Set the validation locale
 	*/
-	IValidationResult function setLocale(required string locale){
+	IValidationResult function setLocale( required string locale ){
 		variables.locale = arguments.locale;
 		return this;
 	}
@@ -95,7 +97,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Get a new error object
 	*/
-	IValidationError function newError(struct properties){
+	IValidationError function newError( struct properties ){
 		return duplicate( errorTemplate ).configure(argumentCollection=arguments);
 	}
 
@@ -103,7 +105,7 @@ component accessors="true" implements="IValidationResult"{
 	* Add errors into the result object
 	* @error.hint The validation error to add into the results object
 	*/
-	IValidationResult function addError(required IValidationError error){
+	IValidationResult function addError( required IValidationError error ){
 		// Verify Custom Messages via constraints, these take precedence
 		if( structKeyExists( constraints, error.getField() ) AND structKeyExists( constraints[error.getField()], "#error.getValidationType()#Message" ) ){
 			// override message with custom constraint
@@ -130,7 +132,7 @@ component accessors="true" implements="IValidationResult"{
 	}
 
 	// Replace global messages
-	private void function globalReplacements(required message, required error){
+	private void function globalReplacements( required message, required error ){
 		// The rejected value
 		arguments.message = replacenocase( arguments.message, "{rejectedValue}", arguments.error.getRejectedValue(), "all");
 		// The property or field value
@@ -160,7 +162,7 @@ component accessors="true" implements="IValidationResult"{
 	* Determine if the results had error or not
 	* @field.hint The field to count on (optional)
 	*/
-	boolean function hasErrors(string field){
+	boolean function hasErrors( string field ){
 		return (arrayLen( getAllErrors(argumentCollection=arguments) ) gt 0);
 	}
 
@@ -168,7 +170,7 @@ component accessors="true" implements="IValidationResult"{
 	* Get how many errors you have
 	* @field.hint The field to count on (optional)
 	*/
-	numeric function getErrorCount(string field){
+	numeric function getErrorCount( string field ){
 		return arrayLen( getAllErrors(argumentCollection=arguments)  );
 	}
 
@@ -176,7 +178,7 @@ component accessors="true" implements="IValidationResult"{
 	* Get the Errors Array, which is an array of error messages (strings)
 	* @field.hint The field to use to filter the error messages on (optional)
 	*/
-	array function getAllErrors(string field){
+	array function getAllErrors( string field ){
 		var errorTarget = errors;
 
 		if( structKeyExists(arguments,"field") ){
@@ -194,7 +196,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Get all errors as flat structure that can easily be used for UI display
 	*/
-	struct function getAllErrorsAsStruct(string field){
+	struct function getAllErrorsAsStruct( string field ){
 		var errorTarget = errors;
 
 		// filter by field?
@@ -218,7 +220,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Get all errors or by field as a JSON structure
 	*/
-	string function getAllErrorsAsJSON(string field){
+	string function getAllErrorsAsJSON( string field ){
 		var results = getAllErrorsAsStruct(argumentcollection=arguments);
 		return serializeJSON( results );
 	}
@@ -227,7 +229,7 @@ component accessors="true" implements="IValidationResult"{
 	* Get an error object for a specific field that failed. Throws exception if the field does not exist
 	* @field.hint The field to return error objects on
 	*/
-	IValidationError[] function getFieldErrors(required string field){
+	IValidationError[] function getFieldErrors( required string field ){
 		var r = [];
 		for( var thisError in errors ){
 			if( thisError.getField() eq arguments.field ){ arrayAppend(r, thisError); }
@@ -253,7 +255,7 @@ component accessors="true" implements="IValidationResult"{
 	/**
 	* Set a collection of metadata into the results object
 	*/
-	IValidationResult function setResultMetadata(required struct data){
+	IValidationResult function setResultMetadata( required struct data ){
 		variables.resultMetadata = arguments.data;
 		return this;
 	}
