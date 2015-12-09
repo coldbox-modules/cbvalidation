@@ -75,7 +75,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	*/
 	ValidationManager function init( struct sharedConstraints=structNew() ){
 		// valid validator registrations
-		variables.validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
+		variables.validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max,unique";
 		// store shared constraints if passed
 		variables.sharedConstraints = arguments.sharedConstraints;
 		
@@ -176,6 +176,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			case "max" 			: { return wirebox.getInstance("cbvalidation.models.validators.MaxValidator"); }
 			case "udf" 			: { return wirebox.getInstance("cbvalidation.models.validators.UDFValidator"); }
 			case "method" 		: { return wirebox.getInstance("cbvalidation.models.validators.MethodValidator"); }
+			case "unique" 		: { return wirebox.getInstance("cborm.models.validation.UniqueValidator"); }
 			case "validator"	: {
 				if( find(":", arguments.validationData) ){ return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) ); }
 				return wirebox.getInstance( arguments.validationData );
