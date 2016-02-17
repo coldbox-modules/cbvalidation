@@ -9,3 +9,4 @@ testbox/*
 artifacts/*
 apidocs/docbox/*
 workbench/build.number
+build/*
