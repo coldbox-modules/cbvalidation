@@ -19,4 +19,4 @@ before_script:
 # Startup the app
 - curl http://localhost:49616/
 script:
-  - ant workbench/build.xml
+  - ant ./workbench/build.xml
