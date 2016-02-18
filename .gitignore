@@ -2,9 +2,11 @@
 logs/*.log
 settings.xml
 .netbeans
-test/results/*.properties
-test/results/*.html
-test/results/*.log
-tests/results
-modules/cbjavaloader
+tests/results/*
 modules/cbi18n
+coldbox/*
+testbox/*
+artifacts/*
+apidocs/docbox/*
+workbench/build.number
+build/*

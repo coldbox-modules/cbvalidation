@@ -1,16 +1,18 @@
 {
     "name":"CBValidation Builder",
     "version":"1.0.0",
-    "slug" : "cbvalidation-shell",
+    "slug":"cbvalidation-shell",
     "private":false,
-    "defaultPort":0,
     "dependencies":{
-        "cbi18n":"1.0.0"
+        "cbi18n":"1.1.0",
+        "coldbox":"4.1.0+00002"
     },
     "devDependencies":{
-        
+        "testbox":"2.2.0"
     },
     "installPaths":{
-        "cbi18n":"modules/cbi18n"
+        "cbi18n":"modules/cbi18n",
+        "coldbox":"coldbox",
+        "testbox":"testbox"
     }
 }

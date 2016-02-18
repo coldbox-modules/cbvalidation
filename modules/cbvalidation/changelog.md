@@ -2,6 +2,8 @@ CHANGELOG
 =========
 ## 1.1.0
 * SizeValidator not evaluating correctly non-required fields
+* Travis integration
+* Build script updates
 
 ## 1.0.3
 * Exception on Lucee/Railo reporting wrong interface types when using imports
