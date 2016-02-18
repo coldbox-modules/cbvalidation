@@ -117,23 +117,31 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		r = model.validate(result,this,'test', this,"component");
 		assertEquals( true, r );
 		
-		// creditcard
+		// query
 		r = model.validate(result,this,'test', '234' ,"query");
 		assertEquals( false, r );
 		r = model.validate(result,this,'test', queryNew(""),"query");
 		assertEquals( true, r );
 		
-		// creditcard
+		// struct
 		r = model.validate(result,this,'test', '234' ,"struct");
 		assertEquals( false, r );
 		r = model.validate(result,this,'test', {name='luis'},"struct");
 		assertEquals( true, r );
 		
+		// array
+		r = model.validate(result,this,'test', '234' ,"array");
+		assertEquals( false, r );
+		r = model.validate(result,this,'test', ['sana','luis'],"array");
+		assertEquals( true, r );
+		
+		//json
 		r = model.validate(result,this,'test', '{s:,}' ,"json");
 		assertEquals( false, r );
 		r = model.validate(result,this,'test', serializeJSON({name='luis'}) ,"json");
 		assertEquals( true, r );
 		
+		//xml
 		r = model.validate(result,this,'test', '234' ,"xml");
 		assertEquals( false, r );
 		r = model.validate(result,this,'test', "<root></root>","xml");
