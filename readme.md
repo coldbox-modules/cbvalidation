@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ColdBox/cbox-validation.svg?branch=master)](https://travis-ci.org/ColdBox/cbox-validation)
+
 WELCOME TO THE COLDBOX VALIDATION MODULE
 ========================================
 ColdBox sports its own server side validation engine so it can provide you with a unified approach to object and form validation.
