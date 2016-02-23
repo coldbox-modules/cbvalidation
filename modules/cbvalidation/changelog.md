@@ -4,6 +4,7 @@ CHANGELOG
 * SizeValidator not evaluating correctly non-required fields
 * Travis integration
 * Build script updates
+* Added array validation thanks to Sana Ullah
 
 ## 1.0.3
 * Exception on Lucee/Railo reporting wrong interface types when using imports
