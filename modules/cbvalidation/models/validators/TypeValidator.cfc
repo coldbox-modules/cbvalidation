@@ -11,7 +11,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 
 	TypeValidator function init(){
 		name = "Type";
-		validTypes = "ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml";
+		validTypes = "ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,array,json,xml";
 		return this;
 	}
 
@@ -55,6 +55,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			case "component"	: { r = isValid("component",arguments.targetValue); break; }
 			case "query"		: { r = isValid("query",arguments.targetValue); break; }
 			case "struct"		: { r = isValid("struct",arguments.targetValue); break; }
+			case "array"		: { r = isValid("array",arguments.targetValue); break; }
 			case "json"			: { r = isJSON(arguments.targetValue); break; }
 			case "xml"			: { r = isXML(arguments.targetValue); break; }
 		}
