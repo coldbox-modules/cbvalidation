@@ -137,8 +137,18 @@
 	<!-- Run Tests For Platform -->
     <target name="run-tests" description="Run TestBox Tests" depends="init">
     	<echo>Running Tests for ${project.name}</echo>
+    	<!-- Determine Test target: Are we jenkins or local or travis -->
+        <if>
+			<not><equals arg1="${environment}" arg2="auto" /></not>
+			<then>
+				<property name="test.target" value="run" />
+			</then>
+			<else>
+				<property name="test.target" value="run-junit" />
+			</else>
+		</if>
     	<!-- Run for Core -->
-    	<subant target="run-junit">
+    	<subant target="${test.target}">
           	<fileset dir="tests" includes="test.xml"/>
     		<property name="environment" value="${environment}" />
         </subant>

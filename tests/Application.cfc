@@ -8,6 +8,9 @@ component{
 	// any other application.cfc stuff goes below:
 	this.sessionManagement = true;
 
+	// Turn on/off white space management
+	this.whiteSpaceManagement = "smart";
+
 	// any mappings go here, we create one that points to the root called test.
 	this.mappings[ "/tests" ] = getDirectoryFromPath( getCurrentTemplatePath() );
 	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
