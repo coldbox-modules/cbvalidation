@@ -19,7 +19,7 @@
         { "type" : "adobe", "version" : ">9.02" }
     ],
     "dependencies"  :{
-        "cbi18n" : "1.0.1"
+        "cbi18n" : "1.2.0"
     },
     "ignore":[
         "**/.*",

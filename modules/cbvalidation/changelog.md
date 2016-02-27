@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 ## 1.1.0
+* Updated cbi18n dependency to version 1.2.0
 * SizeValidator not evaluating correctly non-required fields
 * Travis integration
 * Build script updates
