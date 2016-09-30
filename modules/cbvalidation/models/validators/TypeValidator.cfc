@@ -29,8 +29,8 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			throw(message="The Required validator data is invalid: #arguments.validationData#",type="TypeValidator.InvalidValidationData");
 		}
 
-		// return true if not data to check, type needs a data element to be checked.
-		if( isNull(arguments.targetValue) OR ( isSimpleValue(arguments.targetValue) AND NOT len(arguments.targetValue) ) ){ return true; }
+		// return true if no data to check, type needs a data element to be checked.
+		if( isNull(arguments.targetValue) ){ return true; }
 
 		var r = false;
 
