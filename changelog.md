@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+
+## 1.2.0
+* Type validator not countaing against 0 length values
+* Size validator typos
+* Migration to new github organization
+
 ## 1.1.0
 * Updated cbi18n dependency to version 1.2.0
 * SizeValidator not evaluating correctly non-required fields

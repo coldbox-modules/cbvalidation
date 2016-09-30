@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ColdBox/cbox-validation.svg?branch=master)](https://travis-ci.org/ColdBox/cbox-validation)
+[![Build Status](https://travis-ci.org/coldbox-modules/cbox-validation.svg?branch=development)](https://travis-ci.org/coldbox-modules/cbox-validation)
 
 WELCOME TO THE COLDBOX VALIDATION MODULE
 ========================================
@@ -8,14 +8,13 @@ ColdBox sports its own server side validation engine so it can provide you with 
 Apache License, Version 2.0.
 
 ##IMPORTANT LINKS
-- https://github.com/ColdBox/cbox-validation
+- https://github.com/coldbox-modules/cbox-validation
 - http://www.coldbox.org/forgebox/validation
 - http://wiki.coldbox.org/wiki/Validation.cfm
 
 ##SYSTEM REQUIREMENTS
 - Lucee 4.5+
-- Railo 4+
-- ColdFusion 9+
+- ColdFusion 10+
 
 INSTRUCTIONS
 ============

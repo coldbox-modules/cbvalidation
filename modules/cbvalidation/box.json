@@ -1,12 +1,13 @@
 {
     "name"      : "ColdBox Validation",
-    "author"    : "Luis Majano <lmajano@ortussolutions.com",
-    "version"   : "@build.version@+@build.number@",
+    "author"    : "Ortus Solutions.com <info@ortussolutions.com",
+    "version"   : "1.2.0",
+    "location"  : "http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/1.2.0/cbvalidation-1.2.0.zip",
     "slug"      : "cbvalidation",
     "type"      : "modules",
-    "homepage"  : "https://github.com/ColdBox/cbox-validation",
-    "documentation"     : "https://github.com/ColdBox/cbox-validation/wiki",
-    "repository"        : { "type" : "git", "url" : "https://github.com/ColdBox/cbox-validation" },
+    "homepage"  : "https://github.com/coldbox-modules/cbox-validation",
+    "documentation"     : "https://github.com/coldbox-modules/cbox-validation/wiki",
+    "repository"        : { "type" : "git", "url" : "https://github.com/coldbox-modules/cbox-validation" },
     "shortDescription"  : "This module provides server side validation to ColdBox applications",
     "license"           : [ 
         { "type" : "Apache2", "url" : "http://www.apache.org/licenses/LICENSE-2.0.html" } 
@@ -14,17 +15,16 @@
     "contributors"      : [
         "Brad Wood <bdw429s@gmail.com>", "Curt Gratz <gratz@computerknowhow.com>"
     ],
-    "engines"   : [
-        { "type" : "lucee", "version" : ">4.5" },
-        { "type" : "adobe", "version" : ">9.02" }
-    ],
     "dependencies"  :{
         "cbi18n" : "1.2.0"
     },
     "ignore":[
         "**/.*",
-        "tests",
-        "apidocs",
-        "*/.md"
-    ]
+        "tests/*",
+        ".git*"
+    ],
+    "scripts":{
+        "postVersion" : "package set location='http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/`package version`/cbvalidation-`package version`.zip'",
+        "postPublish" : "!git push --follow-tags"
+    }
 }

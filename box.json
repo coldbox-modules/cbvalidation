@@ -5,10 +5,10 @@
     "private":false,
     "dependencies":{
         "cbi18n":"1.2.0",
-        "coldbox":"4.1.0+00002"
+        "coldbox":"^4.2.0+00002"
     },
     "devDependencies":{
-        "testbox":"2.2.0"
+        "testbox":"^2.3.0+00044"
     },
     "installPaths":{
         "cbi18n":"modules/cbi18n",

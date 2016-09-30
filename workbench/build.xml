@@ -69,6 +69,7 @@
         </copy>
         <!-- Copy readme -->
         <copy todir="${dir.build}" encoding="UTF-8" file="readme.md" overwrite="true" />
+        <copy todir="${dir.build}" encoding="UTF-8" file="changelog.md" overwrite="true" />
         
         <!-- Replace Version + Build Numbers -->
 		<replaceregexp match='@build.version@' replace="${project.version}" flags="ig" byline="true" encoding="UTF-8">
