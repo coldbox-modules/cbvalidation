@@ -50,7 +50,7 @@ deploy:
   acl: public_read
 
 after_deploy:
-  - cd $TRAVIS_BUILD_DIR/build && box forgebox publish
+  - cd $TRAVIS_BUILD_DIR/build && sudo box forgebox publish
 
 notifications:
   slack:
