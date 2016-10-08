@@ -2,6 +2,8 @@ CHANGELOG
 =========
 
 ## 1.2.0
+* Updated cbi18n dependency to latest
+* Travis updates
 * Type validator not countaing against 0 length values
 * Size validator typos
 * Migration to new github organization

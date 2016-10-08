@@ -4,7 +4,7 @@
     "slug":"cbvalidation-shell",
     "private":false,
     "dependencies":{
-        "cbi18n":"1.2.0",
+        "cbi18n":"1.3.0",
         "coldbox":"^4.2.0+00002"
     },
     "devDependencies":{

@@ -9,8 +9,8 @@ Apache License, Version 2.0.
 
 ##IMPORTANT LINKS
 - https://github.com/coldbox-modules/cbox-validation
-- http://www.coldbox.org/forgebox/validation
-- http://wiki.coldbox.org/wiki/Validation.cfm
+- https://forgebox.io/view/validation
+- https://github.com/coldbox-modules/cbox-validation/wiki
 
 ##SYSTEM REQUIREMENTS
 - Lucee 4.5+
@@ -64,7 +64,7 @@ validation = {
 }
 ```
 
-You can read more about ColdBox Validation here: http://wiki.coldbox.org/wiki/Validation.cfm
+You can read more about ColdBox Validation here: - https://github.com/coldbox-modules/cbox-validation/wiki
 
 ********************************************************************************
 Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp

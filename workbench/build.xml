@@ -6,6 +6,10 @@
 	<property name="project.version" 	value="1.2.0"/>
 	<property name="groupID" 			value="ortussolutions" />
 	
+	<condition property="isTravis" else="false">
+      <isset property="isTravis"/>
+    </condition>
+
 	<!-- Build Labels -->
 	<tstamp prefix="start"/>
 	<path id="cp">
@@ -104,9 +108,17 @@
 				  groupID="${groupID}"
 				  latest="${project.version}"
 				  classifiers="apidocs"/>
-				  
-		<!-- Cleanup -->
-		<delete dir="${dir.build}" />
+		
+		<!-- Copy over box.json to root for convenience -->
+		<copy todir="${dir.exports}" file="${dir.build}/box.json" overwrite="true" encoding="UTF-8" />
+		
+		<!-- Cleanup -->	
+		<if>
+			<equals arg1="$isTravis" arg2="false" />
+			<then>
+				<delete dir="${dir.build}" />
+			</then>
+		</if>
 	</target>
 	
 	<!-- Build API Docs -->
