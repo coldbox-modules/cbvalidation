@@ -22,9 +22,8 @@ install:
   - sudo box version
   # Store the Ortus API Key for forgebox publishing in `master`
   - sudo box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN
-  # Setup for our tests
-  - mkdir tests/results
-  - sudo chmod -R 775 tests/results
+  # Startup Server
+  - sudo box server start
 
 script:
   # Execute build via ANT
