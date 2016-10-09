@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+## 1.3.0
+
 ## 1.2.0
 * Updated cbi18n dependency to latest
 * Travis updates
