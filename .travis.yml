@@ -27,7 +27,9 @@ install:
 
 script:
   # Execute build via ANT
-  - sudo ant -DisTravis=true -Dbuild.number=$TRAVIS_BUILD_NUMBER -f workbench/build.xml
+  - ant -DisTravis=true -Dbuild.number=$TRAVIS_BUILD_NUMBER -f workbench/build.xml
+  # Spit out log just in case we need to debug
+  - box server log
 
 # Only executed when merging to master 
 before_deploy:

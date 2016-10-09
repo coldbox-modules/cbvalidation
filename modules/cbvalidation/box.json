@@ -1,8 +1,8 @@
 {
     "name"      : "ColdBox Validation",
     "author"    : "Ortus Solutions.com <info@ortussolutions.com",
-    "version"   : "1.2.0",
-    "location"  : "http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/1.2.0/cbvalidation-1.2.0.zip",
+    "version"   : "@build.version@+@build.number@",
+    "location"  : "http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug"      : "cbvalidation",
     "type"      : "modules",
     "homepage"  : "https://github.com/coldbox-modules/cbox-validation",
@@ -24,7 +24,5 @@
         ".git*"
     ],
     "scripts":{
-        "postVersion" : "package set location='http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/`package version`/cbvalidation-`package version`.zip'",
-        "postPublish" : "!git push --follow-tags"
     }
 }
