@@ -19,11 +19,11 @@ install:
   # Install Commandbox
   - sudo apt-get update && sudo apt-get --assume-yes install commandbox
   # Test that the box binary is available and ready for our tests
-  - sudo box version
+  - box version
   # Store the Ortus API Key for forgebox publishing in `master`
-  - sudo box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN
+  - box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN
   # Startup Server
-  - sudo box server start
+  - box server start
 
 script:
   # Execute build via ANT
@@ -50,7 +50,7 @@ deploy:
   acl: public_read
 
 after_deploy:
-  - cd $TRAVIS_BUILD_DIR/build && sudo box forgebox publish
+  - cd $TRAVIS_BUILD_DIR/build && box forgebox publish
 
 notifications:
   slack:
