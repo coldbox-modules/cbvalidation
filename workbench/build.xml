@@ -3,7 +3,7 @@
 	<!-- Version: UPDATE ON EACH RELEASE AS NEEDED -->
 	<property name="project.name" 		value="cbvalidation" />
 	<property name="module.name" 		value="cbvalidation" />
-	<property name="project.version" 	value="1.3.1"/>
+	<property name="project.version" 	value="1.2.1"/>
 	<property name="groupID" 			value="ortussolutions" />
 	
 	<condition property="isTravis" else="false">
