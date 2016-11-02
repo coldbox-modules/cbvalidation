@@ -3,7 +3,7 @@
 	<!-- Version: UPDATE ON EACH RELEASE AS NEEDED -->
 	<property name="project.name" 		value="cbvalidation" />
 	<property name="module.name" 		value="cbvalidation" />
-	<property name="project.version" 	value="1.3.0"/>
+	<property name="project.version" 	value="1.3.1"/>
 	<property name="groupID" 			value="ortussolutions" />
 	
 	<condition property="isTravis" else="false">
@@ -41,14 +41,20 @@
 		<loadproperties srcFile="workbench/build.properties"/>
 
 		<!-- Build Number -->
-		<propertyfile file="workbench/build.number" comment="Build Number for ANT. Edit not!">
-			<entry key="build.number" 
-					type="int" 
-			     	operation="+"
-					pattern="00000"
-			     	default="1" />
-		</propertyfile>
-		<property file="workbench/build.number"/>
+		<if>
+			<not><isset property="build.number" /></not>
+			<then>
+				<propertyfile file="workbench/build.number" comment="Build Number for ANT. Edit not!">
+					<entry key="build.number" 
+							type="int" 
+					     	operation="+"
+							pattern="00000"
+					     	default="1" />
+				</propertyfile>
+
+				<property file="workbench/build.number"/>
+			</then>
+		</if>
 		
 		<!-- Build Label -->
 		<property name="build.label" value="${project.name}-${project.version}+${build.number}-${start.DSTAMP}${start.TSTAMP}"/>
