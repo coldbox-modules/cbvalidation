@@ -21,7 +21,7 @@ install:
   # Test that the box binary is available and ready for our tests
   - box version
   # Store the Ortus API Key for forgebox publishing in `master`
-  - box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN
+  - box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN > /dev/null
   # Startup Server
   - box server start
 
