@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+## 1.2.2 
+* Build updates and travis updates
+
 ## 1.2.1
 * Dependency updates
 
