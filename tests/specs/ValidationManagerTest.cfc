@@ -33,10 +33,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	}
 
-	function testProcessRulesIgnoresInvalidValidators(){
-		results = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+	function testIgnoresAllKeysEndingInMessage(){
+		var results = getMockBox()
+			.createMock( "cbvalidation.models.result.ValidationResult" )
+			.init();
 
-		mockRule = {
+		var mockRule = {
 			required = true,
 			testMessage="Hello",
 			uniqueMessage="Not Unique Man",
@@ -47,7 +49,41 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		model.processRules( results=results, rules=mockRule, target=mock, field="name" );
 
 		assertEquals( 0, results.getErrorCount() );
+	}
 
+	function testProcessRulesLooksForWireBoxMappingOfKeyIfNotAValidValidator() {
+		var results = getMockBox()
+			.createMock( "cbvalidation.models.result.ValidationResult" )
+			.init();
+
+		var customValidatorMock = getMockBox()
+			.createStub( implements = "cbvalidation.models.validators.IValidator" );
+		customValidatorMock.$( "validate", true );
+
+		var mockBinder = getMockBox()
+			.createMock( "coldbox.system.ioc.config.Binder" );
+		mockBinder.$( "mappingExists" )
+			.$args( "customValidator" )
+			.$results( true );
+
+		mockWireBox.$( "getBinder", mockBinder )
+		mockWireBox
+			.$( "getInstance" )
+			.$args( "customValidator" )
+			.$results( customValidatorMock );
+
+		var mockRule = {
+			customValidator = {
+				customField = "hi"
+			}
+		};
+
+		var mock = createStub().$( "getName","luis" );
+		model.processRules( results=results, rules=mockRule, target=mock, field="name" );
+
+		assertTrue( customValidatorMock.$once( "validate" ), "[validate] should have been called on [customValidator]" );
+		var args = customValidatorMock.$callLog().validate[ 1 ];
+		assertEquals( args.validationData, { customField = "hi" }, "validationData was not passed through correctly to [customValidator]" );
 	}
 
 	function testGetConstraints(){

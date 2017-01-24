@@ -140,9 +140,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		// process the incoming rules
 		for( var key in arguments.rules ){
 			// if message validators, just ignore
-			if( reFindNoCase( "^(#replace( variables.validValidators, ",", "|", "all" )#)Message$", key ) ){ continue; }
-			// if not in list, ignore
-			if( !listFindNoCase( variables.validValidators, key ) ){ continue; }
+			if( reFindNoCase( "Message$", key ) ){ continue; }
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
@@ -181,6 +179,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 				return wirebox.getInstance( arguments.validationData );
 			}
 			default : {
+				if ( wirebox.getBinder().mappingExists( validatorType ) ) { return wirebox.getInstance( validatorType ); }
 				throw(message="The validator you requested #arguments.validatorType# is not a valid validator",type="ValidationManager.InvalidValidatorType");
 			}
 		}
