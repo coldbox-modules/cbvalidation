@@ -6,7 +6,7 @@
 * @fields The fields to validate on the target. By default, it validates on all fields
 * @constraints A structure of constraint rules or the name of the shared constraint rules to use for validation
 * @locale The i18n locale to use for validation messages
-* @excludeFields The fields to exclude in the validation
+* @excludeFields The fields to exclude from the validation
 * @includeFields The fields to include in the validation
 * 
 * @return cbvalidation.model.result.IValidationResult

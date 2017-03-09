@@ -89,7 +89,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	* @constraints.hint An optional shared constraints name or an actual structure of constraints to validate on.
 	* @locale.hint An optional locale to use for i18n messages
 	* @excludeFields.hint An optional list of fields to exclude from the validation.
-	* @IncludeFields.hint An optional list of fields to exclude from the validation.
+	* @IncludeFields.hint An optional list of fields to include in the validation.
 	*/
 	IValidationResult function validate(required any target, string fields="*", any constraints="", string locale="", string excludeFields="", string includeFields=""){
 		var targetName = "";
