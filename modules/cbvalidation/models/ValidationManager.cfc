@@ -89,8 +89,9 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	* @constraints.hint An optional shared constraints name or an actual structure of constraints to validate on.
 	* @locale.hint An optional locale to use for i18n messages
 	* @excludeFields.hint An optional list of fields to exclude from the validation.
+	* @IncludeFields.hint An optional list of fields to exclude from the validation.
 	*/
-	IValidationResult function validate(required any target, string fields="*", any constraints="", string locale="", string excludeFields=""){
+	IValidationResult function validate(required any target, string fields="*", any constraints="", string locale="", string excludeFields="", string includeFields=""){
 		var targetName = "";
 
 		// Do we have a real object or a structure?
@@ -119,15 +120,23 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		// iterate over constraints defined
 		var thisField = "";
 		for( thisField in allConstraints ){
+			
+			var validateField = true;
+			if( len( arguments.includeFields ) AND NOT listFindNoCase( arguments.includeFields, thisField ) ){
+				validateField = false;
+			}
 			// exclusions passed and field is in the excluded list just continue
 			if( len( arguments.excludeFields ) and listFindNoCase( arguments.excludeFields, thisField ) ){
-				continue;
+				validateField = false;
 			}
-			// verify we can validate the field described in the constraint
-			if( arguments.fields == "*" || listFindNoCase(arguments.fields, thisField) ) {
-				// process the validation rules on the target field using the constraint validation data
-				processRules(results=results, rules=allConstraints[thisField], target=arguments.target, field=thisField, locale=arguments.locale);
+			if( validateField ){
+				// verify we can validate the field described in the constraint
+				if( arguments.fields == "*" || listFindNoCase(arguments.fields, thisField) ) {
+					// process the validation rules on the target field using the constraint validation data
+					processRules(results=results, rules=allConstraints[thisField], target=arguments.target, field=thisField, locale=arguments.locale);
+				}	
 			}
+			
 		}
 
 		return results;
@@ -140,7 +149,9 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		// process the incoming rules
 		for( var key in arguments.rules ){
 			// if message validators, just ignore
-			if( reFindNoCase( "Message$", key ) ){ continue; }
+			if( reFindNoCase( "^(#replace( variables.validValidators, ",", "|", "all" )#)Message$", key ) ){ continue; }
+			// if not in list, ignore
+			if( !listFindNoCase( variables.validValidators, key ) ){ continue; }
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
@@ -179,7 +190,6 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 				return wirebox.getInstance( arguments.validationData );
 			}
 			default : {
-				if ( wirebox.getBinder().mappingExists( validatorType ) ) { return wirebox.getInstance( validatorType ); }
 				throw(message="The validator you requested #arguments.validatorType# is not a valid validator",type="ValidationManager.InvalidValidatorType");
 			}
 		}
