@@ -150,9 +150,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		for( var key in arguments.rules ){
 			// if message validators, just ignore
 			if( reFindNoCase( "Message$", key ) ){ continue; }
-			// if not in list, ignore
-			if( !listFindNoCase( variables.validValidators, key ) ){ continue; }
-
+			
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
 				.validate(
