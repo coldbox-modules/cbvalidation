@@ -1,18 +1,26 @@
 {
     "name":"CBValidation Builder",
-    "version":"1.0.0",
+    "version":"1.3.0",
     "slug":"cbvalidation-shell",
     "private":false,
     "dependencies":{
         "cbi18n":"^1.3.1",
-        "coldbox":"^4.3.0"
+        "coldbox":"^4.3.0",
+        "workbench":"git+https://github.com/Ortus-Solutions/unified-workbench.git"
     },
     "devDependencies":{
-        "testbox":"^2.3.0+00044"
+        "testbox":"^2.5.0"
     },
     "installPaths":{
-        "cbi18n":"modules/cbi18n",
+        "cbi18n":"modules/cbi18n/",
         "coldbox":"coldbox",
-        "testbox":"testbox"
+        "testbox":"testbox",
+        "workbench":"workbench/"
+    },
+    "testbox":{
+        "runner":"http://localhost:49616"
+    },
+    "scripts":{
+        "postVersion":"recipe workbench/bump.boxr"
     }
 }

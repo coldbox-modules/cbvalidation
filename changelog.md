@@ -8,6 +8,7 @@ CHANGELOG
 * `MinValidator` The explanation needs to better reflect the min validator which is >=
 * Allow custom validators to be specified just by key and the payload to be passed in as validation data
 * `GenericObject` Should return `null` on non-existent keys instead of an exception if not we cannot validate nullness
+* You can now pass a list of fields to ONLY validate via `validate()` methods using the `includeFields` argument.
 
 ## 1.2.1
 * Dependency updates

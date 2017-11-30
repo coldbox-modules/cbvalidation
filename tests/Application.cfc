@@ -7,7 +7,6 @@ component{
 	this.name = "A TestBox Runner Suite " & hash( getCurrentTemplatePath() );
 	// any other application.cfc stuff goes below:
 	this.sessionManagement = true;
-
 	// Turn on/off white space management
 	this.whiteSpaceManagement = "smart";
 

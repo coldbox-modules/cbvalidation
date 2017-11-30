@@ -1,5 +1,5 @@
-<cfcomponent output="false" hint="My App Configuration">
-<cfscript>
+component{ 
+
 	// Configure ColdBox Application
 	function configure(){
 
@@ -62,7 +62,7 @@
 			appenders = {
 				files={class="coldbox.system.logging.appenders.RollingFileAppender",
 					properties = {
-						filename = "javaloader", filePath="/#appMapping#/logs"
+						filename = "app", filePath="/#appMapping#/logs"
 					}
 				}
 			},
@@ -75,16 +75,14 @@
 		//Register interceptors as an array, we need order
 		interceptors = [
 			//SES
-			{class="coldbox.system.interceptors.SES",
-			 properties={}
-			}
+			{ class="coldbox.system.interceptors.SES" }
 		];
 
 		validation = {
 			sharedConstraints = {
 				"sharedUser" = { 
-					username = {required=true, size="6..20"},
-					password = {required=true, size="6..20"}
+					username = { required=true, size="6..20" },
+					password = { required=true, size="6..20 "}
 				}
 			}
 		};
