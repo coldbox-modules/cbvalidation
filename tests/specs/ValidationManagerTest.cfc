@@ -66,7 +66,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			.$args( "customValidator" )
 			.$results( true );
 
-		mockWireBox.$( "getBinder", mockBinder )
+		mockWireBox.$( "getBinder", mockBinder );
 		mockWireBox
 			.$( "getInstance" )
 			.$args( "customValidator" )
