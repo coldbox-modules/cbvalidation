@@ -134,6 +134,16 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertEquals( 1, arrayLen( r.getFieldErrors("name") ) );
 	}
 
+	function testWithIncludeFields(){
+		mockData = { name="", age="" };
+		mockConstraints = {
+			name = {required=true}, age = {required=true, max="35"}
+		};
+
+		r = model.validate(target={ age=30 }, constraints=mockConstraints, includeFields="age");
+		assertEquals( false, r.hasErrors() );
+	}
+
 
 	private function _validateit( targetValue, target ){
 		return true;

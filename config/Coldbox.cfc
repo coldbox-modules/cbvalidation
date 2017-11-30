@@ -87,5 +87,5 @@ component{
 			}
 		};
 	}
-</cfscript>
-</cfcomponent>
+
+}
