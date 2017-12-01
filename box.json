@@ -13,9 +13,9 @@
     },
     "installPaths":{
         "cbi18n":"modules/cbi18n/",
-        "coldbox":"coldbox",
-        "testbox":"testbox",
-        "workbench":"workbench/"
+        "coldbox":"coldbox/",
+        "testbox":"testbox/",
+        "workbench":"workbench"
     },
     "testbox":{
         "runner":"http://localhost:49616"

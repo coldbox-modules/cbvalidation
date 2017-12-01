@@ -8,14 +8,14 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function setup(){
 		super.setup();
-		mockRB = getMockBox().createEmptyMock("cbi18n.models.ResourceService");
+		mockRB = createEmptyMock("cbi18n.models.ResourceService");
 		model.init();
 		model.setWireBox( mockWireBox );
 		model.setResourceService( mockRB );
 	}
 
 	function testProcessRules(){
-		results = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+		results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 		//mockValidator = getMockBox().createMock("coldbox.test.specs.validation.resources.MockValidator");
 
 		//model.$("getValidator", mockValidator);
@@ -26,7 +26,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			udf = variables._validateit
 		};
 
-		getMockBox().prepareMock( this ).$( "getName","luis" ).$( "getJoe", "luis" );
+		prepareMock( this ).$( "getName","luis" ).$( "getJoe", "luis" );
 		model.processRules( results=results, rules=mockRules, target=this, field="name" );
 
 		assertEquals( 0, results.getErrorCount() );
@@ -34,9 +34,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testIgnoresAllKeysEndingInMessage(){
-		var results = getMockBox()
-			.createMock( "cbvalidation.models.result.ValidationResult" )
-			.init();
+		var results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 		var mockRule = {
 			required = true,
@@ -52,16 +50,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testProcessRulesLooksForWireBoxMappingOfKeyIfNotAValidValidator() {
-		var results = getMockBox()
-			.createMock( "cbvalidation.models.result.ValidationResult" )
-			.init();
+		var results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-		var customValidatorMock = getMockBox()
-			.createStub( implements = "cbvalidation.models.validators.IValidator" );
+		var customValidatorMock = createMock( "cbvalidation.models.validators.RequiredValidator" );
 		customValidatorMock.$( "validate", true );
 
-		var mockBinder = getMockBox()
-			.createMock( "coldbox.system.ioc.config.Binder" );
+		var mockBinder = createMock( "coldbox.system.ioc.config.Binder" );
 		mockBinder.$( "mappingExists" )
 			.$args( "customValidator" )
 			.$results( true );
@@ -77,10 +71,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				customField = "hi"
 			}
 		};
-
 		var mock = createStub().$( "getName","luis" );
 		model.processRules( results=results, rules=mockRule, target=mock, field="name" );
-
+		
 		assertTrue( customValidatorMock.$once( "validate" ), "[validate] should have been called on [customValidator]" );
 		var args = customValidatorMock.$callLog().validate[ 1 ];
 		assertEquals( args.validationData, { customField = "hi" }, "validationData was not passed through correctly to [customValidator]" );

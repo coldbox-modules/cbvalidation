@@ -24,24 +24,24 @@ interface{
 	* Retrieve the shared constraints
 	* @name.hint Filter by name or not
 	*/
-	struct function getSharedConstraints(string name);
+	struct function getSharedConstraints( string name );
 
 	/**
 	* Check if a shared constraint exists by name
 	* @name.hint The shared constraint to check
 	*/
-	boolean function sharedConstraintsExists(required string name);
+	boolean function sharedConstraintsExists( required string name );
 
 	/**
 	* Set the shared constraints into the validation manager, usually these are described in the ColdBox configuraiton file
 	* @constraints.hint Filter by name or not
 	*/
-	IValidationManager function setSharedConstraints(struct constraints);
+	IValidationManager function setSharedConstraints( struct constraints );
 
 	/**
 	* Store a shared constraint
 	* @name.hint Filter by name or not
 	* @constraint.hint The constraint to store.
 	*/
-	IValidationManager function addSharedConstraint(required string name, required struct constraint);
+	IValidationManager function addSharedConstraint( required string name, required struct constraint );
 }
