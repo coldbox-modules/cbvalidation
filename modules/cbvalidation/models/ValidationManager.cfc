@@ -175,7 +175,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 					validationResult = results,
 					target           = arguments.target,
 					field            = arguments.field,
-					targetValue      = invoke( arguments.target, "get" & arguments.field )
+					targetValue      = invoke( arguments.target, "get" & arguments.field ),
 					validationData   = arguments.rules[ key ]
 				);
 
