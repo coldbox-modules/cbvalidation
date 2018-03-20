@@ -172,11 +172,11 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
 				.validate(
-					validationResult	= results,
-					target				= arguments.target,
-					field				= arguments.field,
-					targetValue			= evaluate( "arguments.target.get#arguments.field#()" ),
-					validationData		= arguments.rules[ key ]
+					validationResult = results,
+					target           = arguments.target,
+					field            = arguments.field,
+					targetValue      = invoke( arguments.target, "get" & arguments.field ),
+					validationData   = arguments.rules[ key ]
 				);
 
 		}
