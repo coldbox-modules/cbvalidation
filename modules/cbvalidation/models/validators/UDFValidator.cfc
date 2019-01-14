@@ -28,7 +28,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			return true;
 		}
 
-		var args = {message="The '#arguments.field#' value does validate",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+		var args = {message="The '#arguments.field#' value does validate",field=arguments.field,validationType=getName(),validationData=arguments.validationData,rejectedValue=arguments.targetValue};
 		validationResult.addError( validationResult.newError(argumentCollection=args) );
 		return false;
 	}
