@@ -11,7 +11,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 
 	TypeValidator function init(){
 		name = "Type";
-		validTypes = "ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml";
+		validTypes = "ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,array,json,xml";
 		return this;
 	}
 
@@ -29,8 +29,8 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			throw(message="The Required validator data is invalid: #arguments.validationData#",type="TypeValidator.InvalidValidationData");
 		}
 
-		// return true if not data to check, type needs a data element to be checked.
-		if( isNull(arguments.targetValue) OR ( isSimpleValue(arguments.targetValue) AND NOT len(arguments.targetValue) ) ){ return true; }
+		// return true if no data to check, type needs a data element to be checked.
+		if( isNull(arguments.targetValue) ){ return true; }
 
 		var r = false;
 
@@ -55,6 +55,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			case "component"	: { r = isValid("component",arguments.targetValue); break; }
 			case "query"		: { r = isValid("query",arguments.targetValue); break; }
 			case "struct"		: { r = isValid("struct",arguments.targetValue); break; }
+			case "array"		: { r = isValid("array",arguments.targetValue); break; }
 			case "json"			: { r = isJSON(arguments.targetValue); break; }
 			case "xml"			: { r = isXML(arguments.targetValue); break; }
 		}

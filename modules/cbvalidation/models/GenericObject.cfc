@@ -21,16 +21,12 @@ component{
 
 	// Process getters and setters
 	any function onMissingMethod( required string missingMethodName, required struct missingMethodArguments ){
-
 		var key = replacenocase( arguments.missingMethodName, "get","");
 
 		if( structKeyExists( collection, key ) ){
 			return collection[ key ];
 		}
 
-		throw(message="The key requested '#key#' does not exist in the collection",
-			  detail="The valid keys are #structKeyList( collection )#",
-			  type="GenericObject.InvalidKey");
-
+		// Return null
 	}
 }

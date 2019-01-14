@@ -22,7 +22,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	* @targetValue.hint The target value to validate
 	* @validationData.hint The validation data the validator was created with
 	*/
-	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue, any validationData){
+	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue="", any validationData){
 		// check
 		if( !isValid("string",arguments.validationData) || !isValid("regex",arguments.validationData,"(\-?\d)+(?:\.\.\-?\d+)?")){
 			throw(message="The Required validator data needs to be boolean and you sent in: #arguments.validationData#",type="RequiredValidator.InvalidValidationData");
@@ -56,7 +56,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			}
 		}
 
-		var args = {message="The '#arguments.field#' values is not in the required size range (#arguments.validationData#)",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+		var args = {message="The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
 		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({size=arguments.validationData, min=min, max=max});
 		validationResult.addError( error );
 		return false;

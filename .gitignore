@@ -1,10 +1,18 @@
+# IDE Stuff
 .settings
-logs/*.log
 settings.xml
-.netbeans
-test/results/*.properties
-test/results/*.html
-test/results/*.log
-tests/results
-modules/cbjavaloader
+
+# Logs
+logs/*.log
+
+# Test Results
+tests/results/*
+
+# Dependenncies
+coldbox/*
+testbox/*
+artifacts/*
+apidocs/docbox/*
+workbench/*
+build/*
 modules/cbi18n
