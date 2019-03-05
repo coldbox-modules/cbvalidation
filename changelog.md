@@ -1,7 +1,16 @@
-CHANGELOG
-=========
+# CHANGELOG
+
+## 1.4.0
+
+* Updated to new layout
+* UDFValidator added rejectedValue to newError arguments: https://github.com/coldbox-modules/cbvalidation/pull/29/files
+* Removed lucee 4.5 support
+* Mixins missing comma on arguments
+* Switching evaluate to `invoke` for security and performance
+* Fix for passing arguments in `newError()` on the validation result object
 
 ## 1.3.0
+
 * Build updates and travis updates
 * Unified Workbench
 * `MaxValidator` The Max validator needs to better reflect that it can be less than or equal to the number to compare to <=
@@ -11,9 +20,11 @@ CHANGELOG
 * You can now pass a list of fields to ONLY validate via `validate()` methods using the `includeFields` argument.
 
 ## 1.2.1
+
 * Dependency updates
 
 ## 1.2.0
+
 * Updated cbi18n dependency to latest
 * Travis updates
 * Type validator not countaing against 0 length values
@@ -21,6 +32,7 @@ CHANGELOG
 * Migration to new github organization
 
 ## 1.1.0
+
 * Updated cbi18n dependency to version 1.2.0
 * SizeValidator not evaluating correctly non-required fields
 * Travis integration
@@ -28,17 +40,21 @@ CHANGELOG
 * Added array validation thanks to Sana Ullah
 
 ## 1.0.3
+
 * Exception on Lucee/Railo reporting wrong interface types when using imports
 * Exception message was wrong on UDFValidator
 * Ignore invalid validator keys, to allow for extra metadata and custom messages
 
 ## 1.0.2
+
 * production ignore lists
 * Unloading of helpers
 
 ## 1.0.1
+
 * https://ortussolutions.atlassian.net/browse/CCM-21 Force the validation manager binder mapping
 * https://ortussolutions.atlassian.net/browse/CCM-20 ValidationManager missing singleton persistance
 
 ## 1.0.0
+
 * Create first module version
