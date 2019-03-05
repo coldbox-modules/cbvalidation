@@ -1,18 +1,14 @@
-# IDE Stuff
-.settings
-settings.xml
+.vscode
 
-# Logs
-logs/*.log
+.artifacts/**
+.tmp/**
 
-# Test Results
-tests/results/*
+test-harness/.engine/**
+test-harness/coldbox/**
+test-harness/docbox/**
+test-harness/testbox/**
+test-harness/logs/**
+test-harness/modules/**
 
-# Dependenncies
-coldbox/*
-testbox/*
-artifacts/*
-apidocs/docbox/*
-workbench/*
-build/*
-modules/cbi18n
+# log files
+logs/**

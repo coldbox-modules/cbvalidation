@@ -1,0 +1,22 @@
+{
+    "name":"Tester",
+    "version":"0.0.0",
+    "slug":"tester",
+    "private":true,
+    "description":"",
+    "dependencies":{
+        "coldbox":"^5.0.0",
+        "cbi18n":"^1.4.0+70"
+    },
+    "devDependencies":{
+        "testbox":"^2.8.0"
+    },
+    "installPaths":{
+        "coldbox":"coldbox/",
+        "testbox":"testbox/",
+        "cbi18n":"modules/cbi18n/"
+    },
+    "testbox":{
+        "runner":"http://localhost:60299/tests/runner.cfm"
+    }
+}
