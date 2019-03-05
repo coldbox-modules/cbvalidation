@@ -98,7 +98,7 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	* Get a new error object
 	*/
 	IValidationError function newError( struct properties ){
-		return duplicate( errorTemplate ).configure(argumentCollection=arguments);
+		return duplicate( errorTemplate ).configure(argumentCollection=properties);
 	}
 
 	/**
