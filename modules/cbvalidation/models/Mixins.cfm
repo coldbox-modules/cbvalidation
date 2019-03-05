@@ -16,7 +16,7 @@ function validateModel(
 	string fields="*",
 	any constraints,
 	string locale="",
-	string excludeFields=""
+	string excludeFields="",
 	string includeFields=""
 ){
 	return getValidationManager().validate( argumentCollection=arguments );
