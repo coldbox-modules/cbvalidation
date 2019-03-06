@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.1
+
+* Location protocol
+
 ## 1.4.0
 
 * Updated to new layout
