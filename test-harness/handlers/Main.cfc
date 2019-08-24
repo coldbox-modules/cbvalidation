@@ -14,7 +14,7 @@ component{
 			password = {required=true, size="6..20"}
 		};
 		// validation
-		var result = validateModel( target=rc, constraints=constraints );
+		var result = validate( target=rc, constraints=constraints );
 
 		if( !result.hasErrors() ){
 			flash.put( "User info validated!" );
@@ -28,7 +28,7 @@ component{
 
 	any function saveShared( event, rc, prc){
 		// validation
-		var result = validateModel( target=rc, constraints="sharedUser" );
+		var result = validate( target=rc, constraints="sharedUser" );
 
 		if( !result.hasErrors() ){
 			flash.put( "User info validated!" );

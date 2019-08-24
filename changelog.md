@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.5.0
+
+* `feature` : `valiateModel()` is now deprecated in favor of `validate()`.  `validateModel()` is now marked for deprecation.
+* `improvement` : Direct scoping for performance an avoidance of lookup bugs
+* `improvement` : HTTPS protocol for everything
+* `improvement` : Updated to testbox 3
+
+
 ## 1.4.1
 
 * Location protocol
