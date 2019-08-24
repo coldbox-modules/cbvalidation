@@ -56,28 +56,28 @@ import cbvalidation.models.result.*;
 component accessors="true" serialize="false" implements="IValidationManager" singleton{
 
 	/**
-	* WireBox Object Factory
-	*/
+	 * WireBox Object Factory
+	 */
 	property name="wirebox" inject="wirebox";
 
 	/**
-	* A resource bundle plugin for i18n capabilities
-	*/
+	 * A resource bundle plugin for i18n capabilities
+	 */
 	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
-	* Shared constraints that can be loaded into the validation manager
-	*/
+	 * Shared constraints that can be loaded into the validation manager
+	 */
 	property name="sharedConstraints" type="struct";
 
 	this.id = createUUID();
 
 	/**
-	* Constructor
-	*
-	* @sharedConstraints A structure of shared constraints
-	*/
-	ValidationManager function init( struct sharedConstraints=structNew() ){
+	 * Constructor
+	 *
+	 * @sharedConstraints A structure of shared constraints
+	 */
+	ValidationManager function init( struct sharedConstraints={} ){
 		// valid validator registrations
 		variables.validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
@@ -87,15 +87,17 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	}
 
 	/**
-	* Validate an object using constraints
-	*
-	* @target The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
-	* @fields One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
-	* @constraints An optional shared constraints name or an actual structure of constraints to validate on.
-	* @locale An optional locale to use for i18n messages
-	* @excludeFields An optional list of fields to exclude from the validation.
-	* @IncludeFields An optional list of fields to include in the validation.
-	*/
+	 * Validate an object using constraints
+	 *
+	 * @target The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
+	 * @fields One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
+	 * @constraints An optional shared constraints name or an actual structure of constraints to validate on.
+	 * @locale An optional locale to use for i18n messages
+	 * @excludeFields An optional list of fields to exclude from the validation.
+	 * @IncludeFields An optional list of fields to include in the validation.
+	 *
+	 * @return Results object
+	 */
 	IValidationResult function validate(
 		required any target,
 		string fields="*",
@@ -122,13 +124,15 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		var allConstraints = determineConstraintsDefinition( arguments.target, arguments.constraints );
 
 		// create new result object
-		var initArgs = {
-			locale			= arguments.locale,
-			targetName 		= targetName,
-			resourceService = resourceService,
-			constraints 	= allConstraints
-		};
-		var results = wirebox.getInstance( name="cbvalidation.models.result.ValidationResult", initArguments=initArgs );
+		var results = wirebox.getInstance(
+			name 			= "cbvalidation.models.result.ValidationResult",
+			initArguments 	= {
+				locale			: arguments.locale,
+				targetName 		: targetName,
+				resourceService : resourceService,
+				constraints 	: allConstraints
+			}
+		);
 
 		// iterate over constraints defined
 		for( var thisField in allConstraints ){
@@ -144,7 +148,13 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 				// verify we can validate the field described in the constraint
 				if( arguments.fields == "*" || listFindNoCase( arguments.fields, thisField ) ) {
 					// process the validation rules on the target field using the constraint validation data
-					processRules( results=results, rules=allConstraints[ thisField ], target=arguments.target, field=thisField, locale=arguments.locale );
+					processRules(
+						results	= results,
+						rules	= allConstraints[ thisField ],
+						target	= arguments.target,
+						field	= thisField,
+						locale	= arguments.locale
+					);
 				}
 			}
 
@@ -154,13 +164,56 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	}
 
 	/**
-	* Process validation rules on a target object and field
-	*
-	* @results The validation result object
-	* @rules The structure containing validation rules
-	* @target The target object to do validation on
-	* @field The field to validate
-	*/
+	 * Validate an object using constraints and throw a `ValidationException` if the validation fails
+
+	 * @target The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
+	 * @fields One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
+	 * @constraints An optional shared constraints name or an actual structure of constraints to validate on.
+	 * @locale An optional locale to use for i18n messages
+	 * @excludeFields An optional list of fields to exclude from the validation.
+	 * @IncludeFields An optional list of fields to include in the validation.
+	 *
+	 * @throws ValidationException
+	 * @return any,struct: The target object that was validated, or the structure fields that where validated.
+	 */
+	function validateOrFail(
+		required any target,
+		string fields="*",
+		any constraints="",
+		string locale="",
+		string excludeFields="",
+		string includeFields=""
+	){
+		var vResults = this.validate( argumentCollection=arguments );
+
+		// Verify errors
+		if( vResults.hasErrors() ){
+			throw(
+				type 			= "ValidationException",
+				message 		= "The target failed to pass validation",
+				extendedInfo 	= vResults.getAllErrorsAsJson()
+			);
+		}
+
+		// If object, return it
+		if( isObject( arguments.target ) ){
+			return arguments.target;
+		}
+
+		// Return validated keys
+		return arguments.target.filter( function( key ) {
+			return constraints.keyExists( key );
+		} );
+	}
+
+	/**
+	 * Process validation rules on a target object and field
+	 *
+	 * @results The validation result object
+	 * @rules The structure containing validation rules
+	 * @target The target object to do validation on
+	 * @field The field to validate
+	 */
 	ValidationManager function processRules(
 		required cbvalidation.models.result.IValidationResult results,
 		required struct rules,
@@ -187,31 +240,33 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	}
 
 	/**
-	* Create validators according to types and validation data
-	*
-	* @validatorType The type of validator to retrieve, either internal or class path or wirebox ID
-	* @validationData The validation data that is used for custom validators
-	*
-	* @throws ValidationManager.InvalidValidatorType
-	*/
+	 * Create validators according to types and validation data
+	 *
+	 * @validatorType The type of validator to retrieve, either internal or class path or wirebox ID
+	 * @validationData The validation data that is used for custom validators
+	 *
+	 * @throws ValidationManager.InvalidValidatorType
+	 */
 	cbvalidation.models.validators.IValidator function getValidator(
 		required string validatorType,
 		required any validationData
 	){
+		var cfcPrefix = "cbvalidation.models.validators";
+
 		switch( arguments.validatorType ){
-			case "required" 	: { return wirebox.getInstance( "cbvalidation.models.validators.RequiredValidator" ); }
-			case "type" 		: { return wirebox.getInstance( "cbvalidation.models.validators.TypeValidator" ); }
-			case "size" 		: { return wirebox.getInstance( "cbvalidation.models.validators.SizeValidator" ); }
-			case "range" 		: { return wirebox.getInstance( "cbvalidation.models.validators.RangeValidator" ); }
-			case "regex" 		: { return wirebox.getInstance( "cbvalidation.models.validators.RegexValidator" ); }
-			case "sameAs" 		: { return wirebox.getInstance( "cbvalidation.models.validators.SameAsValidator" ); }
-			case "sameAsNoCase" : { return wirebox.getInstance( "cbvalidation.models.validators.SameAsNoCaseValidator" ); }
-			case "inList" 		: { return wirebox.getInstance( "cbvalidation.models.validators.InListValidator" ); }
-			case "discrete" 	: { return wirebox.getInstance( "cbvalidation.models.validators.DiscreteValidator" ); }
-			case "min" 			: { return wirebox.getInstance( "cbvalidation.models.validators.MinValidator" ); }
-			case "max" 			: { return wirebox.getInstance( "cbvalidation.models.validators.MaxValidator" ); }
-			case "udf" 			: { return wirebox.getInstance( "cbvalidation.models.validators.UDFValidator" ); }
-			case "method" 		: { return wirebox.getInstance( "cbvalidation.models.validators.MethodValidator" ); }
+			case "required" 	: { return wirebox.getInstance( "#cfcPrefix#.RequiredValidator" ); }
+			case "type" 		: { return wirebox.getInstance( "#cfcPrefix#.TypeValidator" ); }
+			case "size" 		: { return wirebox.getInstance( "#cfcPrefix#.SizeValidator" ); }
+			case "range" 		: { return wirebox.getInstance( "#cfcPrefix#.RangeValidator" ); }
+			case "regex" 		: { return wirebox.getInstance( "#cfcPrefix#.RegexValidator" ); }
+			case "sameAs" 		: { return wirebox.getInstance( "#cfcPrefix#.SameAsValidator" ); }
+			case "sameAsNoCase" : { return wirebox.getInstance( "#cfcPrefix#.SameAsNoCaseValidator" ); }
+			case "inList" 		: { return wirebox.getInstance( "#cfcPrefix#.InListValidator" ); }
+			case "discrete" 	: { return wirebox.getInstance( "#cfcPrefix#.DiscreteValidator" ); }
+			case "min" 			: { return wirebox.getInstance( "#cfcPrefix#.MinValidator" ); }
+			case "max" 			: { return wirebox.getInstance( "#cfcPrefix#.MaxValidator" ); }
+			case "udf" 			: { return wirebox.getInstance( "#cfcPrefix#.UDFValidator" ); }
+			case "method" 		: { return wirebox.getInstance( "#cfcPrefix#.MethodValidator" ); }
 			case "validator"	: {
 				if( find( ":", arguments.validationData ) ){
 					return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) );
@@ -231,54 +286,55 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	}
 
 	/**
-	* Retrieve the shared constraints, all of them or by name
-	*
-	* @name Filter by name or not
-	*/
+	 * Retrieve the shared constraints, all of them or by name
+	 *
+	 * @name Filter by name or not
+	 */
 	struct function getSharedConstraints( string name ){
 		return ( structKeyExists( arguments, "name" ) ? variables.sharedConstraints[ arguments.name ] : variables.sharedConstraints );
 	}
 
 	/**
-	* Check if a shared constraint exists by name
-	*
-	* @name The shared constraint to check
-	*/
+	 * Check if a shared constraint exists by name
+	 *
+	 * @name The shared constraint to check
+	 */
 	boolean function sharedConstraintsExists( required string name ){
 		return structKeyExists( variables.sharedConstraints, arguments.name );
 	}
 
 
 	/**
-	* Set the entire shared constraints structure
-	*
-	* @constraints Filter by name or not
-	*/
+	 * Set the entire shared constraints structure
+	 *
+	 * @constraints Filter by name or not
+	 */
 	IValidationManager function setSharedConstraints( struct constraints ){
 		variables.sharedConstraints = arguments.constraints;
 		return this;
 	}
 
 	/**
-	* Store a shared constraint
-	*
-	* @name Filter by name or not
-	* @constraint The constraint to store.
-	*/
+	 * Store a shared constraint
+	 *
+	 * @name The name to store the constraint as
+	 * @constraint The constraint structures to store.
+	 */
 	IValidationManager function addSharedConstraint( required string name, required struct constraint ){
 		variables.sharedConstraints[ arguments.name ] = arguments.constraints;
+		return this;
 	}
 
-	/************************************** private *********************************************/
+	/************************************** PRIVATE *********************************************/
 
 	/**
-	* Determine from where to take the constraints from
-	*
-	* @target The target object
-	* @constraints The constraints rules
-	*
-	* @throws ValidationManager.InvalidSharedConstraint
-	*/
+	 * Determine from where to take the constraints from
+	 *
+	 * @target The target object
+	 * @constraints The constraints rules
+	 *
+	 * @throws ValidationManager.InvalidSharedConstraint
+	 */
 	private struct function determineConstraintsDefinition( required any target, any constraints="" ){
 		var thisConstraints = {};
 
@@ -290,7 +346,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			if( !sharedConstraintsExists( arguments.constraints ) ){
 				throw(
 					message = "The shared constraint you requested (#arguments.constraints#) does not exist",
-					detail  = "Valid constraints are: #structKeyList(sharedConstraints)#",
+					detail  = "Valid constraints are: #structKeyList( sharedConstraints )#",
 					type    = "ValidationManager.InvalidSharedConstraint"
 				);
 			}
@@ -303,15 +359,12 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	}
 
 	/**
-	* Get the constraints structure from target objects, if none, it returns an empty structure
-	*
-	* @target The target object
-	*/
+	 * Get the constraints structure from target objects, if none, it returns an empty structure
+	 *
+	 * @target The target object
+	 */
 	private struct function discoverConstraints( required any target ){
-		if( structKeyExists(arguments.target,"constraints") ){
-			return arguments.target.constraints;
-		}
-		return {};
+		return ( structKeyExists( arguments.target, "constraints" ) ? arguments.target.constraints : {} );
 	}
 
 }

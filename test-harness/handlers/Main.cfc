@@ -39,6 +39,37 @@ component{
 		}
 	}
 
+
+	/**
+	* validateOrFailWithKeys
+	*/
+	function validateOrFailWithKeys( event, rc, prc ){
+
+		var constraints = {
+			username = {required=true, size="2..20"},
+			password = {required=true, size="2..20"}
+		};
+
+		// validate
+		prc.keys = validateOrFail( target=rc, constraints=constraints );
+
+		return prc.keys;
+	}
+
+	/**
+	* validateOrFailWithObject
+	*/
+	function validateOrFailWithObject( event, rc, prc ){
+
+		var oModel = populateModel( "User" );
+
+		// validate
+		prc.object = validateOrFail( oModel );
+
+		return "Validated";
+	}
+
+
 	// Run on first init
 	any function onAppInit( event, rc, prc ){
 
