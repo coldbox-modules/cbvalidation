@@ -6,6 +6,7 @@
 * `improvement` : Direct scoping for performance an avoidance of lookup bugs
 * `improvement` : HTTPS protocol for everything
 * `improvement` : Updated to testbox 3
+* `bug` : Fix mapping declaration for apidocs
 
 
 ## 1.4.1

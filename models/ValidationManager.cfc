@@ -1,53 +1,56 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
-
-The ColdBox Validation Manager, all inspired by awesome Hyrule Validation Framework by Dan Vega.
-
-When using constraints you can use {} values for replacements:
-- {now} = today
-- {property:name} = A property value
-- {udf:name} = Call a UDF provider
-
-Constraint Definition Sample:
-constraints = {
-	propertyName = {
-		// required or not
-		required : boolean [false]
-		// type constraint
-		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
-		// size or length of the value (struct,string,array,query)
-		size  : numeric or range, eg: 10 or 6..8
-		// range is a range of values the property value should exist in
-		range : eg: 1..10 or 5..-5
-		// regex validation
-		regex : valid no case regex
-		// same as another property
-		sameAs : propertyName
-		// same as but with no case
-		sameAsNoCase : propertyName
-		// value in list
-		inList : list
-		// discrete math modifiers
-		discrete : (gt,gte,lt,lte,eq,neq):value
-		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
-		udf : function,
-		// Validation method to use in the targt object must return boolean accept the incoming value and target object, validate(value,target):boolean
-		method : methodName
-		// Custom validator, must implement
-		validator : path or wirebox id: 'mypath.MyValidator' or 'id:MyValidator'
-		// min value
-		min : value
-		// max value
-		max : value
-	}
-};
-
-vResults = validateModel(target=model);
-
-*/
+ * ********************************************************************************
+ * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * www.ortussolutions.com
+ * ********************************************************************************
+ *
+ * The ColdBox Validation Manager, all inspired by awesome Hyrule Validation Framework by Dan Vega.
+ *
+ * When using constraints you can use {} values for replacements:
+ * - {now} = today
+ * - {property:name} = A property value
+ * - {udf:name} = Call a UDF provider
+ *
+ * Constraint Definition Sample:
+ *
+ * <pre>
+ * constraints = {
+ * 	propertyName = {
+ * 		// required or not
+ * 		required : boolean [false]
+ * 		// type constraint
+ * 		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+ * 		// size or length of the value (struct,string,array,query)
+ * 		size  : numeric or range, eg: 10 or 6..8
+ * 		// range is a range of values the property value should exist in
+ * 		range : eg: 1..10 or 5..-5
+ * 		// regex validation
+ * 		regex : valid no case regex
+ * 		// same as another property
+ * 		sameAs : propertyName
+ * 		// same as but with no case
+ * 		sameAsNoCase : propertyName
+ * 		// value in list
+ * 		inList : list
+ * 		// discrete math modifiers
+ * 		discrete : (gt,gte,lt,lte,eq,neq):value
+ * 		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
+ * 		udf : function,
+ * 		// Validation method to use in the targt object must return boolean accept the incoming value and target object, validate(value,target):boolean
+ * 		method : methodName
+ * 		// Custom validator, must implement
+ * 		validator : path or wirebox id: 'mypath.MyValidator' or 'id:MyValidator'
+ * 		// min value
+ * 		min : value
+ * 		// max value
+ * 		max : value
+ * 	}
+ * };
+ *
+ * vResults = validateModel(target=model);
+ * </pre>
+ *
+ */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
 component accessors="true" serialize="false" implements="IValidationManager" singleton{
@@ -79,7 +82,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		variables.validValidators = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
 		variables.sharedConstraints = arguments.sharedConstraints;
-		
+
 		return this;
 	}
 
@@ -93,13 +96,13 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	* @excludeFields An optional list of fields to exclude from the validation.
 	* @IncludeFields An optional list of fields to include in the validation.
 	*/
-	IValidationResult function validate( 
-		required any target, 
-		string fields="*", 
-		any constraints="", 
-		string locale="", 
-		string excludeFields="", 
-		string includeFields="" 
+	IValidationResult function validate(
+		required any target,
+		string fields="*",
+		any constraints="",
+		string locale="",
+		string excludeFields="",
+		string includeFields=""
 	){
 		var targetName = "";
 
@@ -126,7 +129,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			constraints 	= allConstraints
 		};
 		var results = wirebox.getInstance( name="cbvalidation.models.result.ValidationResult", initArguments=initArgs );
-		
+
 		// iterate over constraints defined
 		for( var thisField in allConstraints ){
 			var validateField = true;
@@ -142,9 +145,9 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 				if( arguments.fields == "*" || listFindNoCase( arguments.fields, thisField ) ) {
 					// process the validation rules on the target field using the constraint validation data
 					processRules( results=results, rules=allConstraints[ thisField ], target=arguments.target, field=thisField, locale=arguments.locale );
-				}	
+				}
 			}
-			
+
 		}
 
 		return results;
@@ -159,16 +162,16 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	* @field The field to validate
 	*/
 	ValidationManager function processRules(
-		required cbvalidation.models.result.IValidationResult results, 
-		required struct rules, 
-		required any target, 
+		required cbvalidation.models.result.IValidationResult results,
+		required struct rules,
+		required any target,
 		required any field
 	){
 		// process the incoming rules
 		for( var key in arguments.rules ){
 			// if message validators, just ignore
 			if( reFindNoCase( "Message$", key ) ){ continue; }
-			
+
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator( validatorType=key, validationData=arguments.rules[ key ] )
 				.validate(
@@ -192,7 +195,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	* @throws ValidationManager.InvalidValidatorType
 	*/
 	cbvalidation.models.validators.IValidator function getValidator(
-		required string validatorType, 
+		required string validatorType,
 		required any validationData
 	){
 		switch( arguments.validatorType ){
@@ -210,14 +213,14 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			case "udf" 			: { return wirebox.getInstance( "cbvalidation.models.validators.UDFValidator" ); }
 			case "method" 		: { return wirebox.getInstance( "cbvalidation.models.validators.MethodValidator" ); }
 			case "validator"	: {
-				if( find( ":", arguments.validationData ) ){ 
-					return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) ); 
+				if( find( ":", arguments.validationData ) ){
+					return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) );
 				}
 				return wirebox.getInstance( arguments.validationData );
 			}
 			default : {
-				if ( wirebox.getBinder().mappingExists( validatorType ) ) { 
-					return wirebox.getInstance( validatorType ); 
+				if ( wirebox.getBinder().mappingExists( validatorType ) ) {
+					return wirebox.getInstance( validatorType );
 				}
 				throw(
 					message = "The validator you requested #arguments.validatorType# is not a valid validator",
@@ -301,7 +304,7 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 
 	/**
 	* Get the constraints structure from target objects, if none, it returns an empty structure
-	* 
+	*
 	* @target The target object
 	*/
 	private struct function discoverConstraints( required any target ){
