@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 1.5.0
+
+* `features` : `validateOrFail()` new method to validate and if it fails it will throw a `ValidationException`. Also if the target is an object, the object is returned. If the target is a struct, the struct is returned ONLY with the validated fields.
+* `feature` : `validateModel()` is now deprecated in favor of `validate()`.  `validateModel()` is now marked for deprecation.
+* `improvement` : Direct scoping for performance an avoidance of lookup bugs
+* `improvement` : HTTPS protocol for everything
+* `improvement` : Updated to testbox 3
+* `bug` : Fix mapping declaration for apidocs`
+* `bug` : Missing return on `addSharedConstraint()` function
+
+
 ## 1.4.1
 
 * Location protocol

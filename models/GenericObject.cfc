@@ -1,30 +1,41 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
-A generic object that can simulate an object getters from a collection structure.
-Great for when you want to validate a form that is not represented by an object.
-*/
+ * *******************************************************************************
+ * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * www.ortussolutions.com
+ * *******************************************************************************
+ * Great for when you want to validate a form that is not represented by an object.
+ * A generic object that can simulate an object getters from a collection structure.
+ */
 component{
 
-	// constructor
+	/**
+	 * Constructor
+	 *
+	 * @memento The struct to represent
+	 */
 	GenericObject function init( struct memento=structNew() ){
-		collection = arguments.memento;
+		variables.collection = arguments.memento;
 		return this;
 	}
 
-	// Get the object's collection memento
+	/**
+	 * Retrieve the collection
+	 */
 	any function getMemento(){
-		return collection;
+		return variables.collection;
 	}
 
-	// Process getters and setters
+	/**
+	 * Process dynamic getters
+	 *
+	 * @missingMethodName
+	 * @missingMethodArguments
+	 */
 	any function onMissingMethod( required string missingMethodName, required struct missingMethodArguments ){
-		var key = replacenocase( arguments.missingMethodName, "get","");
+		var key = replacenocase( arguments.missingMethodName, "get", "" );
 
-		if( structKeyExists( collection, key ) ){
-			return collection[ key ];
+		if( structKeyExists( variables.collection, key ) ){
+			return variables.collection[ key ];
 		}
 
 		// Return null

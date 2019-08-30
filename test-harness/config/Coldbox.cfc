@@ -50,8 +50,6 @@
 
 		//Register interceptors as an array, we need order
 		interceptors = [
-			 //SES
-			 { class="coldbox.system.interceptors.SES" }
 		];
 
 		//LogBox DSL
@@ -72,7 +70,7 @@
 
 		validation = {
 			sharedConstraints = {
-				"sharedUser" = { 
+				"sharedUser" = {
 					username = { required=true, size="6..20" },
 					password = { required=true, size="6..20 "}
 				}

@@ -1,25 +1,27 @@
-[![Build Status](https://travis-ci.org/coldbox-modules/cbox-validation.svg?branch=development)](https://travis-ci.org/coldbox-modules/cbox-validation)
+[![Build Status](https://travis-ci.org/coldbox-modules/cbvalidation.svg?branch=development)](https://travis-ci.org/coldbox-modules/cbvalidation)
 
-WELCOME TO THE COLDBOX VALIDATION MODULE
-========================================
+# WELCOME TO THE COLDBOX VALIDATION MODULE
+
 This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.
 
 ## LICENSE
+
 Apache License, Version 2.0.
 
 ## IMPORTANT LINKS
-- https://github.com/coldbox-modules/cbox-validation
-- https://github.com/coldbox-modules/cbox-validation/wiki
+
+- https://github.com/coldbox-modules/cbvalidation
+- https://coldbox-validation.ortusbooks.com
 - https://forgebox.io/view/validation
 
 ## SYSTEM REQUIREMENTS
-- Lucee 4.5+
+
+- Lucee 5.x+
 - Adobe ColdFusion 11+
 
-INSTRUCTIONS
-============
+## Installation
 
-Just drop into your **modules** folder or use CommandBox to install:
+Leverage CommandBox to install:
 
 `box install cbvalidation`
 
@@ -68,7 +70,7 @@ validation = {
 }
 ```
 
-You can read more about ColdBox Validation here: - https://github.com/coldbox-modules/cbox-validation/wiki
+You can read more about ColdBox Validation here: - https://coldbox-validation.ortusbooks.com/
 
 ---
 
@@ -79,7 +81,8 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 ```
 
-#### HONOR GOES TO GOD ABOVE ALL
+### HONOR GOES TO GOD ABOVE ALL
+
 Because of His grace, this project exists. If you don't like this, then don't read it, its not for you.
 
 >"Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:
@@ -90,4 +93,5 @@ And hope maketh not ashamed; because the love of God is shed abroad in our heart
 Holy Ghost which is given unto us. ." Romans 5:5
 
 ### THE DAILY BREAD
+
  > "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12

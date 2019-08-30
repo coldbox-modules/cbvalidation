@@ -14,7 +14,7 @@ component{
 			password = {required=true, size="6..20"}
 		};
 		// validation
-		var result = validateModel( target=rc, constraints=constraints );
+		var result = validate( target=rc, constraints=constraints );
 
 		if( !result.hasErrors() ){
 			flash.put( "User info validated!" );
@@ -28,7 +28,7 @@ component{
 
 	any function saveShared( event, rc, prc){
 		// validation
-		var result = validateModel( target=rc, constraints="sharedUser" );
+		var result = validate( target=rc, constraints="sharedUser" );
 
 		if( !result.hasErrors() ){
 			flash.put( "User info validated!" );
@@ -38,6 +38,37 @@ component{
 			return index(event,rc,prc);
 		}
 	}
+
+
+	/**
+	* validateOrFailWithKeys
+	*/
+	function validateOrFailWithKeys( event, rc, prc ){
+
+		var constraints = {
+			username = {required=true, size="2..20"},
+			password = {required=true, size="2..20"}
+		};
+
+		// validate
+		prc.keys = validateOrFail( target=rc, constraints=constraints );
+
+		return prc.keys;
+	}
+
+	/**
+	* validateOrFailWithObject
+	*/
+	function validateOrFailWithObject( event, rc, prc ){
+
+		var oModel = populateModel( "User" );
+
+		// validate
+		prc.object = validateOrFail( oModel );
+
+		return "Validated";
+	}
+
 
 	// Run on first init
 	any function onAppInit( event, rc, prc ){
