@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.5.1
+
+* `bug` : This version's mixin is causing errors because its looking for this.validate() and its looking in the handler, not in the mixin file itself.
+
 ## 1.5.0
 
 * `features` : `validateOrFail()` new method to validate and if it fails it will throw a `ValidationException`. Also if the target is an object, the object is returned. If the target is a struct, the struct is returned ONLY with the validated fields.

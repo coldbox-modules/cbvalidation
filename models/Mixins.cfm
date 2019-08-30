@@ -54,7 +54,7 @@ function validateModel(
 	string excludeFields="",
 	string includeFields=""
 ){
-	return this.validate( argumentCollection=arguments );
+	return getValidationManager().validate( argumentCollection=arguments );
 }
 
 </cfscript>
