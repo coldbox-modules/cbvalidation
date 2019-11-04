@@ -29,8 +29,14 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			return true;
 		}
 
-		var args = {message="The '#arguments.field#' value is not greater than or equal to #arguments.validationData#",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
-		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({min=arguments.validationData});
+		var args = {
+			message        = "The '#arguments.field#' value is not greater than or equal to #arguments.validationData#",
+			field          = arguments.field,
+			validationType = getName(),
+			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+			validationData = arguments.validationData
+		};
+s		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({min=arguments.validationData});
 		validationResult.addError( error );
 		return false;
 	}

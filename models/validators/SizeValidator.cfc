@@ -55,8 +55,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 				return true;
 			}
 		}
-
-		var args = {message="The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+		var args = {
+			message        = "The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",
+			field          = arguments.field,
+			validationType = getName(),
+			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+			validationData = arguments.validationData
+		};
 		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({size=arguments.validationData, min=min, max=max});
 		validationResult.addError( error );
 		return false;

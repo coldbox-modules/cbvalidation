@@ -38,8 +38,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		if( !isNull(arguments.targetValue) AND targetValue >= min AND ( !len(max) OR targetValue <= max ) ) {
 			return true;
 		}
-
-		var args = {message="The '#arguments.field#' value is not the value field range (#arguments.validationData#)",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+		var args = {
+			message        = "The '#arguments.field#' value is not the value field range (#arguments.validationData#)",
+			field          = arguments.field,
+			validationType = getName(),
+			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+			validationData = arguments.validationData
+		};
 		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({range=arguments.validationData,min=min,max=max});
 		validationResult.addError( error );
 		return false;

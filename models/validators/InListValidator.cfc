@@ -27,8 +27,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		if( !isNull(arguments.targetValue) AND listFindNoCase(arguments.validationData, arguments.targetValue)){
 			return true;
 		}
-
-		var args = {message="The '#arguments.field#' value is not in the constraint list: #arguments.validationData#",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+		var args = {
+			message        = "The '#arguments.field#' value is not in the constraint list: #arguments.validationData#",
+			field          = arguments.field,
+			validationType = getName(),
+			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+			validationData = arguments.validationData
+		};
 		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({inlist=arguments.validationData});
 		validationResult.addError( error );
 		return false;
