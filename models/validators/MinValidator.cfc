@@ -36,7 +36,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
 			validationData = arguments.validationData
 		};
-s		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({min=arguments.validationData});
+		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({min=arguments.validationData});
 		validationResult.addError( error );
 		return false;
 	}
