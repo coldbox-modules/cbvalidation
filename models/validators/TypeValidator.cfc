@@ -61,7 +61,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		}
 
 		if( !r ){
-			var args = {message="The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+			var args = {
+				message        = "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
+				field          = arguments.field,
+				validationType = getName(),
+				rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+				validationData = arguments.validationData
+			};
 			var error = validationResult.newError(argumentCollection=args).setErrorMetadata({type=arguments.validationData});
 			validationResult.addError( error );
 		}

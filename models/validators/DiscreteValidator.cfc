@@ -50,7 +50,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		}
 
 		if( !r ){
-			var args  = {message="The '#arguments.field#' value is #operation# than #operationValue#",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+			var args = {
+				message        = "The '#arguments.field#' value is #operation# than #operationValue#",
+				field          = arguments.field,
+				validationType = getName(),
+				rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+				validationData = arguments.validationData
+			};
 			var error = validationResult.newError(argumentCollection=args).setErrorMetadata({operation=operation, operationValue=operationValue});
 			validationResult.addError( error );
 		}
