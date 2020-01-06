@@ -23,19 +23,29 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	* @validationDataThe validation data the validator was created with
 	*/
 	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue, any validationData){
+		if ( isNull( arguments.targetValue ) ) {
+		    return true;
+		}
 
-		if( !isNull(arguments.targetValue) AND listFindNoCase(arguments.validationData, arguments.targetValue)){
+		if ( listFindNoCase( arguments.validationData, arguments.targetValue ) ) {
 			return true;
 		}
-		var args = {
+
+    var args = {
 			message        = "The '#arguments.field#' value is not in the constraint list: #arguments.validationData#",
 			field          = arguments.field,
 			validationType = getName(),
 			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
 			validationData = arguments.validationData
 		};
-		var error = validationResult.newError(argumentCollection=args).setErrorMetadata({inlist=arguments.validationData});
-		validationResult.addError( error );
+
+		var error = validationResult
+		    .newError( argumentCollection = args )
+			.setErrorMetadata( {
+			    "inlist" = arguments.validationData
+			} );
+
+validationResult.addError( error );
 		return false;
 	}
 
