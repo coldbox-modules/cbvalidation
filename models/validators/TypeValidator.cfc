@@ -10,8 +10,8 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	property name="name";
 
 	TypeValidator function init(){
-		name = "Type";
-		validTypes = "ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,array,json,xml";
+		name 		= "Type";
+		validTypes 	= "alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
 		return this;
 	}
 
@@ -35,6 +35,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		var r = false;
 
 		switch( arguments.validationData ){
+			case "float" 		: { r = isValid("float",arguments.targetValue); break; }
 			case "ssn" 			: { r = isValid("ssn",arguments.targetValue); break; }
 			case "email"		: { r = isValid("email",arguments.targetValue); break; }
 			case "url"			: { r = isValid("url",arguments.targetValue); break; }
@@ -61,7 +62,13 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		}
 
 		if( !r ){
-			var args = {message="The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
+			var args = {
+				message        = "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
+				field          = arguments.field,
+				validationType = getName(),
+				rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
+				validationData = arguments.validationData
+			};
 			var error = validationResult.newError(argumentCollection=args).setErrorMetadata({type=arguments.validationData});
 			validationResult.addError( error );
 		}
