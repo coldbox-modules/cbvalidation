@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.5.2
+
+* `bug` : Added `float` to the type validator which was missing
+
 ## 1.5.1
 
 * `bug` : This version's mixin is causing errors because its looking for this.validate() and its looking in the handler, not in the mixin file itself.
