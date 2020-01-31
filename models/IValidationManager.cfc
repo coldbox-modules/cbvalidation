@@ -1,8 +1,7 @@
 /**
- * *******************************************************************************
- * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
- * *******************************************************************************
+ * ---
  * The ColdBox validation manager interface, all inspired by awesome Hyrule Validation Framework by Dan Vega
  */
 import cbvalidation.models.*;

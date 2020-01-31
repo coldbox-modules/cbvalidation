@@ -13,7 +13,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testValidate(){
-		result = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 		// ssn
 		r = model.validate( result, this, "test", "123", "ssn" );

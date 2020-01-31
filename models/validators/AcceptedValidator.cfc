@@ -2,7 +2,7 @@
  * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
  * ---
- * This validator validates against a user defined regular expression
+ * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
 component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton {
 
@@ -11,8 +11,8 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	/**
 	 * Constructor
 	 */
-	RegexValidator function init(){
-		variables.name = "Regex";
+	AcceptedValidator function init(){
+		variables.name = "Accepted";
 		return this;
 	}
 
@@ -31,24 +31,23 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 		any targetValue,
 		any validationData
 	){
-		// Verify we have a value, else skip
+		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
 			return true;
 		}
 
-		// Validate Regex
-		if ( isValid( "regex", arguments.targetValue, arguments.validationData ) ) {
+		if ( listFindNoCase( "1,yes,true,on", arguments.targetValue ) ) {
 			return true;
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value does not match the regular expression: #arguments.validationData#",
+			message        : "The '#arguments.field#' is not a 1, yes, true or on",
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { regex : arguments.validationData } );
+		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { max : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
 	}

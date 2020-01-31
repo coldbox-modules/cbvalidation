@@ -1,8 +1,7 @@
 /**
- * *******************************************************************************
- * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
- * *******************************************************************************
+ * ---
  * Great for when you want to validate a form that is not represented by an object.
  * A generic object that can simulate an object getters from a collection structure.
  */

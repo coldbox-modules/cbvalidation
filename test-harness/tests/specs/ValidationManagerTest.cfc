@@ -1,9 +1,8 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
-*/
+ * Copyright since 2020 by Ortus Solutions, Corp
+ * www.ortussolutions.com
+ * ---
+ */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.ValidationManager" {
 
 	function setup(){
@@ -16,7 +15,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testProcessRules(){
 		results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
-		// mockValidator = getMockBox().createMock("coldbox.test.specs.validation.resources.MockValidator");
+		// mockValidator = createMock("coldbox.test.specs.validation.resources.MockValidator");
 
 		// model.$("getValidator", mockValidator);
 

@@ -1,8 +1,7 @@
 /**
- * ********************************************************************************
- * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
- * ********************************************************************************
+ * ---
  *
  * The ColdBox Validation Manager, all inspired by awesome Hyrule Validation Framework by Dan Vega.
  *
@@ -70,6 +69,12 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 */
 	property name="sharedConstraints" type="struct";
 
+	/**
+	 * The collection of registered validators on disk
+	 */
+	property name="registeredValidators" type="Struct";
+
+	// Unique manager id
 	this.id = createUUID();
 
 	/**
@@ -82,6 +87,23 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		variables.validValidators   = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
 		variables.sharedConstraints = arguments.sharedConstraints;
+		// Validators Path
+		variables.validatorsPath = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
+		// Register validators
+		variables.registeredValidators = directoryList( variables.validatorsPath , false, "name", "*.cfc" )
+			// don't do the interfaces
+			.filter( function( item ){
+				return ( item != "IValidator.cfc" );
+			} )
+			// Purge extension
+			.map( function( item ){
+				return listFirst( item, "." );
+			} )
+			// Build out wirebox map
+			.reduce( function( result, item ){
+				result[ item.replaceNoCase( "Validator", "" ) ] = "cbvalidation.models.validators.#item#";
+				return result;
+			}, {} );
 
 		return this;
 	}
@@ -250,54 +272,21 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 		required string validatorType,
 		required any validationData
 	){
-		var cfcPrefix = "cbvalidation.models.validators";
+		// Are we a core validator?
+		if( structKeyExists( variables.registeredValidators, arguments.validatorType ) ){
+			return wirebox.getInstance( variables.registeredValidators[ arguments.validatorType ] );
+		}
 
+		// Else switch checks
 		switch ( arguments.validatorType ) {
-			case "required": {
-				return wirebox.getInstance( "#cfcPrefix#.RequiredValidator" );
-			}
-			case "type": {
-				return wirebox.getInstance( "#cfcPrefix#.TypeValidator" );
-			}
-			case "size": {
-				return wirebox.getInstance( "#cfcPrefix#.SizeValidator" );
-			}
-			case "range": {
-				return wirebox.getInstance( "#cfcPrefix#.RangeValidator" );
-			}
-			case "regex": {
-				return wirebox.getInstance( "#cfcPrefix#.RegexValidator" );
-			}
-			case "sameAs": {
-				return wirebox.getInstance( "#cfcPrefix#.SameAsValidator" );
-			}
-			case "sameAsNoCase": {
-				return wirebox.getInstance( "#cfcPrefix#.SameAsNoCaseValidator" );
-			}
-			case "inList": {
-				return wirebox.getInstance( "#cfcPrefix#.InListValidator" );
-			}
-			case "discrete": {
-				return wirebox.getInstance( "#cfcPrefix#.DiscreteValidator" );
-			}
-			case "min": {
-				return wirebox.getInstance( "#cfcPrefix#.MinValidator" );
-			}
-			case "max": {
-				return wirebox.getInstance( "#cfcPrefix#.MaxValidator" );
-			}
-			case "udf": {
-				return wirebox.getInstance( "#cfcPrefix#.UDFValidator" );
-			}
-			case "method": {
-				return wirebox.getInstance( "#cfcPrefix#.MethodValidator" );
-			}
+			// Custom Validator
 			case "validator": {
 				if ( find( ":", arguments.validationData ) ) {
 					return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) );
 				}
 				return wirebox.getInstance( arguments.validationData );
 			}
+			// See if it's a WireBox Mapping
 			default: {
 				if ( wirebox.getBinder().mappingExists( validatorType ) ) {
 					return wirebox.getInstance( validatorType );

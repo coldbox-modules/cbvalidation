@@ -31,7 +31,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testAddError(){
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"test",
@@ -45,7 +45,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertTrue( arrayLen( model.getErrors() ) eq 1 );
 
 		// with custom messages
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"test",
@@ -65,7 +65,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertEquals( "This stuff is required dude for the field: test!", r.getMemento().message );
 
 		// with i18n
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"test",
@@ -121,7 +121,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testGetErrorAsStruct(){
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"test",
@@ -132,7 +132,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		model.addError( mockError );
 
 		// with custom messages
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"fname",
@@ -149,7 +149,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testGetErrorAsJSON(){
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"test",
@@ -160,7 +160,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		model.addError( mockError );
 
 		// with custom messages
-		mockError = getMockBox().createMock( "cbvalidation.models.result.ValidationError" ).init();
+		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
 		mockError.configure(
 			"unit test",
 			"fname",

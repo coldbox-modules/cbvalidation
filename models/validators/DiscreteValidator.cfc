@@ -1,10 +1,8 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
-This validator validates agains discrete mathematic operations.
-*/
+ * Copyright since 2020 by Ortus Solutions, Corp
+ * www.ortussolutions.com
+ * ---
+ */
 component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton {
 
 	property name="name";

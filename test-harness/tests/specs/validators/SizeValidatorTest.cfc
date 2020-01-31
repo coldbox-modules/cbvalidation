@@ -12,7 +12,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testValidateSimple(){
-		result = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 		r = model.validate( result, this, "test", "123", "3" );
 		assertEquals( true, r );
@@ -73,7 +73,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testValidateComplex(){
-		result = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
+		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 		r = model.validate( result, this, "test", "123", "3..5" );
 		assertEquals( true, r );
