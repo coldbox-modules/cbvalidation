@@ -4,7 +4,7 @@
  * ---
  * The ColdBox validation error, all inspired by awesome Hyrule Validation Framework by Dan Vega
  */
-component accessors="true" implements="cbvalidation.models.result.IValidationError" {
+component accessors="true" {
 
 	// constructor
 	ValidationError function init(){
@@ -20,8 +20,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set error metadata that can be used in i18n message replacements or in views
 	 * @data The name-value pairs of data to store in this error.
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setErrorMetadata( required any data ){
+	any function setErrorMetadata( required any data ){
 		errorMetadata = arguments.data;
 		return this;
 	}
@@ -36,8 +38,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set the validator data
 	 * @data The data of the validator
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setValidationData( required any data ){
+	any function setValidationData( required any data ){
 		validationData = arguments.data;
 		return this;
 	}
@@ -53,8 +57,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set the error message
 	 * @message The error message
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setMessage( required string message ){
+	any function setMessage( required string message ){
 		variables.message = arguments.message;
 		return this;
 	}
@@ -62,8 +68,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set the field
 	 * @message The error message
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setField( required string field ){
+	any function setField( required string field ){
 		variables.field = arguments.field;
 		return this;
 	}
@@ -71,8 +79,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set the rejected value
 	 * @value The rejected value
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setRejectedValue( required any value ){
+	any function setRejectedValue( required any value ){
 		variables.rejectedValue = arguments.value;
 		return this;
 	}
@@ -80,8 +90,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	/**
 	 * Set the validator type name that rejected
 	 * @validationType The name of the rejected validator
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function setValidationType( required any validationType ){
+	any function setValidationType( required any validationType ){
 		variables.validationType = arguments.validationType;
 		return this;
 	}
@@ -135,8 +147,10 @@ component accessors="true" implements="cbvalidation.models.result.IValidationErr
 	 * @field The required field that case the exception
 	 * @rejectedValue The optional rejected value
 	 * @validationType The name of the rejected validator
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function configure(
+	any function configure(
 		required string message,
 		required string field,
 		string rejectedValue,

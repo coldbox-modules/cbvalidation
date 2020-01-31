@@ -18,9 +18,9 @@ interface {
 	 * @excludeFieldsAn optional list of fields to exclude from the validation.
 	 * @includeFieldsAn optional list of fields to include in the validation.
 	 *
-	 * @result ValidationResult object
+	 * @return IValidationResult
 	 */
-	IValidationResult function validate(
+	any function validate(
 		required any target,
 		string fields,
 		any constraints,
@@ -47,15 +47,19 @@ interface {
 	 * Set the shared constraints into the validation manager, usually these are described in the ColdBox configuraiton file
 	 *
 	 * @constraintsFilter by name or not
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function setSharedConstraints( struct constraints );
+	any function setSharedConstraints( struct constraints );
 
 	/**
 	 * Store a shared constraint
 	 *
 	 * @nameFilter by name or not
 	 * @constraintThe constraint to store.
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function addSharedConstraint( required string name, required struct constraint );
+	any function addSharedConstraint( required string name, required struct constraint );
 
 }

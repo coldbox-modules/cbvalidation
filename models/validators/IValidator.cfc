@@ -12,13 +12,15 @@ interface {
 	 * @targetThe target object to validate on
 	 * @fieldThe field on the target object to validate on
 	 * @targetValueThe target value to validate
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
-		required cbvalidation.models.result.IValidationResult validationResult,
+		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	);
 
 	/**

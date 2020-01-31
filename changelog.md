@@ -9,6 +9,7 @@
 * New Validator: `Alpha` - Only allows alphabetic characters
 * New Validator: `RequiredUnless` with validation data: `anotherField:value,...`  -  The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed `value`.
 * New Validator: `RequiredIf` with validation data: `anotherField:value,...`  -  The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
+* Accelerated validation by removing type checks. ACF chokes on interface checks
 
 ### Improvements
 

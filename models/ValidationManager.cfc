@@ -52,7 +52,7 @@
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-component accessors="true" serialize="false" implements="IValidationManager" singleton {
+component accessors="true" serialize="false" singleton {
 
 	/**
 	 * WireBox Object Factory
@@ -118,9 +118,9 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 * @excludeFields An optional list of fields to exclude from the validation.
 	 * @IncludeFields An optional list of fields to include in the validation.
 	 *
-	 * @return Results object
+	 * @return IValidationResult
 	 */
-	IValidationResult function validate(
+	any function validate(
 		required any target,
 		string fields        = "*",
 		any constraints      = "",
@@ -231,12 +231,13 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 * Process validation rules on a target object and field
 	 *
 	 * @results The validation result object
+	 * @results_generic cbvalidation.models.result.IValidationResult
 	 * @rules The structure containing validation rules
 	 * @target The target object to do validation on
 	 * @field The field to validate
 	 */
 	ValidationManager function processRules(
-		required cbvalidation.models.result.IValidationResult results,
+		required any results,
 		required struct rules,
 		required any target,
 		required any field
@@ -249,13 +250,15 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 			}
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
-			getValidator( validatorType = key, validationData = arguments.rules[ key ] ).validate(
-				validationResult = results,
-				target           = arguments.target,
-				field            = arguments.field,
-				targetValue      = invoke( arguments.target, "get" & arguments.field ),
-				validationData   = arguments.rules[ key ]
-			);
+			getValidator( validatorType = key, validationData = arguments.rules[ key ] )
+				.validate(
+					validationResult = results,
+					target           = arguments.target,
+					field            = arguments.field,
+					targetValue      = invoke( arguments.target, "get" & arguments.field ),
+					validationData   = arguments.rules[ key ],
+					rules 			 = arguments.rules
+				);
 		}
 		return this;
 	}
@@ -267,8 +270,9 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 * @validationData The validation data that is used for custom validators
 	 *
 	 * @throws ValidationManager.InvalidValidatorType
+	 * @return cbvalidation.models.validators.IValidator
 	 */
-	cbvalidation.models.validators.IValidator function getValidator(
+	any function getValidator(
 		required string validatorType,
 		required any validationData
 	){
@@ -324,8 +328,10 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 * Set the entire shared constraints structure
 	 *
 	 * @constraints Filter by name or not
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function setSharedConstraints( struct constraints ){
+	any function setSharedConstraints( struct constraints ){
 		variables.sharedConstraints = arguments.constraints;
 		return this;
 	}
@@ -335,8 +341,10 @@ component accessors="true" serialize="false" implements="IValidationManager" sin
 	 *
 	 * @name The name to store the constraint as
 	 * @constraint The constraint structures to store.
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function addSharedConstraint( required string name, required struct constraint ){
+	any function addSharedConstraint( required string name, required struct constraint ){
 		variables.sharedConstraints[ arguments.name ] = arguments.constraints;
 		return this;
 	}

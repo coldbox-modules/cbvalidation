@@ -25,7 +25,7 @@ component accessors="true" extends="RequiredValidator" singleton {
 	 * @validationDataThe validation data the validator was created with
 	 */
 	boolean function validate(
-		required cbvalidation.models.result.IValidationResult validationResult,
+		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,

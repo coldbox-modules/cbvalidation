@@ -4,7 +4,7 @@
  * ---
  * The ColdBox validation results
  */
-component accessors="true" implements="cbvalidation.models.result.IValidationResult"{
+component accessors="true" {
 
 	/**
 	* A collection of error objects represented in this result object
@@ -57,54 +57,64 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	}
 
 	/**
-	* Set the validation target object name
-	*/
-	IValidationResult function setTargetName( required string name ){
+	 * Set the validation target object name
+	 *
+	 * @return IValidationResult
+	 */
+	any function setTargetName( required string name ){
 		targetName = arguments.name;
 		return this;
 	}
 
 	/**
-	* Get the name of the target object that got validated
-	*/
+	 * Get the name of the target object that got validated
+	 */
 	string function getTargetName(){
 		return targetName;
 	}
 
 	/**
-	* Get the validation locale
-	*/
+	 * Get the validation locale
+	 */
 	string function getValidationLocale(){
 		return locale;
 	}
 
 	/**
-	* has locale information
-	*/
+	 * has locale information
+	 */
 	boolean function hasLocale(){
 		return ( len(locale) GT 0 );
 	}
 
 	/**
-	* Set the validation locale
-	*/
-	IValidationResult function setLocale( required string locale ){
+	 * Set the validation locale
+	 *
+	 * @return IValidationResult
+	 */
+	any function setLocale( required string locale ){
 		variables.locale = arguments.locale;
 		return this;
 	}
 
 	/**
 	 * Get a new error object pre poulated with the arguments it has been passed
+	 *
+	 * @return IValidationError
 	 */
-	IValidationError function newError(){
+	any function newError(){
 		return duplicate( errorTemplate ).configure( argumentCollection=arguments );
 	}
 
 	/**
-	* Add errors into the result object
-	* @errorThe validation error to add into the results object
-	*/
-	IValidationResult function addError( required IValidationError error ){
+	 * Add errors into the result object
+	 *
+	 * @error The validation error to add into the results object
+	 * @error_generic IValidationError
+	 *
+	 * @return IValidationResult
+	 */
+	any function addError( required error ){
 		// Verify Custom Messages via constraints, these take precedence
 		if( structKeyExists( constraints, error.getField() ) AND structKeyExists( constraints[error.getField()], "#error.getValidationType()#Message" ) ){
 			// override message with custom constraint
@@ -130,7 +140,12 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 		return this;
 	}
 
-	// Replace global messages
+	/**
+	 * Replace global messages
+	 *
+	 * @message The message
+	 * @error The error object
+	 */
 	private void function globalReplacements( required message, required error ){
 		// The rejected value
 		arguments.message = replacenocase( arguments.message, "{rejectedValue}", arguments.error.getRejectedValue(), "all");
@@ -158,25 +173,28 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	}
 
 	/**
-	* Determine if the results had error or not
-	* @fieldThe field to count on (optional)
-	*/
+	 * Determine if the results had error or not
+	 *
+	 * @field The field to count on (optional)
+	 */
 	boolean function hasErrors( string field ){
 		return (arrayLen( getAllErrors(argumentCollection=arguments) ) gt 0);
 	}
 
 	/**
-	* Get how many errors you have
-	* @fieldThe field to count on (optional)
-	*/
+	 * Get how many errors you have
+	 *
+	 * @field The field to count on (optional)
+	 */
 	numeric function getErrorCount( string field ){
 		return arrayLen( getAllErrors(argumentCollection=arguments)  );
 	}
 
 	/**
-	* Get the Errors Array, which is an array of error messages (strings)
-	* @fieldThe field to use to filter the error messages on (optional)
-	*/
+	 * Get the Errors Array, which is an array of error messages (strings)
+	 *
+	 * @field The field to use to filter the error messages on (optional)
+	 */
 	array function getAllErrors( string field ){
 		var errorTarget = errors;
 
@@ -193,8 +211,8 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	}
 
 	/**
-	* Get all errors as flat structure that can easily be used for UI display
-	*/
+	 * Get all errors as flat structure that can easily be used for UI display
+	 */
 	struct function getAllErrorsAsStruct( string field ){
 		var errorTarget = errors;
 
@@ -217,18 +235,21 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	}
 
 	/**
-	* Get all errors or by field as a JSON structure
-	*/
+	 * Get all errors or by field as a JSON structure
+	 */
 	string function getAllErrorsAsJSON( string field ){
 		var results = getAllErrorsAsStruct(argumentcollection=arguments);
 		return serializeJSON( results );
 	}
 
 	/**
-	* Get an error object for a specific field that failed. Throws exception if the field does not exist
-	* @fieldThe field to return error objects on
-	*/
-	IValidationError[] function getFieldErrors( required string field ){
+	 * Get an error object for a specific field that failed. Throws exception if the field does not exist
+	 *
+	 * @field The field to return error objects on
+	 *
+	 * @return IValidationError[]
+	 */
+	array function getFieldErrors( required string field ){
 		var r = [];
 		for( var thisError in errors ){
 			if( thisError.getField() eq arguments.field ){ arrayAppend(r, thisError); }
@@ -237,24 +258,28 @@ component accessors="true" implements="cbvalidation.models.result.IValidationRes
 	}
 
 	/**
-	* Clear All errors
-	*/
-	IValidationResult function clearErrors(){
+	 * Clear All errors
+	 *
+	 * @return IValidationResult
+	 */
+	any function clearErrors(){
 		arrayClear( errors );
 		return this;
 	}
 
 	/**
-	* Get a collection of metadata about the validation results
-	*/
+	 * Get a collection of metadata about the validation results
+	 */
 	struct function getResultMetadata(){
 		return resultMetadata;
 	}
 
 	/**
-	* Set a collection of metadata into the results object
-	*/
-	IValidationResult function setResultMetadata( required struct data ){
+	 * Set a collection of metadata into the results object
+	 *
+	 * @return IValidationResult
+	 */
+	any function setResultMetadata( required struct data ){
 		variables.resultMetadata = arguments.data;
 		return this;
 	}

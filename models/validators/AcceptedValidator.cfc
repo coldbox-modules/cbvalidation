@@ -4,7 +4,7 @@
  * ---
  * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
-component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton {
+component accessors="true" singleton {
 
 	property name="name";
 
@@ -25,7 +25,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	 * @validationDataThe validation data the validator was created with
 	 */
 	boolean function validate(
-		required cbvalidation.models.result.IValidationResult validationResult,
+		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
