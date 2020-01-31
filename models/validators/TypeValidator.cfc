@@ -5,71 +5,164 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 This validator verifies field type
 */
-component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton{
+component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton {
 
 	property name="name";
 
+	/**
+	 * Constructor
+	 */
 	TypeValidator function init(){
-		name 		= "Type";
-		validTypes 	= "alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
+		variables.name       = "Type";
+		variables.validTypes = "alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
+
 		return this;
 	}
 
 	/**
-	* Will check if an incoming value validates
-	* @validationResultThe result object of the validation
-	* @targetThe target object to validate on
-	* @fieldThe field on the target object to validate on
-	* @targetValueThe target value to validate
-	* @validationDataThe validation data the validator was created with
-	*/
-	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue, any validationData){
+	 * Will check if an incoming value validates
+	 * @validationResultThe result object of the validation
+	 * @targetThe target object to validate on
+	 * @fieldThe field on the target object to validate on
+	 * @targetValueThe target value to validate
+	 * @validationDataThe validation data the validator was created with
+	 */
+	boolean function validate(
+		required cbvalidation.models.result.IValidationResult validationResult,
+		required any target,
+		required string field,
+		any targetValue,
+		any validationData
+	){
 		// check incoming type
-		if( !reFindNoCase( "^(#replace(validTypes,",","|","all")#)$", arguments.validationData ) ){
-			throw(message="The Required validator data is invalid: #arguments.validationData#",type="TypeValidator.InvalidValidationData");
+		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", arguments.validationData ) ) {
+			throw(
+				message = "The type you sent is invalid: #arguments.validationData#",
+				detail  = "Valid types are #variables.validTypes#",
+				type    = "TypeValidator.InvalidValidationData"
+			);
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if( isNull(arguments.targetValue) ){ return true; }
+		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+			return true;
+		}
 
 		var r = false;
 
-		switch( arguments.validationData ){
-			case "float" 		: { r = isValid("float",arguments.targetValue); break; }
-			case "ssn" 			: { r = isValid("ssn",arguments.targetValue); break; }
-			case "email"		: { r = isValid("email",arguments.targetValue); break; }
-			case "url"			: { r = isValid("url",arguments.targetValue); break; }
-			case "alpha"		: { r = (reFindNoCase("^[a-zA-Z\s]*$",arguments.targetValue) gt 0); break; }
-			case "boolean"		: { r = isValid("boolean",arguments.targetValue); break; }
-			case "date"			: { r = isValid("date",arguments.targetValue); break; }
-			case "usdate"		: { r = isValid("usdate",arguments.targetValue); break; }
-			case "eurodate"		: { r = isValid("eurodate",arguments.targetValue); break; }
-			case "numeric"		: { r = isValid("numeric",arguments.targetValue); break; }
-			case "guid"			: { r = isValid("guid",arguments.targetValue); break; }
-			case "uuid"			: { r = isValid("uuid",arguments.targetValue); break; }
-			case "integer"		: { r = isValid("integer",arguments.targetValue); break; }
-			case "string"		: { r = isValid("string",arguments.targetValue); break; }
-			case "telephone"	: { r = isValid("telephone",arguments.targetValue); break; }
-			case "zipcode"		: { r = isValid("zipcode",arguments.targetValue); break; }
-			case "ipaddress"	: { r = (refindnocase("\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b",arguments.targetvalue) gt 0); break; }
-			case "creditcard"	: { r = isValid("creditcard",arguments.targetValue); break; }
-			case "component"	: { r = isValid("component",arguments.targetValue); break; }
-			case "query"		: { r = isValid("query",arguments.targetValue); break; }
-			case "struct"		: { r = isValid("struct",arguments.targetValue); break; }
-			case "array"		: { r = isValid("array",arguments.targetValue); break; }
-			case "json"			: { r = isJSON(arguments.targetValue); break; }
-			case "xml"			: { r = isXML(arguments.targetValue); break; }
+		switch ( arguments.validationData ) {
+			case "float": {
+				r = isValid( "float", arguments.targetValue );
+				break;
+			}
+			case "ssn": {
+				r = isValid( "ssn", arguments.targetValue );
+				break;
+			}
+			case "email": {
+				r = isValid( "email", arguments.targetValue );
+				break;
+			}
+			case "url": {
+				r = isValid( "url", arguments.targetValue );
+				break;
+			}
+			case "alpha": {
+				r = ( reFindNoCase( "^[a-zA-Z\s]*$", arguments.targetValue ) gt 0 );
+				break;
+			}
+			case "boolean": {
+				r = isValid( "boolean", arguments.targetValue );
+				break;
+			}
+			case "date": {
+				r = isValid( "date", arguments.targetValue );
+				break;
+			}
+			case "usdate": {
+				r = isValid( "usdate", arguments.targetValue );
+				break;
+			}
+			case "eurodate": {
+				r = isValid( "eurodate", arguments.targetValue );
+				break;
+			}
+			case "numeric": {
+				r = isValid( "numeric", arguments.targetValue );
+				break;
+			}
+			case "guid": {
+				r = isValid( "guid", arguments.targetValue );
+				break;
+			}
+			case "uuid": {
+				r = isValid( "uuid", arguments.targetValue );
+				break;
+			}
+			case "integer": {
+				r = isValid( "integer", arguments.targetValue );
+				break;
+			}
+			case "string": {
+				r = isValid( "string", arguments.targetValue );
+				break;
+			}
+			case "telephone": {
+				r = isValid( "telephone", arguments.targetValue );
+				break;
+			}
+			case "zipcode": {
+				r = isValid( "zipcode", arguments.targetValue );
+				break;
+			}
+			case "ipaddress": {
+				r = (
+					reFindNoCase(
+						"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b",
+						arguments.targetvalue
+					) gt 0
+				);
+				break;
+			}
+			case "creditcard": {
+				r = isValid( "creditcard", arguments.targetValue );
+				break;
+			}
+			case "component": {
+				r = isValid( "component", arguments.targetValue );
+				break;
+			}
+			case "query": {
+				r = isValid( "query", arguments.targetValue );
+				break;
+			}
+			case "struct": {
+				r = isValid( "struct", arguments.targetValue );
+				break;
+			}
+			case "array": {
+				r = isValid( "array", arguments.targetValue );
+				break;
+			}
+			case "json": {
+				r = isJSON( arguments.targetValue );
+				break;
+			}
+			case "xml": {
+				r = isXML( arguments.targetValue );
+				break;
+			}
 		}
 
-		if( !r ){
+		if ( !r ) {
 			var args = {
-				message        = "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
-				field          = arguments.field,
-				validationType = getName(),
-				rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
-				validationData = arguments.validationData
+				message        : "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
+				field          : arguments.field,
+				validationType : getName(),
+				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+				validationData : arguments.validationData
 			};
-			var error = validationResult.newError(argumentCollection=args).setErrorMetadata({type=arguments.validationData});
+			var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { type : arguments.validationData } );
 			validationResult.addError( error );
 		}
 
@@ -77,10 +170,10 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	}
 
 	/**
-	* Get the name of the validator
-	*/
+	 * Get the name of the validator
+	 */
 	string function getName(){
-		return name;
+		return variables.name;
 	}
 
 }

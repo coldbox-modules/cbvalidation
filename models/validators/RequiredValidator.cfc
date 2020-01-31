@@ -5,75 +5,94 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 This validator checks if a field has value and not null
 */
-component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton{
+component accessors="true" implements="cbvalidation.models.validators.IValidator" singleton {
 
 	property name="name";
 
+	/**
+	 * Constructor
+	 */
 	RequiredValidator function init(){
-		name = "Required";
+		variables.name = "Required";
 		return this;
 	}
 
 	/**
-	* Will check if an incoming value validates
-	* @validationResultThe result object of the validation
-	* @targetThe target object to validate on
-	* @fieldThe field on the target object to validate on
-	* @targetValueThe target value to validate
-	* @validationDataThe validation data the validator was created with
-	*/
-	boolean function validate(required cbvalidation.models.result.IValidationResult validationResult, required any target, required string field, any targetValue, any validationData){
+	 * Will check if an incoming value validates
+	 * @validationResultThe result object of the validation
+	 * @targetThe target object to validate on
+	 * @fieldThe field on the target object to validate on
+	 * @targetValueThe target value to validate
+	 * @validationDataThe validation data the validator was created with
+	 */
+	boolean function validate(
+		required cbvalidation.models.result.IValidationResult validationResult,
+		required any target,
+		required string field,
+		any targetValue,
+		any validationData
+	){
 		// check
-		if( !isBoolean(arguments.validationData) ){
-			throw(message="The Required validator data needs to be boolean and you sent in: #arguments.validationData#",type="RequiredValidator.InvalidValidationData");
+		if ( !isBoolean( arguments.validationData ) ) {
+			throw(
+				message = "The Required validator data needs to be boolean and you sent in: #arguments.validationData#",
+				type    = "RequiredValidator.InvalidValidationData"
+			);
 		}
 		// return true if not required, nothing needed to check
-		if( !arguments.validationData ){ return true; }
+		if ( !arguments.validationData ) {
+			return true;
+		}
 
 		// null checks
-		if( isNull(arguments.targetValue) ){
-			var args = {message="The '#arguments.field#' value is null",field=arguments.field,validationType=getName(),validationData=arguments.validationData};
-			validationResult.addError( validationResult.newError(argumentCollection=args) );
+		if ( isNull( arguments.targetValue ) ) {
+			var args = {
+				message        : "The '#arguments.field#' value is null",
+				field          : arguments.field,
+				validationType : getName(),
+				validationData : arguments.validationData
+			};
+			validationResult.addError( validationResult.newError( argumentCollection = args ) );
 			return false;
 		}
 
 		// Simple Tests
-		if( isSimpleValue(arguments.targetValue) AND len(trim( arguments.targetValue )) ){
+		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
 			return true;
 		}
 		// Array Tests
-		if( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ){
+		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
 			return true;
 		}
 		// Query Tests
-		if( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ){
+		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
 			return true;
 		}
 		// Struct Tests
-		if( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ){
+		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
 			return true;
 		}
 		// Object
-		if( isObject( arguments.targetValue ) ){
+		if ( isObject( arguments.targetValue ) ) {
 			return true;
 		}
 		var args = {
-			message        = "The '#arguments.field#' value is required",
-			field          = arguments.field,
-			validationType = getName(),
-			rejectedValue  = ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : '' ),
-			validationData = arguments.validationData
+			message        : "The '#arguments.field#' value is required",
+			field          : arguments.field,
+			validationType : getName(),
+			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+			validationData : arguments.validationData
 		};
 
-		validationResult.addError( validationResult.newError(argumentCollection=args) );
+		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 		return false;
 	}
 
 	/**
-	* Get the name of the validator
-	*/
+	 * Get the name of the validator
+	 */
 	string function getName(){
-		return name;
+		return variables.name;
 	}
 
 }

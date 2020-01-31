@@ -4,32 +4,38 @@ Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.MethodValidator"{
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.MethodValidator" {
 
 	function setup(){
 		super.setup();
 		model.init();
 	}
-	
+
 	function testValidate(){
-		result = getMockBox().createMock("cbvalidation.models.result.ValidationResult").init();
-		
-		mock = getMockBox().createStub()
-			.$("validate",false)
-			.$("coolValidate",true);
-		
+
+		var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+		var mock = createStub().$( "validate", false ).$( "coolValidate", true );
+
+
 		// call coolvalidate
-		r = model.validate(result,mock,'test', 55, "coolValidate");
+		var r = model.validate(
+			result,
+			mock,
+			"test",
+			55,
+			"coolValidate"
+		);
 		assertEquals( true, r );
-		
+
 		// call validate = false
-		r = model.validate(result,mock,'test',"woot","validate");
+		var r = model.validate(
+			result,
+			mock,
+			"test",
+			"woot",
+			"validate"
+		);
 		assertEquals( false, r );
-		
-		// call with null value
-		r = model.validate(result,mock,'test', javaCast("null","") ,"validate");
-		assertEquals( false, r );
-		
 	}
-	
+
 }

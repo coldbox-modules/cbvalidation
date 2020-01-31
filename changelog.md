@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 2.0.0
+
+* `Features` : Removed all interface usages since all cfml engines suck on it.
+* `Improvements` : Consistency on all validators to ignore null or empty values except the `Required` validator
+* `Improvements` : Formatting consistencies
+* `Improvements` : Improve error messages to describe better validation
+* `Improvements` : Get away from `evaluate()` instead use `invoke()`
+* `Bugs` : Fixed lots of wrong type exceptions
+* `Compat` : Remove ACF11 support
+
 ## 1.5.2
 
 * `bug` : Added `float` to the type validator which was missing

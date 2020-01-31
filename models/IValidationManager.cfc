@@ -7,7 +7,7 @@
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-interface{
+interface {
 
 	/**
 	 * Validate an object
@@ -25,9 +25,9 @@ interface{
 		required any target,
 		string fields,
 		any constraints,
-		string locale="",
-		string excludeFields="",
-		string includeFields=""
+		string locale        = "",
+		string excludeFields = "",
+		string includeFields = ""
 	);
 
 	/**
@@ -58,4 +58,5 @@ interface{
 	 * @constraintThe constraint to store.
 	 */
 	IValidationManager function addSharedConstraint( required string name, required struct constraint );
+
 }

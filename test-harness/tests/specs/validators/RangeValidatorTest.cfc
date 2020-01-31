@@ -4,7 +4,7 @@ Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RangeValidator"{
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RangeValidator" {
 
 	function setup(){
 		super.setup();
@@ -12,17 +12,16 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testValidateSimple(){
-		result = getMockBox().createMock("cbvalidation.models.result.ValidationResult").init();
+		result = getMockBox().createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-		r = model.validate(result,this,'test',"10","1..10");
+		r = model.validate( result, this, "test", "10", "1..10" );
 		assertEquals( true, r );
 
-		r = model.validate(result,this,'test',"3","3..20");
+		r = model.validate( result, this, "test", "3", "3..20" );
 		assertEquals( true, r );
 
-		r = model.validate(result,this,'test',"123","5..9");
+		r = model.validate( result, this, "test", "123", "5..9" );
 		assertEquals( false, r );
-
-
 	}
+
 }

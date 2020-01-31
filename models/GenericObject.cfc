@@ -6,14 +6,14 @@
  * Great for when you want to validate a form that is not represented by an object.
  * A generic object that can simulate an object getters from a collection structure.
  */
-component{
+component {
 
 	/**
 	 * Constructor
 	 *
 	 * @memento The struct to represent
 	 */
-	GenericObject function init( struct memento=structNew() ){
+	GenericObject function init( struct memento = structNew() ){
 		variables.collection = arguments.memento;
 		return this;
 	}
@@ -32,12 +32,13 @@ component{
 	 * @missingMethodArguments
 	 */
 	any function onMissingMethod( required string missingMethodName, required struct missingMethodArguments ){
-		var key = replacenocase( arguments.missingMethodName, "get", "" );
+		var key = replaceNoCase( arguments.missingMethodName, "get", "" );
 
-		if( structKeyExists( variables.collection, key ) ){
+		if ( structKeyExists( variables.collection, key ) ) {
 			return variables.collection[ key ];
 		}
 
 		// Return null
 	}
+
 }
