@@ -1,13 +1,12 @@
 /**
- * *******************************************************************************
- * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
+ * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
- * *******************************************************************************
+ * ---
  * The ColdBox validation manager interface, all inspired by awesome Hyrule Validation Framework by Dan Vega
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-interface{
+interface {
 
 	/**
 	 * Validate an object
@@ -19,15 +18,15 @@ interface{
 	 * @excludeFieldsAn optional list of fields to exclude from the validation.
 	 * @includeFieldsAn optional list of fields to include in the validation.
 	 *
-	 * @result ValidationResult object
+	 * @return IValidationResult
 	 */
-	IValidationResult function validate(
+	any function validate(
 		required any target,
 		string fields,
 		any constraints,
-		string locale="",
-		string excludeFields="",
-		string includeFields=""
+		string locale        = "",
+		string excludeFields = "",
+		string includeFields = ""
 	);
 
 	/**
@@ -48,14 +47,19 @@ interface{
 	 * Set the shared constraints into the validation manager, usually these are described in the ColdBox configuraiton file
 	 *
 	 * @constraintsFilter by name or not
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function setSharedConstraints( struct constraints );
+	any function setSharedConstraints( struct constraints );
 
 	/**
 	 * Store a shared constraint
 	 *
 	 * @nameFilter by name or not
 	 * @constraintThe constraint to store.
+	 *
+	 * @return IValidationManager
 	 */
-	IValidationManager function addSharedConstraint( required string name, required struct constraint );
+	any function addSharedConstraint( required string name, required struct constraint );
+
 }

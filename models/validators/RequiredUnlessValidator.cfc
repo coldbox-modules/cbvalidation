@@ -4,15 +4,15 @@
  * ---
  * This validator checks if a field has value and not null
  */
-component accessors="true" singleton {
+component accessors="true" extends="RequiredValidator" singleton {
 
 	property name="name";
 
 	/**
 	 * Constructor
 	 */
-	RequiredValidator function init(){
-		variables.name = "Required";
+	RequiredUnlessValidator function init(){
+		variables.name = "RequiredUnless";
 		return this;
 	}
 
@@ -31,19 +31,28 @@ component accessors="true" singleton {
 		any targetValue,
 		any validationData
 	){
-		// check
-		if ( !isBoolean( arguments.validationData ) ) {
-			throw(
-				message = "The Required validator data needs to be boolean and you sent in: #arguments.validationData#",
-				type    = "RequiredValidator.InvalidValidationData"
-			);
-		}
+		// Validation Data Format: property:value,...
+		var validationArray = arguments.validationData.listToArray();
+		// Inflate to array to test multiple properties
+		var isOptional = validationArray
+			.map( function( item ){
+				// Get comparison values
+				var compareProperty 		= getToken( arguments.item, 1, ":" );
+				var compareValue 			= getToken( arguments.item, 2, ":" );
+				var comparePropertyValue 	= invoke( target, "get#compareProperty#" );
+				// Check if the compareValue is the same as the defined one
+				return ( compareValue == comparePropertyValue ? true : false );
+			} )
+			// AND them all for a single result
+			.reduce( function( result, item ){
+				return ( arguments.item && arguments.result );
+			}, true );
 
-		// return true if not required, nothing needed to check
-		if ( !arguments.validationData ) {
+		if( validationArray.len() && isOptional ){
 			return true;
 		}
 
+		// Else target is required
 		// Check For Value
 		if( !isNull( arguments.targetValue ) && hasValue( arguments.targetValue ) ){
 			return true;
@@ -60,41 +69,6 @@ component accessors="true" singleton {
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 		return false;
-	}
-
-	/**
-	 * Verify if the target value has value
-	 */
-	boolean function hasValue( required targetValue ){
-		// Simple Tests
-		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
-			return true;
-		}
-		// Array Tests
-		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
-			return true;
-		}
-		// Query Tests
-		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
-			return true;
-		}
-		// Struct Tests
-		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
-			return true;
-		}
-		// Object
-		if ( isObject( arguments.targetValue ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

@@ -2,7 +2,7 @@
  * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
  * ---
- * This validator validates if a field is the same as another field with no case sensitivity
+ * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
 component accessors="true" singleton {
 
@@ -11,8 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	SameAsNoCaseValidator function init(){
-		variables.name = "SameAsNoCase";
+	AcceptedValidator function init(){
+		variables.name = "Accepted";
 		return this;
 	}
 
@@ -31,32 +31,23 @@ component accessors="true" singleton {
 		any targetValue,
 		any validationData
 	){
-		// get secondary value from property
-		var compareValue = invoke( arguments.target, "get#arguments.validationData#" );
-
-		// Check if both null values
-		if( isNull( arguments.targetValue ) && isNull( compareValue ) ){
-			return true;
-		}
-
 		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
 			return true;
 		}
 
-		// Evaluate now
-		if( compareNoCase( arguments.targetValue, compareValue ) EQ 0 ) {
+		if ( listFindNoCase( "1,yes,true,on", arguments.targetValue ) ) {
 			return true;
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value is not the same as #compareValue.toString()#",
+			message        : "The '#arguments.field#' is not a 1, yes, true or on",
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { sameas : arguments.validationData } );
+		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { max : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
 	}

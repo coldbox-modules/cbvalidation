@@ -4,7 +4,7 @@ Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.GenericObject"{
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.GenericObject" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
@@ -12,7 +12,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function beforeAll(){
 		super.beforeAll();
 		super.setup();
-		model.init( { name="luis", age="33" } );
+		model.init( { name : "luis", age : "33" } );
 	}
 
 	// executes after all suites+specs in the run() method
@@ -20,23 +20,23 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		super.afterAll();
 	}
 
-/*********************************** BDD SUITES ***********************************/
+	/*********************************** BDD SUITES ***********************************/
 
 	function run( testResults, testBox ){
-		
 		// all your suites go here.
 		describe( "Generic Object", function(){
-
 			it( "can do getters", function(){
 				expect( model.getName() ).toBe( "luis" );
 				expect( model.getAge() ).toBe( "33" );
-			});
-
-			it( title="can do null getters", body=function(){
-				expect( model.getInvalid() ).toBeNull();
 			} );
 
-		});
+			it(
+				title = "can do null getters",
+				body  = function(){
+					expect( model.getInvalid() ).toBeNull();
+				}
+			);
+		} );
 	}
 
 }
