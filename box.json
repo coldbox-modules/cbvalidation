@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"2.0.0",
+    "version":"2.1.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -31,9 +31,9 @@
         ".git*"
     ],
     "scripts":{
-		"toMaster":"recipe build/toMaster.boxr",
-		"format":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
-		"format:check":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --check",
-		"lint":"cflint models/**.cfc --text --html --json --!exitOnError --suppress"
+        "toMaster":"recipe build/toMaster.boxr",
+        "format":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
+        "format:check":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --check",
+        "lint":"cflint models/**.cfc --text --html --json --!exitOnError --suppress"
     }
 }
