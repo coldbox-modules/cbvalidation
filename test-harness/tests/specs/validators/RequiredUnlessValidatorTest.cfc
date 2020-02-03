@@ -25,7 +25,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			it( "can make targets required unless the properties passed have the right value", function(){
 				var mock = createStub()
 					.$( "getName", "luis" )
-					.$( "getRole", "admin" );
+                    .$( "getRole", "admin" )
+                    .$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 				expect(
@@ -59,11 +60,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				expect(
 					model.validate( result, mock, "testField", javaCast( "null", "" ), "name:luis" )
 				).toBeTrue();
-				
+
 				expect(
 					model.validate( result, mock, "testField", javaCast( "null", "" ), "missing" )
 				).toBeFalse();
-				
+
 				expect(
 					model.validate( result, mock, "testField", "not null", "missing" )
 				).toBeTrue();
