@@ -29,22 +29,35 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis" )
+					model.validate( result, mock, "testField", "", {
+						name : "luis"
+					} )
 				).toBeFalse();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "", {
+						name : "luis",
+						role : "admin"
+					} )
 				).toBeFalse();
 				expect(
-					model.validate( result, mock, "testField", "test", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "test", {
+						name : "luis",
+						role : "admin"
+					} )
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "shouldPass", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "shouldPass", {
+						name : "luis",
+						role : "admin"
+					} )
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis" )
+					model.validate( result, mock, "testField", "", {
+						name : "luis"
+					} )
 				).toBeFalse();
 
 

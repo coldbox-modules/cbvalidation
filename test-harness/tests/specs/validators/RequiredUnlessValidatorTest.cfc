@@ -28,36 +28,55 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					.$( "getRole", "admin" );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
+
+				// Empty string for validation data
 				expect(
 					model.validate( result, mock, "testField", "", "" )
 				).toBeFalse();
 
+				// Empty struct for validation data
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "", {} )
+				).toBeFalse();
+
+
+
+				expect(
+					model.validate( result, mock, "testField", "shouldPass", {
+						"name"  : "luis",
+						"role" 	: "admin"
+					} )
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "shouldPass", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "", {
+						"name"  : "luis",
+						"role" 	: "admin"
+					} )
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis,role:admin" )
+					model.validate( result, mock, "testField", "", {
+						"name"  : "luis"
+					} )
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis" )
-				).toBeTrue();
-
-				expect(
-					model.validate( result, mock, "testField", "", "name:luiss" )
+					model.validate( result, mock, "testField", "", {
+						"name"  : "luiss"
+					} )
 				).toBeFalse();
 
 				expect(
-					model.validate( result, mock, "testField", javaCast( "null", "" ), "name:luiss" )
+					model.validate( result, mock, "testField", javaCast( "null", "" ), {
+						"name"  : "luiss"
+					} )
 				).toBeFalse();
 
 				expect(
-					model.validate( result, mock, "testField", javaCast( "null", "" ), "name:luis" )
+					model.validate( result, mock, "testField", javaCast( "null", "" ), {
+						"name"  : "luis"
+					} )
 				).toBeTrue();
 
 			} );
