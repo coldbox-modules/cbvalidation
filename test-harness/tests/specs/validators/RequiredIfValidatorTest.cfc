@@ -47,8 +47,13 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					model.validate( result, mock, "testField", "", "name:luis" )
 				).toBeFalse();
 
-
-
+				expect(
+				    model.validate( result, mock, "testField", javacast( "null", "" ), "notfound" )
+				).toBeFalse();
+				
+				expect(
+				    model.validate( result, mock, "testField", "shouldPass", "notfound" )
+				).toBeTrue();
 			} );
 
 		});
