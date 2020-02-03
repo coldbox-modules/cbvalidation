@@ -18,11 +18,12 @@ component accessors="true" singleton {
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 *
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
 	 */
 	boolean function validate(
 		required any validationResult,

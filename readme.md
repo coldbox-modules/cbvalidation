@@ -153,6 +153,12 @@ this.constraints = {
 
 		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
 		udf = variables.UDF or this.UDF or a closure.
+
+		// Check if a column is unique in the database
+		unique = {
+			table : The table name,
+			column : The column to check, defaults to the property field in check
+		}
 		
 		// Custom validator, must implement coldbox.system.validation.validators.IValidator
 		validator : path or wirebox id, example: 'mypath.MyValidator' or 'id:MyValidator'
