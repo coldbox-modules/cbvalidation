@@ -41,7 +41,10 @@ component accessors="true" extends="RequiredValidator" singleton {
 				var compareValue 			= getToken( arguments.item, 2, ":" );
 				var comparePropertyValue 	= invoke( target, "get#compareProperty#" );
 				// Check if the compareValue is the same as the defined one
-				return ( compareValue == comparePropertyValue ? true : false );
+                if ( isNull( compareValue ) || isNull( comparePropertyValue ) ) {
+                    return isNull( compareValue ) == isNull( comparePropertyValue );
+                }
+				return compareValue == comparePropertyValue;
 			} )
 			// AND them all for a single result
 			.reduce( function( result, item ){
