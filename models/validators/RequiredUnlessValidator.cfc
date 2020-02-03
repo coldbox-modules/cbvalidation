@@ -38,12 +38,17 @@ component accessors="true" extends="RequiredValidator" singleton {
 			.map( function( item ){
 				// Get comparison values
 				var compareProperty 		= getToken( arguments.item, 1, ":" );
-				var compareValue 			= getToken( arguments.item, 2, ":" );
+                var compareValue 			= getToken( arguments.item, 2, ":" );
 				var comparePropertyValue 	= invoke( target, "get#compareProperty#" );
-				// Check if the compareValue is the same as the defined one
-                if ( isNull( compareValue ) || isNull( comparePropertyValue ) ) {
-                    return isNull( compareValue ) == isNull( comparePropertyValue );
+                // Check if the compareValue is the same as the defined one
+                if ( isNull( comparePropertyValue ) ) {
+                    return !isNull( targetValue );
                 }
+
+                if ( compareValue == "" ) {
+                    return true;
+                }
+
 				return compareValue == comparePropertyValue;
 			} )
 			// AND them all for a single result

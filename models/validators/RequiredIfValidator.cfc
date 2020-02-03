@@ -37,14 +37,17 @@ component accessors="true" extends="RequiredValidator" singleton {
 		var isRequired = validationArray
 			.map( function( item ){
 				// Get comparison values
-				var compareProperty 		= getToken( arguments.item, 1, ":" );
+                var compareProperty 		= getToken( arguments.item, 1, ":" );
+                var shouldCheckValue        = listLen( arguments.item, ":" ) >= 2;
 				var compareValue 			= getToken( arguments.item, 2, ":" );
 				var comparePropertyValue 	= invoke( target, "get#compareProperty#" );
-                // Check if the compareValue is the same as the defined one
-                if ( isNull( comparePropertyValue ) ) {
-                    return !isNull( compareValue );
+
+                if ( shouldCheckValue ) {
+                    return !isNull( comparePropertyValue ) && compareValue == comparePropertyValue;
                 }
-				return compareValue == comparePropertyValue;
+
+                return !isNull(comparePropertyValue)
+                // Check if the compareValue is the same as the defined one
 			} )
 			// AND them all for a single result
 			.reduce( function( result, item ){
