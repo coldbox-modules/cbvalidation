@@ -2,7 +2,8 @@
  * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
  * ---
- * This validator checks if a field has value and not null
+ * This validator checks a struct of key-value pairs passed in the validation data.
+ * If those key-value pairs are equal then the target field will NOT be required
  */
 component accessors="true" extends="RequiredValidator" singleton {
 
@@ -18,11 +19,12 @@ component accessors="true" extends="RequiredValidator" singleton {
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 *
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -31,32 +33,26 @@ component accessors="true" extends="RequiredValidator" singleton {
 		any targetValue,
 		any validationData
 	){
-		// Validation Data Format: property:value,...
-		var validationArray = arguments.validationData.listToArray();
-		// Inflate to array to test multiple properties
-		var isOptional = validationArray
-			.map( function( item ){
+		// If you passed in simple data, conver it to a struct, simple values are not evaluated
+		if( isSimpleValue( arguments.validationData ) ){
+			arguments.validationData = {};
+		}
+
+		// Test the data
+		var isOptional = arguments.validationData
+			.map( function( key, value ){
 				// Get comparison values
-				var compareProperty 		= getToken( arguments.item, 1, ":" );
-                var compareValue 			= getToken( arguments.item, 2, ":" );
-				var comparePropertyValue 	= invoke( target, "get#compareProperty#" );
-                // Check if the compareValue is the same as the defined one
-                if ( isNull( comparePropertyValue ) ) {
-                    return !isNull( targetValue );
-                }
-
-                if ( compareValue == "" ) {
-                    return true;
-                }
-
-				return compareValue == comparePropertyValue;
+				var comparePropertyValue = invoke( target, "get#key#" );
+				// Check if the compareValue is the same as the defined one
+				return ( arguments.value == comparePropertyValue ? true : false );
 			} )
 			// AND them all for a single result
-			.reduce( function( result, item ){
-				return ( arguments.item && arguments.result );
+			.reduce( function( result, key, value ){
+				return ( arguments.value && arguments.result );
 			}, true );
 
-		if( validationArray.len() && isOptional ){
+		// If we have data, then test the optional
+		if( arguments.validationData.count() && isOptional ){
 			return true;
 		}
 
