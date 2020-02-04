@@ -107,7 +107,7 @@ component
 						javacast( "null", "" ),
 						{ missing : javacast( "null", "" ) }
 					)
-				).toBeFalse();
+				).toBeTrue();
 
 				expect(
 					model.validate(
