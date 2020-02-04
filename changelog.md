@@ -30,7 +30,6 @@
 * `Bugs` : Fixed lots of wrong type exceptions
 * `Compat` : Remove ACF11 support
 
-`requiredUnless=role,test
 ---
 
 ## 1.5.2
