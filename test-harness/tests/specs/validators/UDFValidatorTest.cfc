@@ -32,9 +32,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			55,
 			variables.validate2
 		);
-        assertEquals( true, r );
+		assertEquals( true, r );
 
-        // null
+		// null
 		r = model.validate(
 			result,
 			this,
@@ -42,7 +42,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			javacast( "null", "" ),
 			variables.validate3
 		);
-        assertEquals( false, r );
+		assertEquals( false, r );
 	}
 
 	private function validate( value, target ){
@@ -51,10 +51,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	private function validate2( value, target ){
 		return arguments.value gt 4;
-    }
+	}
 
-    private function validate3( value, target ){
-        return false;
-    }
+	private function validate3( value, target ){
+		return false;
+	}
 
 }

@@ -9,6 +9,7 @@
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return cbvalidation.model.result.IValidationResult
  */
@@ -26,6 +27,7 @@ function validate(){
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return The validated object or the structure fields that where validated
  * @throws ValidationException

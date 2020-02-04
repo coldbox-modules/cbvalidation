@@ -2,9 +2,10 @@
 
 ## 2.1.0
 
+* `feature` : Added `constraintProfiles` to allow you to define which fields to validate according to defined profiles: https://github.com/coldbox-modules/cbvalidation/issues/37
 * `feature` : Updated `RequiredUnless` and `RequiredIf` to use struct literal notation instead of the weird parsing we did.
 * `feature` : Added the `Unique` validator thanks to @elpete!
-* `improvement` : Added `null` support for the `RequiredIf,RequiredUnless` validators
+* `improvement` : Added `null` support for the `RequiredIf,RequiredUnless` validator values
 
 ## 2.0.0
 
@@ -13,8 +14,8 @@
 * No more manual discovery of validators, automated registration and lookup process, cleaned lots of code on this one!
 * New Validator: `Accepted` - The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
 * New Validator: `Alpha` - Only allows alphabetic characters
-* New Validator: `RequiredUnless` with validation data: `anotherField:value,...`  -  The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed `value`.
-* New Validator: `RequiredIf` with validation data: `anotherField:value,...`  -  The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
+* New Validator: `RequiredUnless` with validation data as a struct literal `{ anotherField:value, ... }`  -  The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed `value`.
+* New Validator: `RequiredIf` with validation data as a struct literal `{ anotherField:value, ... }`  -  The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
 * Accelerated validation by removing type checks. ACF chokes on interface checks
 
 ### Improvements
