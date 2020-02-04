@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.1
+
+* Updated `RequiredUnless` and `RequiredIf` to use struct literal notation instead of the weird parsing we did.
+* Added the `Unique` validator thanks to @elpete!
+
 ## 2.0.0
 
 ### Features
