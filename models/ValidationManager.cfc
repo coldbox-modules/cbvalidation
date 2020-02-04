@@ -117,6 +117,7 @@ component accessors="true" serialize="false" singleton {
 	 * @locale An optional locale to use for i18n messages
 	 * @excludeFields An optional list of fields to exclude from the validation.
 	 * @IncludeFields An optional list of fields to include in the validation.
+	 * @profiles If passed, a list of profile names to use for validation constraints
 	 *
 	 * @return IValidationResult
 	 */
@@ -126,7 +127,8 @@ component accessors="true" serialize="false" singleton {
 		any constraints      = "",
 		string locale        = "",
 		string excludeFields = "",
-		string includeFields = ""
+		string includeFields = "",
+		string profiles = ""
 	){
 		var targetName = "";
 
@@ -152,9 +154,37 @@ component accessors="true" serialize="false" singleton {
 				locale          : arguments.locale,
 				targetName      : targetName,
 				resourceService : resourceService,
-				constraints     : allConstraints
+				constraints     : allConstraints,
+				profiles		: arguments.profiles
 			}
 		);
+
+		// Discover profiles, and update the includeFields list from it
+		if( len( arguments.profiles ) ){
+			arguments.includeFields = arguments.profiles
+				.listToArray()
+				// Check if profiles defined in target and iterated one exists
+				.filter( function( profileKey ){
+					return structKeyExists( target, "constraintProfiles" ) && structKeyExists( target.constraintProfiles, profileKey );
+				} )
+				// Incorporate fields from each profile
+				.map( function( profileKey ){
+					// iterate all declared profile fields and incorporate into the includeFields
+					return target.constraintProfiles
+						.find( arguments.profileKey )
+						.listToArray();
+				} )
+				// Reduce all fields into a single hashset to do a distinct collection
+				.reduce( function( result, item ){
+					item
+						.each( function( thisField ){
+							result.add( thisField );
+						} );
+					return result;
+				}, createObject( "java", "java.util.HashSet" ) )
+				.toArray();
+			arguments.includeFields = arrayToList( arguments.includeFields );
+		}
 
 		// iterate over constraints defined
 		for ( var thisField in allConstraints ) {
@@ -193,6 +223,7 @@ component accessors="true" serialize="false" singleton {
 	 * @locale An optional locale to use for i18n messages
 	 * @excludeFields An optional list of fields to exclude from the validation.
 	 * @IncludeFields An optional list of fields to include in the validation.
+	 * @profiles If passed, a list of profile names to use for validation constraints
 	 *
 	 * @throws ValidationException
 	 * @return any,struct: The target object that was validated, or the structure fields that where validated.
@@ -203,7 +234,8 @@ component accessors="true" serialize="false" singleton {
 		any constraints      = "",
 		string locale        = "",
 		string excludeFields = "",
-		string includeFields = ""
+		string includeFields = "",
+		string profiles 	 = ""
 	){
 		var vResults = this.validate( argumentCollection = arguments );
 

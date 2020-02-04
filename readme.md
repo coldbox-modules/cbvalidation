@@ -25,75 +25,7 @@ Leverage CommandBox to install:
 
 `box install cbvalidation`
 
-The module will register several objects into WireBox using the `@cbvalidation` namespace.  The validation manager is registered as `ValidationManager@cbvalidation`.  It will also register several helper methods that can be used throughout the ColdBox application.
-
-## Constraints
-
-Please check out the docs for the latest on constraints: https://coldbox-validation.ortusbooks.com/overview/valid-constraints.  Constraints rely on rules you apply to incoming fields of data. They can be created on objects or stored wherever you like, as long as you pass them to the validation methods.
-
-Each property can have one or more constraints attached to it.  In an object you can create a `this.constraints` and declare them by the fields you like:
-
-```js
-this.constraints = {
-
-	propertyName = {
-		// The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
-		accepted : any value,
-
-		// The field must be alpahbetical ONLY
-		alpha : any value,
-
-		// discrete math modifiers
-		discrete : (gt,gte,lt,lte,eq,neq):value
-
-		// value in list
-		inList : list,
-
-		// max value
-		max : value,
-
-		// Validation method to use in the target object must return boolean accept the incoming value and target object 
-		method : methodName,
-
-		// min value
-		min : value,
-
-		// range is a range of values the property value should exist in
-		range : eg: 1..10 or 5..-5,
-		
-		// regex validation
-		regex : valid no case regex
-
-		// required field or not, includes null values
-		required : boolean [false],
-
-		// The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
-		requiredIf : anotherfield:value,anotherfield:value,...
-		
-		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
-		requiredUnless : anotherfield:value,anotherfield:value,...
-		
-		// same as but with no case
-		sameAsNoCase : propertyName
-
-		// same as another property
-		sameAs : propertyName
-
-		// size or length of the value which can be a (struct,string,array,query)
-		size  : numeric or range, eg: 10 or 6..8
-
-		// specific type constraint, one in the list.
-		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
-
-		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
-		udf = variables.UDF or this.UDF or a closure.
-		
-		// Custom validator, must implement coldbox.system.validation.validators.IValidator
-		validator : path or wirebox id, example: 'mypath.MyValidator' or 'id:MyValidator'
-	}
-
-}
-```
+The module will register several objects into WireBox using the `@cbvalidation` namespace.  The validation manager is registered as `ValidationManager@cbvalidation`.  It will also register several helper methods that can be used throughout the ColdBox application: `validate(), validateOrFail(), getValidationManager()`
 
 ## Mixins
 
@@ -157,7 +89,83 @@ validation = {
 
 You can read more about ColdBox Validation here: - https://coldbox-validation.ortusbooks.com/
 
----
+## Constraints
+
+Please check out the docs for the latest on constraints: https://coldbox-validation.ortusbooks.com/overview/valid-constraints.  Constraints rely on rules you apply to incoming fields of data. They can be created on objects or stored wherever you like, as long as you pass them to the validation methods.
+
+Each property can have one or more constraints attached to it.  In an object you can create a `this.constraints` and declare them by the fields you like:
+
+```js
+this.constraints = {
+
+	propertyName = {
+		// The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
+		accepted : any value,
+
+		// The field must be alpahbetical ONLY
+		alpha : any value,
+
+		// discrete math modifiers
+		discrete : (gt,gte,lt,lte,eq,neq):value
+
+		// value in list
+		inList : list,
+
+		// max value
+		max : value,
+
+		// Validation method to use in the target object must return boolean accept the incoming value and target object 
+		method : methodName,
+
+		// min value
+		min : value,
+
+		// range is a range of values the property value should exist in
+		range : eg: 1..10 or 5..-5,
+		
+		// regex validation
+		regex : valid no case regex
+
+		// required field or not, includes null values
+		required : boolean [false],
+
+		// The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
+		requiredIf : {
+			anotherfield:value, anotherfield:value
+		}
+		
+		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
+		requiredUnless : {
+			anotherfield:value, anotherfield:value
+		}
+		
+		// same as but with no case
+		sameAsNoCase : propertyName
+
+		// same as another property
+		sameAs : propertyName
+
+		// size or length of the value which can be a (struct,string,array,query)
+		size  : numeric or range, eg: 10 or 6..8
+
+		// specific type constraint, one in the list.
+		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+
+		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
+		udf = variables.UDF or this.UDF or a closure.
+
+		// Check if a column is unique in the database
+		unique = {
+			table : The table name,
+			column : The column to check, defaults to the property field in check
+		}
+		
+		// Custom validator, must implement coldbox.system.validation.validators.IValidator
+		validator : path or wirebox id, example: 'mypath.MyValidator' or 'id:MyValidator'
+	}
+
+}
+```
 
 ```
 ********************************************************************************

@@ -57,14 +57,27 @@ component{
 	}
 
 	/**
-	* validateOrFailWithObject
-	*/
+	 * validateOrFailWithObject
+	 */
 	function validateOrFailWithObject( event, rc, prc ){
 
 		var oModel = populateModel( "User" );
 
 		// validate
 		prc.object = validateOrFail( oModel );
+
+		return "Validated";
+	}
+
+	/**
+	 * validateOrFailWithObjectProfiles
+	 */
+	function validateOrFailWithProfiles( event, rc, prc ){
+
+		var oModel = populateModel( "User" );
+
+		// validate
+		prc.object = validateOrFail( target=oModel, profiles=rc._profiles );
 
 		return "Validated";
 	}

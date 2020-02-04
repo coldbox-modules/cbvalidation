@@ -31,13 +31,13 @@ component accessors="true" singleton {
 		any targetValue,
 		any validationData
 	){
-		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
-			return true;
-		}
+        // Validate against the UDF/closure
+        var passed = arguments.validationData(
+            isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
+            arguments.target
+        );
 
-		// Validate against the UDF/closure
-		if ( arguments.validationData( arguments.targetValue, arguments.target ) ) {
+		if ( passed ) {
 			return true;
 		}
 
@@ -45,7 +45,7 @@ component accessors="true" singleton {
 			message        : "The '#arguments.field#' value does not validate",
 			field          : arguments.field,
 			validationType : getName(),
-			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+			rejectedValue  : !isNull( arguments.targetValue ) && isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "",
 			validationData : arguments.validationData
 		};
 

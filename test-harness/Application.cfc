@@ -8,13 +8,13 @@ component{
 
 	// UPDATE THE NAME OF THE MODULE IN TESTING BELOW
 	request.MODULE_NAME = "cbvalidation";
-	
+
 	// Application properties
 	this.name              = hash( getCurrentTemplatePath() );
 	this.sessionManagement = true;
 	this.sessionTimeout    = createTimeSpan(0,0,15,0);
     this.setClientCookies  = true;
-    
+
     /**************************************
 	LUCEE Specific Settings
 	**************************************/
@@ -58,7 +58,6 @@ component{
 
 	// request start
 	public boolean function onRequestStart(String targetPage){
-
 		// Process ColdBox Request
 		application.cbBootstrap.onRequestStart( arguments.targetPage );
 

@@ -6,10 +6,8 @@
     "description":"",
     "dependencies":{
         "coldbox":"^5.0.0",
-        "cbi18n":"^1.4.0"
-    },
-    "devDependencies":{
-        "testbox":"^3.0.0"
+        "cbi18n":"^1.4.0",
+        "testbox":"^3.1.0+339"
     },
     "installPaths":{
         "coldbox":"coldbox/",

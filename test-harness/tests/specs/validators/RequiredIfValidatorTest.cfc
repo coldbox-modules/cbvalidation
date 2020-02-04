@@ -13,45 +13,90 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	// executes after all suites+specs in the run() method
 	function afterAll(){
-
 	}
 
-/*********************************** BDD SUITES ***********************************/
+	/*********************************** BDD SUITES ***********************************/
 
 	function run( testResults, testBox ){
 		// all your suites go here.
 		describe( "Accepted", function(){
-
 			it( "can make targets required if the properties passed have the right value", function(){
 				var mock = createStub()
 					.$( "getName", "luis" )
-					.$( "getRole", "admin" );
+					.$( "getRole", "admin" )
+					.$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis" )
+					model.validate(
+						result,
+						mock,
+						"testField",
+						javacast( "null", "" ),
+						{ missing : javacast( "null", "" ) }
+					)
 				).toBeFalse();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis,role:admin" )
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"",
+						{ name : "luis" }
+					)
+				).toBeFalse();
+
+				expect(
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"",
+						{ name : "luis", role : "admin" }
+					)
 				).toBeFalse();
 				expect(
-					model.validate( result, mock, "testField", "test", "name:luis,role:admin" )
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"test",
+						{ name : "luis", role : "admin" }
+					)
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "shouldPass", "name:luis,role:admin" )
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"shouldPass",
+						{ name : "luis", role : "admin" }
+					)
 				).toBeTrue();
 
 				expect(
-					model.validate( result, mock, "testField", "", "name:luis" )
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"",
+						{ name : "luis" }
+					)
 				).toBeFalse();
 
-
-
+				expect(
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"shouldPass",
+						{ missing : javacast( "null", "" ) }
+					)
+				).toBeTrue();
 			} );
-
-		});
+		} );
 	}
 
-	}
+}
