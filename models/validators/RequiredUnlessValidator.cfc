@@ -43,6 +43,10 @@ component accessors="true" extends="RequiredValidator" singleton {
 			.map( function( key, value ){
 				// Get comparison values
 				var comparePropertyValue = invoke( target, "get#key#" );
+				// Null checks
+				if( isNull( comparePropertyValue ) ){
+					return isNull( arguments.value );
+				}
 				// Check if the compareValue is the same as the defined one
 				return ( arguments.value == comparePropertyValue ? true : false );
 			} )

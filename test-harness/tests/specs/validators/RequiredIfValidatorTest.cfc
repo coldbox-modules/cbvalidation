@@ -25,8 +25,15 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			it( "can make targets required if the properties passed have the right value", function(){
 				var mock = createStub()
 					.$( "getName", "luis" )
-					.$( "getRole", "admin" );
+                    .$( "getRole", "admin" )
+                    .$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+
+				expect(
+				    model.validate( result, mock, "testField", javacast( "null", "" ), {
+						missing : javaCast( "null", "" )
+					} )
+				).toBeFalse();
 
 				expect(
 					model.validate( result, mock, "testField", "", {
@@ -60,8 +67,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					} )
 				).toBeFalse();
 
-
-
+				expect(
+				    model.validate( result, mock, "testField", "shouldPass", {
+						missing : javaCast( "null", "" )
+					} )
+				).toBeTrue();
 			} );
 
 		});

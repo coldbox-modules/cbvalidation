@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## 2.0.1
+## 2.1.0
 
-* Updated `RequiredUnless` and `RequiredIf` to use struct literal notation instead of the weird parsing we did.
-* Added the `Unique` validator thanks to @elpete!
+* `feature` : Updated `RequiredUnless` and `RequiredIf` to use struct literal notation instead of the weird parsing we did.
+* `feature` : Added the `Unique` validator thanks to @elpete!
+* `improvement` : Added `null` support for the `RequiredIf,RequiredUnless` validators
 
 ## 2.0.0
 

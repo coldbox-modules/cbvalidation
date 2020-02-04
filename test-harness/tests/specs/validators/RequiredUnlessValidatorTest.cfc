@@ -20,12 +20,13 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function run( testResults, testBox ){
 		// all your suites go here.
-		describe( "Accepted", function(){
+		describe( "RequiredUnless", function(){
 
 			it( "can make targets required unless the properties passed have the right value", function(){
 				var mock = createStub()
 					.$( "getName", "luis" )
-					.$( "getRole", "admin" );
+                    .$( "getRole", "admin" )
+                    .$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 
@@ -79,9 +80,21 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					} )
 				).toBeTrue();
 
+				expect(
+					model.validate( result, mock, "testField", javaCast( "null", "" ), {
+						missing : javaCast( "null", "" )
+					} )
+				).toBeFalse();
+
+				expect(
+					model.validate( result, mock, "testField", "not null", {
+						missing : javaCast( "null", "" )
+					} )
+				).toBeTrue();
+
 			} );
 
 		});
 	}
 
-	}
+}
