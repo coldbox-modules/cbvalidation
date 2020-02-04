@@ -41,6 +41,7 @@ The module will also register several methods in your handlers/interceptors/layo
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return cbvalidation.model.result.IValidationResult
  */
@@ -56,6 +57,7 @@ function validate()
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return The validated object or the structure fields that where validated
  * @throws ValidationException
@@ -165,6 +167,25 @@ this.constraints = {
 	}
 
 }
+```
+
+## Constraint Profiles
+
+You can also create profiles or selections of fields that will be targeted for validation if you are defining the constraints in objects.  All you do is create a key called: `this.constraintProfiles` which contains a struct of defined fields:
+
+```js
+this.constraintProfiles = {
+	new = "fname,lname,email,password",
+	update = "fname,lname,email",
+	passUpdate = "password,confirmpassword"
+}
+```
+
+Each key is the name of the profile like `new, update passUpdate`.  The value of the profile is a list of fields to validate within that selected profile.  In order to use it, just pass in one or more profile names into the `validate() or validateOrFail()` methods.
+
+```js
+var results = validateModel( target=model, profiles="update" )
+var results = validateModel( target=model, profiles="update,passUpdate" )
 ```
 
 ```
