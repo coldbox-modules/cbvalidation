@@ -7,6 +7,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -44,7 +45,7 @@ component accessors="true" singleton {
 			return true;
 		}
 		var args = {
-			message        : "The '#arguments.field#' value is not the same as #compareValue.toString()#",
+			message        : resourceService.getResource( resource = "default.SameAs@cbvalidation", values = { compareValue = compareValue.toString() } ),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

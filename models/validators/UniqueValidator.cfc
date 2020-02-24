@@ -9,6 +9,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -49,14 +50,13 @@ component accessors="true" singleton {
 		validationResult.addError(
 			validationResult.newError(
 				argumentCollection = {
-					message : "The #targetColumn# '#arguments.targetValue#' is already in use",
+					message : resourceService.getResource( resource = "default.Unique@cbvalidation", values = { targetColumn = targetColumn, targetValue = targetValue } ),
 					field : arguments.field,
 					validationType : getName(),
 					validationData : arguments.validationData
 				}
 			)
 		);
-
 		return false;
 	}
 

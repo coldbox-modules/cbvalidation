@@ -51,6 +51,14 @@ component{
 		// setup shared constraints
 		wirebox.getInstance( "validationManager@cbvalidation" )
 			.setSharedConstraints( configSettings.validation.sharedConstraints );
+		i18n = {
+			defaultLocale = "en_US",
+			localeStorage = "cookie",
+			// Extra resource bundles to load
+			resourceBundles = {
+				cbvalidation = configSettings.validation.cbi18nResourcePath
+			}
+		};
 	}
 
 	/**
@@ -94,12 +102,17 @@ component{
 		// Default Config Structure
 		configStruct.validation = {
 			manager = this.COLDBOX_VALIDATION_MANAGER,
-			sharedConstraints = {}
+			sharedConstraints = {},
+			cbi18nResourcePath = "#moduleMapping#/resources/i18n/cbvalidation"
 		};
 
 		// manager
 		if( structKeyExists( validationDSL, "manager" ) ){
 			configStruct.validation.manager = validationDSL.manager;
+		}
+		// manager
+		if( structKeyExists( validationDSL, "cbi18nResourcePath" ) ){
+			configStruct.validation.cbi18nResourcePath = validationDSL.cbi18nResourcePath;
 		}
 		// shared constraints
 		if( structKeyExists( validationDSL, "sharedConstraints" ) ){

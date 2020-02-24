@@ -7,6 +7,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' is not a 1, yes, true or on",
+			message        : resourceService.getResource("default.Accepted@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

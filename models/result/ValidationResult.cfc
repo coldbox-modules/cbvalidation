@@ -122,6 +122,8 @@ component accessors="true" {
 	 * @return IValidationResult
 	 */
 	any function addError( required error ){
+		// always replace because default messages are globalized
+		globalReplacements( arguments.error.getMessage(), error );
 		// Verify Custom Messages via constraints, these take precedence
 		if( structKeyExists( constraints, error.getField() ) AND structKeyExists( constraints[error.getField()], "#error.getValidationType()#Message" ) ){
 			// override message with custom constraint
@@ -163,7 +165,7 @@ component accessors="true" {
 		// The validation type
 		arguments.message = replacenocase( arguments.message, "{validationType}", arguments.error.getValidationType(), "all");
 		// The validation data
-		if( arguments.error.getValidationType() neq 'UDF' ){
+		if( !ListFindNocase("UDF,RequiredIf,RequiredUnless,Unique", arguments.error.getValidationType()) ){
 		 	arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
 		}
 		// The target name of the object

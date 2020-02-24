@@ -8,6 +8,7 @@
 component accessors="true" extends="RequiredValidator" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -68,7 +69,7 @@ component accessors="true" extends="RequiredValidator" singleton {
 
 		// No data, fail it
 		var args = {
-			message        : "The '#arguments.field#' value is required",
+			message        : resourceService.getResource("default.RequiredUnless@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

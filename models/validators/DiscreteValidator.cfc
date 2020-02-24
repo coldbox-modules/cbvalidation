@@ -6,6 +6,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -86,7 +87,7 @@ component accessors="true" singleton {
 
 		if ( !r ) {
 			var args = {
-				message        : "The '#arguments.field#' value is #operation# than #operationValue#",
+				message        : resourceService.getResource( resource = "default.Discrete@cbvalidation", values = { operation = operation, operationValue = operationValue } ),
 				field          : arguments.field,
 				validationType : getName(),
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

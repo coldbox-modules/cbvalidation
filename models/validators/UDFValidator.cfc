@@ -7,6 +7,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value does not validate",
+			message        : resourceService.getResource("default.UDF@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : !isNull( arguments.targetValue ) && isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "",

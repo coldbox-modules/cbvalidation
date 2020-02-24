@@ -7,6 +7,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -36,7 +37,7 @@ component accessors="true" singleton {
 		// check incoming type
 		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", arguments.validationData ) ) {
 			throw(
-				message = "The type you sent is invalid: #arguments.validationData#",
+				message = resourceService.getResource("default.Type@cbvalidation"),
 				detail  = "Valid types are #variables.validTypes#",
 				type    = "TypeValidator.InvalidValidationData"
 			);
@@ -155,7 +156,7 @@ component accessors="true" singleton {
 
 		if ( !r ) {
 			var args = {
-				message        : "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
+				message        : resourceService.getResource("default.Type@cbvalidation"),
 				field          : arguments.field,
 				validationType : getName(),
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

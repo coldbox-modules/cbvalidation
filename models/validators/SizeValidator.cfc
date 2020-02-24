@@ -7,6 +7,7 @@
 component accessors="true" singleton {
 
 	property name="name";
+	property name="resourceService" inject="ResourceService@cbi18n";
 
 	/**
 	 * Constructor
@@ -91,7 +92,7 @@ component accessors="true" singleton {
 			}
 		}
 		var args = {
-			message        : "The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",
+			message        : resourceService.getResource("default.Size@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
