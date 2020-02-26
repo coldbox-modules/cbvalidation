@@ -45,7 +45,7 @@ interface {
 	/**
 	 * Get the error validation data
 	 */
-	string function getValidationData();
+	any function getValidationData();
 
 	/**
 	 * Get the error message
