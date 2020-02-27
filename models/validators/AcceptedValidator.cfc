@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	AcceptedValidator function init(){
+	AcceptedValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Accepted";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' is not a 1, yes, true or on",
+			message        : resourceService.getResource("default.Accepted@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

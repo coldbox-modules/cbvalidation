@@ -10,7 +10,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	DiscreteValidator function init(){
+	DiscreteValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name       = "Discrete";
 		variables.validTypes = "eq,neq,lt,lte,gt,gte";
 		return this;
@@ -86,7 +87,7 @@ component accessors="true" singleton {
 
 		if ( !r ) {
 			var args = {
-				message        : "The '#arguments.field#' value is #operation# than #operationValue#",
+				message        : resourceService.getResource( resource = "default.Discrete@cbvalidation", values = { operation = operation, operationValue = operationValue } ),
 				field          : arguments.field,
 				validationType : getName(),
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

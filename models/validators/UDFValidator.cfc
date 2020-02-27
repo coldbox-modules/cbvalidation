@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	UDFValidator function init(){
+	UDFValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "UDF";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value does not validate",
+			message        : resourceService.getResource("default.UDF@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : !isNull( arguments.targetValue ) && isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "",

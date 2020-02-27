@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	RegexValidator function init(){
+	RegexValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Regex";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value does not match the regular expression: #arguments.validationData#",
+			message        : resourceService.getResource("default.Regex@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

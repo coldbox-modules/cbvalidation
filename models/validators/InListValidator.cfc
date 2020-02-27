@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	InListValidator function init(){
+	InListValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "InList";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value is not in the constraint list: #arguments.validationData#",
+			message        : resourceService.getResource("default.InList@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

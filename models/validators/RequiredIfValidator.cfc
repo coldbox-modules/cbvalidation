@@ -12,7 +12,8 @@ component accessors="true" extends="RequiredValidator" singleton {
 	/**
 	 * Constructor
 	 */
-	RequiredIfValidator function init(){
+	RequiredIfValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "RequiredIf";
 		return this;
 	}
@@ -67,7 +68,7 @@ component accessors="true" extends="RequiredValidator" singleton {
 
 		// No data, fail it
 		var args = {
-			message        : "The '#arguments.field#' value is required",
+			message        : resourceService.getResource("default.RequiredIf@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

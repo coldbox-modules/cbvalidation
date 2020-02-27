@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	SizeValidator function init(){
+	SizeValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Size";
 		return this;
 	}
@@ -91,7 +92,7 @@ component accessors="true" singleton {
 			}
 		}
 		var args = {
-			message        : "The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",
+			message        : resourceService.getResource("default.Size@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

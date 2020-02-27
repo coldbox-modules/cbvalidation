@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	SameAsValidator function init(){
+	SameAsValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "SameAs";
 		return this;
 	}
@@ -44,7 +45,7 @@ component accessors="true" singleton {
 			return true;
 		}
 		var args = {
-			message        : "The '#arguments.field#' value is not the same as #compareValue.toString()#",
+			message        : resourceService.getResource( resource = "default.SameAs@cbvalidation", values = { compareValue = compareValue.toString() } ),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

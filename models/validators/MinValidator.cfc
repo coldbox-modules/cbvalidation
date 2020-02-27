@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	MinValidator function init(){
+	MinValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Min";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value is not greater than or equal to #arguments.validationData#",
+			message        : resourceService.getResource("default.Min@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

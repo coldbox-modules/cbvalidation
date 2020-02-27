@@ -8,6 +8,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function setup(){
 		super.setup();
 		mockRB = createEmptyMock( "cbi18n.models.ResourceService" );
+		mockRB.$( "getResource", "someErrorMessage" );
 		model.init();
 		model.setWireBox( mockWireBox );
 		model.setResourceService( mockRB );
@@ -56,7 +57,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function testProcessRulesLooksForWireBoxMappingOfKeyIfNotAValidValidator(){
 		var results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-		var customValidatorMock = createMock( "cbvalidation.models.validators.RequiredValidator" );
+		var customValidatorMock = createMock( "cbvalidation.models.validators.RequiredValidator" ).init(MockRB);
 		customValidatorMock.$( "validate", true );
 
 		var mockBinder = createMock( "coldbox.system.ioc.config.Binder" );
@@ -69,7 +70,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		mockWireBox.setBinder( mockBinder );
 		mockWireBox
 			.$( "getInstance" )
-			.$args( "customValidator" )
+			.$args( name = "customValidator", initArguments = {} )
 			.$results( customValidatorMock );
 
 		var mockRule = { customValidator : { customField : "hi" } };

@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	MethodValidator function init(){
+	MethodValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Method";
 		return this;
 	}
@@ -45,7 +46,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value does not validate",
+			message        : resourceService.getResource("default.Method@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	RangeValidator function init(){
+	RangeValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Range";
 		return this;
 	}
@@ -45,7 +46,7 @@ component accessors="true" singleton {
 			)
 		) {
 			throw(
-				message = "The range you sent is invalid: #arguments.validationData#",
+				message = resourceService.getResource("default.Range@cbvalidation"),
 				detail 	= "It must be in the format of {minNumber}..{maxNumber}",
 				type    = "RangeValidator.InvalidValidationData"
 			);

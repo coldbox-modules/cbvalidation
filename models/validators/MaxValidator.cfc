@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	MaxValidator function init(){
+	MaxValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Max";
 		return this;
 	}
@@ -42,7 +43,7 @@ component accessors="true" singleton {
 		}
 
 		var args = {
-			message        : "The '#arguments.field#' value is not less than or equal to #arguments.validationData#",
+			message        : resourceService.getResource("default.Max@cbvalidation"),
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

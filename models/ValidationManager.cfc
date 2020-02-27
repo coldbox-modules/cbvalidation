@@ -310,7 +310,12 @@ component accessors="true" serialize="false" singleton {
 	){
 		// Are we a core validator?
 		if( structKeyExists( variables.registeredValidators, arguments.validatorType ) ){
-			return wirebox.getInstance( variables.registeredValidators[ arguments.validatorType ] );
+				return wirebox.getInstance( 
+					name = variables.registeredValidators[ arguments.validatorType ]
+					, initArguments = {
+						resourceService = resourceService
+					}
+				);
 		}
 
 		// Else switch checks
@@ -318,14 +323,29 @@ component accessors="true" serialize="false" singleton {
 			// Custom Validator
 			case "validator": {
 				if ( find( ":", arguments.validationData ) ) {
-					return wirebox.getInstance( getToken( arguments.validationData, 2, ":" ) );
+					return wirebox.getInstance( 
+						name = getToken( arguments.validationData, 2, ":" )
+//						, initArguments = {
+//							resourceService = resourceService
+//						}
+					);
 				}
-				return wirebox.getInstance( arguments.validationData );
+				return wirebox.getInstance( 
+					name = arguments.validationData
+//					, initArguments = {
+//						resourceService = resourceService
+//					}
+				);
 			}
 			// See if it's a WireBox Mapping
 			default: {
 				if ( wirebox.getBinder().mappingExists( validatorType ) ) {
-					return wirebox.getInstance( validatorType );
+					return wirebox.getInstance( 
+						name=validatorType
+						, initArguments = {
+//							resourceService = resourceService
+						}
+					);
 				}
 				throw(
 					message = "The validator you requested #arguments.validatorType# is not a valid validator",

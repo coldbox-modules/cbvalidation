@@ -8,7 +8,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	// executes before all suites+specs in the run() method
 	function beforeAll(){
 		super.setup();
-		model.init();
+		mockRB = createEmptyMock( "cbi18n.models.ResourceService" );
+		mockRB.$( "getResource", "someErrorMessage" );
+		model.init(mockRB);
 	}
 
 	// executes after all suites+specs in the run() method

@@ -13,7 +13,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	UniqueValidator function init(){
+	UniqueValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name = "Unique";
 		return this;
 	}
@@ -49,7 +50,7 @@ component accessors="true" singleton {
 		validationResult.addError(
 			validationResult.newError(
 				argumentCollection = {
-					message : "The #targetColumn# '#arguments.targetValue#' is already in use",
+					message : resourceService.getResource( resource = "default.Unique@cbvalidation", values = { targetColumn = targetColumn, targetValue = targetValue } ),
 					field : arguments.field,
 					validationType : getName(),
 					validationData : arguments.validationData

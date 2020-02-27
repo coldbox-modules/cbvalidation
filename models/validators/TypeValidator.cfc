@@ -11,7 +11,8 @@ component accessors="true" singleton {
 	/**
 	 * Constructor
 	 */
-	TypeValidator function init(){
+	TypeValidator function init(resourceService){
+		variables.resourceService = resourceService;
 		variables.name       = "Type";
 		variables.validTypes = "alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
 
@@ -155,7 +156,7 @@ component accessors="true" singleton {
 
 		if ( !r ) {
 			var args = {
-				message        : "The '#arguments.field#' has an invalid type, expected type is #arguments.validationData#",
+				message        : resourceService.getResource("default.Type@cbvalidation"),
 				field          : arguments.field,
 				validationType : getName(),
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
