@@ -103,7 +103,7 @@ component{
 		configStruct.validation = {
 			manager = this.COLDBOX_VALIDATION_MANAGER,
 			sharedConstraints = {},
-			cbi18nResourcePath = "resources/i18n/cbvalidation"
+			cbi18nResourcePath = "#moduleMapping#/resources/i18n/cbvalidation"
 		};
 
 		// manager
