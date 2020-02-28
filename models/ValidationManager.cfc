@@ -325,16 +325,16 @@ component accessors="true" serialize="false" singleton {
 				if ( find( ":", arguments.validationData ) ) {
 					return wirebox.getInstance( 
 						name = getToken( arguments.validationData, 2, ":" )
-//						, initArguments = {
-//							resourceService = resourceService
-//						}
+						, initArguments = {
+							resourceService = resourceService
+						}
 					);
 				}
 				return wirebox.getInstance( 
 					name = arguments.validationData
-//					, initArguments = {
-//						resourceService = resourceService
-//					}
+					, initArguments = {
+						resourceService = resourceService
+					}
 				);
 			}
 			// See if it's a WireBox Mapping
