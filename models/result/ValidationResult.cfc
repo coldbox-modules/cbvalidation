@@ -7,43 +7,49 @@
 component accessors="true" {
 
 	/**
-	* A collection of error objects represented in this result object
-	*/
+	 * A collection of error objects represented in this result object
+	 */
 	property name="errors"			type="array";
 
 	/**
-	* Extra metadata you can store in the results object
-	*/
+	 * Extra metadata you can store in the results object
+	 */
 	property name="resultMetadata"	type="struct";
 
 	/**
-	* The locale this result validation is using
-	*/
+	 * The locale this result validation is using
+	 */
 	property name="locale"			type="string";
 
 	/**
-	* The name of the target object
-	*/
+	 * The name of the target object
+	 */
 	property name="targetName"		type="string";
 
 	/**
-	* The constraints evaluated in the validation process
-	*/
+	 * The constraints evaluated in the validation process
+	 */
 	property name="constraints"		type="struct";
 
 	/**
-	* The resource bundle object
-	*/
+	 * The resource bundle object
+	 */
 	property name="resourceService";
 
 	/**
-	* Constructor
-	*/
+	 * The profiles used in the validation
+	 */
+	property name="profiles" type="string";
+
+	/**
+	 * Constructor
+	 */
 	ValidationResult function init(
 		string locale		= "",
 		string targetName	= "",
 		any resourceService	= "",
-		struct constraints	= structNew()
+		struct constraints	= structNew(),
+		string profiles 	= ""
 	){
 		variables.errors 			= [];
 		variables.resultMetadata 	= {};
@@ -53,6 +59,7 @@ component accessors="true" {
 		variables.targetName 		= arguments.targetName;
 		variables.resourceService	= arguments.resourceService;
 		variables.constraints		= arguments.constraints;
+		variables.profiles 			= arguments.profiles;
 		return this;
 	}
 

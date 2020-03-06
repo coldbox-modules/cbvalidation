@@ -12,9 +12,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	}
 
 	function testValidate(){
-
 		var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
-		var mock = createStub().$( "validate", false ).$( "coolValidate", true );
+		var mock   = createStub().$( "validate", false ).$( "coolValidate", true );
 
 
 		// call coolvalidate

@@ -17,6 +17,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 	function run(){
 		describe( "Integrations Specs", function(){
 			beforeEach( function( currentSpec ){
+				structDelete( application, "cbController" );
+				structDelete( application, "wirebox" );
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
 			} );
@@ -71,6 +73,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							params = {
 								username     : "luis",
 								password     : "luis",
+								email        : "lmajano@ortussolutions.com",
 								bogus        : now(),
 								anotherBogus : now()
 							},
@@ -83,7 +86,63 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					} );
 				} );
 			} );
+
+
+			story( "I want to Validate with contraint profiles", function(){
+				given( "a single profile", function(){
+					then( "it must validate it with only those fields in that profile", function(){
+						var e = this.request(
+							route  = "/main/validateOrFailWithProfiles",
+							params = {
+								username     : "luis",
+								email        : "lmajano@ortussolutions.com",
+								bogus        : now(),
+								anotherBogus : now(),
+								_profiles 	 : "update"
+							},
+							method = "post"
+						);
+
+						var object = e.getPrivateValue( "object" );
+						debug( object );
+						expect( object ).toBeComponent();
+					});
+				});
+				given( "a multiple profiles", function(){
+					then( "it must validate it with only distinct fields in those profiles", function(){
+						var e = this.request(
+							route  = "/main/validateOrFailWithProfiles",
+							params = {
+								username     : "luis",
+								email        : "lmajano@ortussolutions.com",
+								password     : "luis",
+								anotherBogus : now(),
+								_profiles 	 : "update,new,bogus"
+							},
+							method = "post"
+						);
+
+						var object = e.getPrivateValue( "object" );
+						debug( object );
+						expect( object ).toBeComponent();
+					});
+				});
+				given( "a single profile and invalid data", function(){
+					then( "then throw the exception", function(){
+
+						expect( function(){
+							this.request( route = "/main/validateOrFailWithProfiles", params = {
+								username : "luis"
+							}, method = "post" );
+						} ).toThrow();
+
+					});
+				});
+			});
+
+
 		} );
+
 	}
 
 }
