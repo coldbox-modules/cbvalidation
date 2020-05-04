@@ -162,7 +162,7 @@ component accessors="true" {
 		arguments.message = replacenocase( arguments.message, "{property}", arguments.error.getField(), "all");
 		// The validation type
 		arguments.message = replacenocase( arguments.message, "{validationType}", arguments.error.getValidationType(), "all");
-		// The validation data
+		// The validation data, should be skipped if validationData is a struct
 		if( !listfindnocase( "UDF,RequiredUnless,RequiredIf,Unique", arguments.error.getValidationType() )){
 		 	arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
 		}
