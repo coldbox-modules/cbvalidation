@@ -163,7 +163,7 @@ component accessors="true" {
 		// The validation type
 		arguments.message = replacenocase( arguments.message, "{validationType}", arguments.error.getValidationType(), "all");
 		// The validation data
-		if( arguments.error.getValidationType() neq 'UDF' ){
+		if( !listfindnocase( "UDF,RequiredUnless,RequiredIf,Unique", arguments.error.getValidationType() )){
 		 	arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
 		}
 		// The target name of the object
