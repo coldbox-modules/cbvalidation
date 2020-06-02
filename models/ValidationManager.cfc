@@ -52,7 +52,11 @@
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-component accessors="true" serialize="false" singleton {
+component
+	accessors="true"
+	serialize="false"
+	singleton
+{
 
 	/**
 	 * WireBox Object Factory
@@ -84,13 +88,18 @@ component accessors="true" serialize="false" singleton {
 	 */
 	ValidationManager function init( struct sharedConstraints = {} ){
 		// valid validator registrations
-		variables.validValidators   = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
+		variables.validValidators      = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
-		variables.sharedConstraints = arguments.sharedConstraints;
+		variables.sharedConstraints    = arguments.sharedConstraints;
 		// Validators Path
-		variables.validatorsPath = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
+		variables.validatorsPath       = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
 		// Register validators
-		variables.registeredValidators = directoryList( variables.validatorsPath , false, "name", "*.cfc" )
+		variables.registeredValidators = directoryList(
+			variables.validatorsPath,
+			false,
+			"name",
+			"*.cfc"
+		)
 			// don't do the interfaces
 			.filter( function( item ){
 				return ( item != "IValidator.cfc" );
@@ -128,7 +137,7 @@ component accessors="true" serialize="false" singleton {
 		string locale        = "",
 		string excludeFields = "",
 		string includeFields = "",
-		string profiles = ""
+		string profiles      = ""
 	){
 		var targetName = "";
 
@@ -141,11 +150,17 @@ component accessors="true" serialize="false" singleton {
 				targetName = "GenericForm";
 			}
 		} else {
-			targetName = listLast( getMetadata( arguments.target ).name, "." );
+			targetName = listLast(
+				getMetadata( arguments.target ).name,
+				"."
+			);
 		}
 
 		// discover and determine constraints definition for an incoming target.
-		var allConstraints = determineConstraintsDefinition( arguments.target, arguments.constraints );
+		var allConstraints = determineConstraintsDefinition(
+			arguments.target,
+			arguments.constraints
+		);
 
 		// create new result object
 		var results = wirebox.getInstance(
@@ -155,31 +170,31 @@ component accessors="true" serialize="false" singleton {
 				targetName      : targetName,
 				resourceService : resourceService,
 				constraints     : allConstraints,
-				profiles		: arguments.profiles
+				profiles        : arguments.profiles
 			}
 		);
 
 		// Discover profiles, and update the includeFields list from it
-		if( len( arguments.profiles ) ){
+		if ( len( arguments.profiles ) ) {
 			arguments.includeFields = arguments.profiles
 				.listToArray()
 				// Check if profiles defined in target and iterated one exists
 				.filter( function( profileKey ){
-					return structKeyExists( target, "constraintProfiles" ) && structKeyExists( target.constraintProfiles, profileKey );
+					return structKeyExists( target, "constraintProfiles" ) && structKeyExists(
+						target.constraintProfiles,
+						profileKey
+					);
 				} )
 				// Incorporate fields from each profile
 				.map( function( profileKey ){
 					// iterate all declared profile fields and incorporate into the includeFields
-					return target.constraintProfiles
-						.find( arguments.profileKey )
-						.listToArray();
+					return target.constraintProfiles.find( arguments.profileKey ).listToArray();
 				} )
 				// Reduce all fields into a single hashset to do a distinct collection
 				.reduce( function( result, item ){
-					item
-						.each( function( thisField ){
-							result.add( thisField );
-						} );
+					item.each( function( thisField ){
+						result.add( thisField );
+					} );
 					return result;
 				}, createObject( "java", "java.util.HashSet" ) )
 				.toArray();
@@ -235,7 +250,7 @@ component accessors="true" serialize="false" singleton {
 		string locale        = "",
 		string excludeFields = "",
 		string includeFields = "",
-		string profiles 	 = ""
+		string profiles      = ""
 	){
 		var vResults = this.validate( argumentCollection = arguments );
 
@@ -282,15 +297,20 @@ component accessors="true" serialize="false" singleton {
 			}
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
-			getValidator( validatorType = key, validationData = arguments.rules[ key ] )
-				.validate(
-					validationResult = results,
-					target           = arguments.target,
-					field            = arguments.field,
-					targetValue      = invoke( arguments.target, "get" & arguments.field ),
-					validationData   = arguments.rules[ key ],
-					rules 			 = arguments.rules
-				);
+			getValidator(
+				validatorType  = key,
+				validationData = arguments.rules[ key ]
+			).validate(
+				validationResult = results,
+				target           = arguments.target,
+				field            = arguments.field,
+				targetValue      = invoke(
+					arguments.target,
+					"get" & arguments.field
+				),
+				validationData = arguments.rules[ key ],
+				rules          = arguments.rules
+			);
 		}
 		return this;
 	}
@@ -309,7 +329,12 @@ component accessors="true" serialize="false" singleton {
 		required any validationData
 	){
 		// Are we a core validator?
-		if( structKeyExists( variables.registeredValidators, arguments.validatorType ) ){
+		if (
+			structKeyExists(
+				variables.registeredValidators,
+				arguments.validatorType
+			)
+		) {
 			return wirebox.getInstance( variables.registeredValidators[ arguments.validatorType ] );
 		}
 
@@ -352,7 +377,10 @@ component accessors="true" serialize="false" singleton {
 	 * @name The shared constraint to check
 	 */
 	boolean function sharedConstraintsExists( required string name ){
-		return structKeyExists( variables.sharedConstraints, arguments.name );
+		return structKeyExists(
+			variables.sharedConstraints,
+			arguments.name
+		);
 	}
 
 
@@ -376,7 +404,10 @@ component accessors="true" serialize="false" singleton {
 	 *
 	 * @return IValidationManager
 	 */
-	any function addSharedConstraint( required string name, required struct constraint ){
+	any function addSharedConstraint(
+		required string name,
+		required struct constraint
+	){
 		variables.sharedConstraints[ arguments.name ] = arguments.constraints;
 		return this;
 	}
@@ -391,7 +422,10 @@ component accessors="true" serialize="false" singleton {
 	 *
 	 * @throws ValidationManager.InvalidSharedConstraint
 	 */
-	private struct function determineConstraintsDefinition( required any target, any constraints = "" ){
+	private struct function determineConstraintsDefinition(
+		required any target,
+		any constraints = ""
+	){
 		var thisConstraints = {};
 
 		// if structure, just return it back

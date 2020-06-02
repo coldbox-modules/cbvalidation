@@ -5,7 +5,11 @@
  * This validator checks a struct of key-value pairs passed in the validation data.
  * If those key-value pairs are equal then the target field will be required
  */
-component accessors="true" extends="RequiredValidator" singleton {
+component
+	accessors="true"
+	extends  ="RequiredValidator"
+	singleton
+{
 
 	property name="name";
 
@@ -34,7 +38,7 @@ component accessors="true" extends="RequiredValidator" singleton {
 		any validationData
 	){
 		// If you passed in simple data, conver it to a struct, simple values are not evaluated
-		if( isSimpleValue( arguments.validationData ) ){
+		if ( isSimpleValue( arguments.validationData ) ) {
 			arguments.validationData = {};
 		}
 
@@ -44,7 +48,7 @@ component accessors="true" extends="RequiredValidator" singleton {
 				// Get comparison values
 				var comparePropertyValue = invoke( target, "get#key#" );
 				// Null checks
-				if( isNull( comparePropertyValue ) ){
+				if ( isNull( comparePropertyValue ) ) {
 					return isNull( arguments.value );
 				}
 				// Check if the compareValue is the same as the defined one
@@ -55,13 +59,13 @@ component accessors="true" extends="RequiredValidator" singleton {
 				return ( arguments.value && arguments.result );
 			}, true );
 
-		if( !arguments.validationData.count() || !isRequired ){
+		if ( !arguments.validationData.count() || !isRequired ) {
 			return true;
 		}
 
 		// Else target is required
 		// Check For Value
-		if( !isNull( arguments.targetValue ) && hasValue( arguments.targetValue ) ){
+		if ( !isNull( arguments.targetValue ) && hasValue( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -70,7 +74,9 @@ component accessors="true" extends="RequiredValidator" singleton {
 			message        : "The '#arguments.field#' value is required",
 			field          : arguments.field,
 			validationType : getName(),
-			rejectedValue  : ( isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+			rejectedValue  : (
+				isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : ""
+			),
 			validationData : arguments.validationData
 		};
 

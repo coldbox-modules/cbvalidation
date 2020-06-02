@@ -54,7 +54,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			"true"
 		);
 		mockConstraints = {
-			"test" : { required : true, requiredMessage : "This stuff is required dude for the field: {field}!" }
+			"test" : {
+				required        : true,
+				requiredMessage : "This stuff is required dude for the field: {field}!"
+			}
 		};
 		model.init( constraints = mockConstraints );
 		assertTrue( arrayLen( model.getErrors() ) eq 0 );
@@ -62,7 +65,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		model.addError( mockError );
 		assertTrue( arrayLen( model.getErrors() ) eq 1 );
 		r = model.getFieldErrors( "test" )[ 1 ];
-		assertEquals( "This stuff is required dude for the field: test!", r.getMemento().message );
+		assertEquals(
+			"This stuff is required dude for the field: test!",
+			r.getMemento().message
+		);
 
 		// with i18n
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
@@ -82,7 +88,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 		model.addError( mockError );
 		debug( mockError.getmemento() );
-		assertEquals( "Your stuff doesn't work test inList 1,2,3", mockError.getMessage() );
+		assertEquals(
+			"Your stuff doesn't work test inList 1,2,3",
+			mockError.getMessage()
+		);
 	}
 
 	function testHasErrors(){
@@ -140,7 +149,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			"required",
 			"true"
 		);
-		mockConstraints = { "test" : { required : true, requiredMessage : "This stuff is required dude!" } };
+		mockConstraints = {
+			"test" : {
+				required        : true,
+				requiredMessage : "This stuff is required dude!"
+			}
+		};
 		// test the custom messages now
 		model.addError( mockError );
 
@@ -168,7 +182,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			"required",
 			"true"
 		);
-		mockConstraints = { "test" : { required : true, requiredMessage : "This stuff is required dude!" } };
+		mockConstraints = {
+			"test" : {
+				required        : true,
+				requiredMessage : "This stuff is required dude!"
+			}
+		};
 		// test the custom messages now
 		model.addError( mockError );
 

@@ -32,7 +32,9 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
@@ -46,7 +48,7 @@ component accessors="true" singleton {
 		) {
 			throw(
 				message = "The range you sent is invalid: #arguments.validationData#",
-				detail 	= "It must be in the format of {minNumber}..{maxNumber}",
+				detail  = "It must be in the format of {minNumber}..{maxNumber}",
 				type    = "RangeValidator.InvalidValidationData"
 			);
 		}
@@ -68,7 +70,13 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { range : arguments.validationData, min : min, max : max } );
+		var error = validationResult
+			.newError( argumentCollection = args )
+			.setErrorMetadata( {
+				range : arguments.validationData,
+				min   : min,
+				max   : max
+			} );
 		validationResult.addError( error );
 		return false;
 	}

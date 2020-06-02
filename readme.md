@@ -41,6 +41,7 @@ The module will also register several methods in your handlers/interceptors/layo
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return cbvalidation.model.result.IValidationResult
  */
@@ -56,6 +57,7 @@ function validate()
  * @locale The i18n locale to use for validation messages
  * @excludeFields The fields to exclude from the validation
  * @includeFields The fields to include in the validation
+ * @profiles If passed, a list of profile names to use for validation constraints
  *
  * @return The validated object or the structure fields that where validated
  * @throws ValidationException
@@ -76,7 +78,7 @@ Here are the module settings you can place in your `ColdBox.cfc` by using the `v
 validation = {
     // The third-party validation manager to use, by default it uses CBValidation.
     manager = "class path",
-    
+
     // You can store global constraint rules here with unique names
     sharedConstraints = {
         name = {
@@ -114,7 +116,7 @@ this.constraints = {
 		// max value
 		max : value,
 
-		// Validation method to use in the target object must return boolean accept the incoming value and target object 
+		// Validation method to use in the target object must return boolean accept the incoming value and target object
 		method : methodName,
 
 		// min value
@@ -134,7 +136,7 @@ this.constraints = {
 			anotherfield:value, anotherfield:value
 		}
 		
-		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
+		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed
 		requiredUnless : {
 			anotherfield:value, anotherfield:value
 		}
@@ -167,6 +169,25 @@ this.constraints = {
 }
 ```
 
+## Constraint Profiles
+
+You can also create profiles or selections of fields that will be targeted for validation if you are defining the constraints in objects.  All you do is create a key called: `this.constraintProfiles` which contains a struct of defined fields:
+
+```js
+this.constraintProfiles = {
+	new = "fname,lname,email,password",
+	update = "fname,lname,email",
+	passUpdate = "password,confirmpassword"
+}
+```
+
+Each key is the name of the profile like `new, update passUpdate`.  The value of the profile is a list of fields to validate within that selected profile.  In order to use it, just pass in one or more profile names into the `validate() or validateOrFail()` methods.
+
+```js
+var results = validateModel( target=model, profiles="update" )
+var results = validateModel( target=model, profiles="update,passUpdate" )
+```
+
 ```
 ********************************************************************************
 Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
@@ -182,8 +203,7 @@ Because of His grace, this project exists. If you don't like this, then don't re
 By whom also we have access by faith into this grace wherein we stand, and rejoice in hope of the glory of God.
 And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;
 And patience, experience; and experience, hope:
-And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the 
-Holy Ghost which is given unto us. ." Romans 5:5
+And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the Holy Ghost which is given unto us. ." Romans 5:5
 
 ### THE DAILY BREAD
 

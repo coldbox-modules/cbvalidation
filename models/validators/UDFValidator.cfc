@@ -31,11 +31,11 @@ component accessors="true" singleton {
 		any targetValue,
 		any validationData
 	){
-        // Validate against the UDF/closure
-        var passed = arguments.validationData(
-            isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
-            arguments.target
-        );
+		// Validate against the UDF/closure
+		var passed = arguments.validationData(
+			isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
+			arguments.target
+		);
 
 		if ( passed ) {
 			return true;

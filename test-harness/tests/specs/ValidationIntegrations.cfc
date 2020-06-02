@@ -27,7 +27,11 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				given( "invalid data", function(){
 					then( "it should throw an exception", function(){
 						expect( function(){
-							this.request( route = "/main/validateOrFailWithKeys", params = {}, method = "post" );
+							this.request(
+								route  = "/main/validateOrFailWithKeys",
+								params = {},
+								method = "post"
+							);
 						} ).toThrow();
 					} );
 				} );
@@ -61,7 +65,11 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				given( "invalid data", function(){
 					then( "it should throw an exception", function(){
 						expect( function(){
-							this.request( route = "/main/validateOrFailWithObject", params = {}, method = "post" );
+							this.request(
+								route  = "/main/validateOrFailWithObject",
+								params = {},
+								method = "post"
+							);
 						} ).toThrow();
 					} );
 				} );
@@ -98,7 +106,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 								email        : "lmajano@ortussolutions.com",
 								bogus        : now(),
 								anotherBogus : now(),
-								_profiles 	 : "update"
+								_profiles    : "update"
 							},
 							method = "post"
 						);
@@ -106,8 +114,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						var object = e.getPrivateValue( "object" );
 						debug( object );
 						expect( object ).toBeComponent();
-					});
-				});
+					} );
+				} );
 				given( "a multiple profiles", function(){
 					then( "it must validate it with only distinct fields in those profiles", function(){
 						var e = this.request(
@@ -117,7 +125,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 								email        : "lmajano@ortussolutions.com",
 								password     : "luis",
 								anotherBogus : now(),
-								_profiles 	 : "update,new,bogus"
+								_profiles    : "update,new,bogus"
 							},
 							method = "post"
 						);
@@ -125,24 +133,21 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						var object = e.getPrivateValue( "object" );
 						debug( object );
 						expect( object ).toBeComponent();
-					});
-				});
+					} );
+				} );
 				given( "a single profile and invalid data", function(){
 					then( "then throw the exception", function(){
-
 						expect( function(){
-							this.request( route = "/main/validateOrFailWithProfiles", params = {
-								username : "luis"
-							}, method = "post" );
+							this.request(
+								route  = "/main/validateOrFailWithProfiles",
+								params = { username : "luis" },
+								method = "post"
+							);
 						} ).toThrow();
-
-					});
-				});
-			});
-
-
+					} );
+				} );
+			} );
 		} );
-
 	}
 
 }

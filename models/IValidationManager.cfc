@@ -60,6 +60,9 @@ interface {
 	 *
 	 * @return IValidationManager
 	 */
-	any function addSharedConstraint( required string name, required struct constraint );
+	any function addSharedConstraint(
+		required string name,
+		required struct constraint
+	);
 
 }

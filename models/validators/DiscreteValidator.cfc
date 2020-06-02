@@ -41,7 +41,17 @@ component accessors="true" singleton {
 		var operation      = getToken( arguments.validationData, 1, ":" );
 		var operationValue = getToken( arguments.validationData, 2, ":" );
 
-		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", operation ) ) {
+		if (
+			!reFindNoCase(
+				"^(#replace(
+					variables.validTypes,
+					",",
+					"|",
+					"all"
+				)#)$",
+				operation
+			)
+		) {
 			throw(
 				message = "The validator data is invalid: #arguments.validationData#",
 				detail  = "Valid discrete types are #variables.validTypes#",
@@ -50,7 +60,9 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
@@ -92,7 +104,12 @@ component accessors="true" singleton {
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 				validationData : arguments.validationData
 			};
-			var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { operation : operation, operationValue : operationValue } );
+			var error = validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( {
+					operation      : operation,
+					operationValue : operationValue
+				} );
 			validationResult.addError( error );
 		}
 
