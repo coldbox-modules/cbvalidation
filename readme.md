@@ -78,7 +78,7 @@ Here are the module settings you can place in your `ColdBox.cfc` by using the `v
 validation = {
     // The third-party validation manager to use, by default it uses CBValidation.
     manager = "class path",
-    
+
     // You can store global constraint rules here with unique names
     sharedConstraints = {
         name = {
@@ -116,7 +116,7 @@ this.constraints = {
 		// max value
 		max : value,
 
-		// Validation method to use in the target object must return boolean accept the incoming value and target object 
+		// Validation method to use in the target object must return boolean accept the incoming value and target object
 		method : methodName,
 
 		// min value
@@ -136,7 +136,7 @@ this.constraints = {
 			anotherfield:value, anotherfield:value
 		}
 		
-		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
+		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed
 		requiredUnless : {
 			anotherfield:value, anotherfield:value
 		}
@@ -203,8 +203,7 @@ Because of His grace, this project exists. If you don't like this, then don't re
 By whom also we have access by faith into this grace wherein we stand, and rejoice in hope of the glory of God.
 And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;
 And patience, experience; and experience, hope:
-And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the 
-Holy Ghost which is given unto us. ." Romans 5:5
+And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the Holy Ghost which is given unto us. ." Romans 5:5
 
 ### THE DAILY BREAD
 
