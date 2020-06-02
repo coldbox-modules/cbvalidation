@@ -34,7 +34,17 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// check incoming type
-		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", arguments.validationData ) ) {
+		if (
+			!reFindNoCase(
+				"^(#replace(
+					variables.validTypes,
+					",",
+					"|",
+					"all"
+				)#)$",
+				arguments.validationData
+			)
+		) {
 			throw(
 				message = "The type you sent is invalid: #arguments.validationData#",
 				detail  = "Valid types are #variables.validTypes#",
@@ -43,7 +53,9 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
@@ -67,7 +79,12 @@ component accessors="true" singleton {
 				break;
 			}
 			case "alpha": {
-				r = ( reFindNoCase( "^[a-zA-Z\s]*$", arguments.targetValue ) gt 0 );
+				r = (
+					reFindNoCase(
+						"^[a-zA-Z\s]*$",
+						arguments.targetValue
+					) gt 0
+				);
 				break;
 			}
 			case "boolean": {

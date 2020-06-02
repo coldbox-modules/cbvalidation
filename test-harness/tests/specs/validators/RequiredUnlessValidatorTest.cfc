@@ -1,10 +1,7 @@
 /**
  * My BDD Test
  */
-component
-	extends="coldbox.system.testing.BaseModelTest"
-	model  ="cbvalidation.models.validators.RequiredUnlessValidator"
-{
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RequiredUnlessValidator" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 

@@ -19,7 +19,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 		// model.$("getValidator", mockValidator);
 
-		mockRules = { required : true, sameAs : "joe", udf : variables._validateit };
+		mockRules = {
+			required : true,
+			sameAs   : "joe",
+			udf      : variables._validateit
+		};
 
 		prepareMock( this ).$( "getName", "luis" ).$( "getJoe", "luis" );
 		model.processRules(
@@ -81,7 +85,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			field   = "name"
 		);
 
-		assertTrue( customValidatorMock.$once( "validate" ), "[validate] should have been called on [customValidator]" );
+		assertTrue(
+			customValidatorMock.$once( "validate" ),
+			"[validate] should have been called on [customValidator]"
+		);
 		var args = customValidatorMock.$callLog().validate[ 1 ];
 		assertEquals(
 			args.validationData,
@@ -100,42 +107,84 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testGenericForm(){
 		mockData        = { name : "luis", age : "33" };
-		mockConstraints = { name : { required : true }, age : { required : true, max : "35" } };
+		mockConstraints = {
+			name : { required : true },
+			age  : { required : true, max : "35" }
+		};
 
-		r = model.validate( target = mockData, constraints = mockConstraints );
+		r = model.validate(
+			target      = mockData,
+			constraints = mockConstraints
+		);
 		assertEquals( false, r.hasErrors() );
 
 		mockData = { name : "luis", age : "55" };
-		r        = model.validate( target = mockData, constraints = mockConstraints );
+		r        = model.validate(
+			target      = mockData,
+			constraints = mockConstraints
+		);
 		assertEquals( true, r.hasErrors() );
 		debug( r.getAllErrors() );
 	}
 
 	function testWithFields(){
 		mockData        = { name : "", age : "" };
-		mockConstraints = { name : { required : true }, age : { required : true, max : "35" } };
+		mockConstraints = {
+			name : { required : true },
+			age  : { required : true, max : "35" }
+		};
 
-		r = model.validate( target = mockData, fields = "name", constraints = mockConstraints );
+		r = model.validate(
+			target      = mockData,
+			fields      = "name",
+			constraints = mockConstraints
+		);
 		assertEquals( true, r.hasErrors() );
-		assertEquals( 0, arrayLen( r.getFieldErrors( "age" ) ) );
-		assertEquals( 1, arrayLen( r.getFieldErrors( "name" ) ) );
+		assertEquals(
+			0,
+			arrayLen( r.getFieldErrors( "age" ) )
+		);
+		assertEquals(
+			1,
+			arrayLen( r.getFieldErrors( "name" ) )
+		);
 	}
 
 	function testWithExcludedFields(){
 		mockData        = { name : "", age : "" };
-		mockConstraints = { name : { required : true }, age : { required : true, max : "35" } };
+		mockConstraints = {
+			name : { required : true },
+			age  : { required : true, max : "35" }
+		};
 
-		r = model.validate( target = mockData, constraints = mockConstraints, excludeFields = "age" );
+		r = model.validate(
+			target        = mockData,
+			constraints   = mockConstraints,
+			excludeFields = "age"
+		);
 		assertEquals( true, r.hasErrors() );
-		assertEquals( 0, arrayLen( r.getFieldErrors( "age" ) ) );
-		assertEquals( 1, arrayLen( r.getFieldErrors( "name" ) ) );
+		assertEquals(
+			0,
+			arrayLen( r.getFieldErrors( "age" ) )
+		);
+		assertEquals(
+			1,
+			arrayLen( r.getFieldErrors( "name" ) )
+		);
 	}
 
 	function testWithIncludeFields(){
 		mockData        = { name : "", age : "" };
-		mockConstraints = { name : { required : true }, age : { required : true, max : "35" } };
+		mockConstraints = {
+			name : { required : true },
+			age  : { required : true, max : "35" }
+		};
 
-		r = model.validate( target = { age : 30 }, constraints = mockConstraints, includeFields = "age" );
+		r = model.validate(
+			target        = { age : 30 },
+			constraints   = mockConstraints,
+			includeFields = "age"
+		);
 		assertEquals( false, r.hasErrors() );
 	}
 

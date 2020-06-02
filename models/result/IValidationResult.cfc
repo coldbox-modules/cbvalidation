@@ -5,7 +5,7 @@
  * The ColdBox validation results interface, all inspired by awesome Hyrule Validation Framework by Dan Vega
  */
 import cbvalidation.models.result.*;
-interface{
+interface {
 
 	/**
 	 * Add errors into the result object
@@ -14,13 +14,13 @@ interface{
 	 *
 	 * @return IValidationResult
 	 */
-	any function addError(required error);
+	any function addError( required error );
 
 	/**
 	 * Set the validation target object name
 	 * @return IValidationResult
 	 */
-	any function setTargetName(required string name);
+	any function setTargetName( required string name );
 
 	/**
 	 * Get the name of the target object that got validated
@@ -42,14 +42,14 @@ interface{
 	 *
 	 * @return IValidationResult
 	 */
-	any function setLocale(required string locale);
+	any function setLocale( required string locale );
 
 
 	/**
 	 * Determine if the results had error or not
 	 * @fieldThe field to count on (optional)
 	 */
-	boolean function hasErrors(string field);
+	boolean function hasErrors( string field );
 
 	/**
 	 * Clear All errors
@@ -62,13 +62,13 @@ interface{
 	 * Get how many errors you have
 	 * @fieldThe field to count on (optional)
 	 */
-	numeric function getErrorCount(string field);
+	numeric function getErrorCount( string field );
 
 	/**
 	 * Get the Errors Array, which is an array of error messages (strings)
 	 * @fieldThe field to use to filter the error messages on (optional)
 	 */
-	array function getAllErrors(string field);
+	array function getAllErrors( string field );
 
 	/**
 	 * Get an error object for a specific field that failed. Throws exception if the field does not exist
@@ -76,7 +76,7 @@ interface{
 	 *
 	 * @return IValidationError[]
 	 */
-	array function getFieldErrors(required string field);
+	array function getFieldErrors( required string field );
 
 	/**
 	 * Get a collection of metadata about the validation results
@@ -88,6 +88,6 @@ interface{
 	 *
 	 * @return IValidationResult
 	 */
-	any function setResultMetadata(required struct data);
+	any function setResultMetadata( required struct data );
 
 }

@@ -37,7 +37,7 @@ component accessors="true" singleton {
 		// Default the target column
 		var targetColumn = ( isNull( arguments.validationData.column ) ? arguments.field : arguments.validationData.column );
 		// Query it
-		var exists = queryExecute(
+		var exists       = queryExecute(
 			"SELECT 1 FROM #arguments.validationData.table# WHERE #targetColumn# = ?",
 			[ arguments.targetValue ]
 		).recordCount > 0;
@@ -49,8 +49,8 @@ component accessors="true" singleton {
 		validationResult.addError(
 			validationResult.newError(
 				argumentCollection = {
-					message : "The #targetColumn# '#arguments.targetValue#' is already in use",
-					field : arguments.field,
+					message        : "The #targetColumn# '#arguments.targetValue#' is already in use",
+					field          : arguments.field,
 					validationType : getName(),
 					validationData : arguments.validationData
 				}

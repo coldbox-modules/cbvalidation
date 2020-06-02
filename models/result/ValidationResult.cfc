@@ -9,27 +9,27 @@ component accessors="true" {
 	/**
 	 * A collection of error objects represented in this result object
 	 */
-	property name="errors"			type="array";
+	property name="errors" type="array";
 
 	/**
 	 * Extra metadata you can store in the results object
 	 */
-	property name="resultMetadata"	type="struct";
+	property name="resultMetadata" type="struct";
 
 	/**
 	 * The locale this result validation is using
 	 */
-	property name="locale"			type="string";
+	property name="locale" type="string";
 
 	/**
 	 * The name of the target object
 	 */
-	property name="targetName"		type="string";
+	property name="targetName" type="string";
 
 	/**
 	 * The constraints evaluated in the validation process
 	 */
-	property name="constraints"		type="struct";
+	property name="constraints" type="struct";
 
 	/**
 	 * The resource bundle object
@@ -45,21 +45,21 @@ component accessors="true" {
 	 * Constructor
 	 */
 	ValidationResult function init(
-		string locale		= "",
-		string targetName	= "",
-		any resourceService	= "",
-		struct constraints	= structNew(),
-		string profiles 	= ""
+		string locale       = "",
+		string targetName   = "",
+		any resourceService = "",
+		struct constraints  = structNew(),
+		string profiles     = ""
 	){
-		variables.errors 			= [];
-		variables.resultMetadata 	= {};
-		variables.errorTemplate   	= new ValidationError();
+		variables.errors         = [];
+		variables.resultMetadata = {};
+		variables.errorTemplate  = new ValidationError();
 
-		variables.locale			= arguments.locale;
-		variables.targetName 		= arguments.targetName;
-		variables.resourceService	= arguments.resourceService;
-		variables.constraints		= arguments.constraints;
-		variables.profiles 			= arguments.profiles;
+		variables.locale          = arguments.locale;
+		variables.targetName      = arguments.targetName;
+		variables.resourceService = arguments.resourceService;
+		variables.constraints     = arguments.constraints;
+		variables.profiles        = arguments.profiles;
 		return this;
 	}
 
@@ -91,7 +91,7 @@ component accessors="true" {
 	 * has locale information
 	 */
 	boolean function hasLocale(){
-		return ( len(locale) GT 0 );
+		return ( len( locale ) GT 0 );
 	}
 
 	/**
@@ -110,7 +110,7 @@ component accessors="true" {
 	 * @return IValidationError
 	 */
 	any function newError(){
-		return duplicate( errorTemplate ).configure( argumentCollection=arguments );
+		return duplicate( errorTemplate ).configure( argumentCollection = arguments );
 	}
 
 	/**
@@ -123,21 +123,29 @@ component accessors="true" {
 	 */
 	any function addError( required error ){
 		// Verify Custom Messages via constraints, these take precedence
-		if( structKeyExists( constraints, error.getField() ) AND structKeyExists( constraints[error.getField()], "#error.getValidationType()#Message" ) ){
+		if (
+			structKeyExists( constraints, error.getField() ) AND structKeyExists(
+				constraints[ error.getField() ],
+				"#error.getValidationType()#Message"
+			)
+		) {
 			// override message with custom constraint
 			// process global replacements
-			globalReplacements( constraints[error.getField()]["#error.getValidationType()#Message"], error );
+			globalReplacements(
+				constraints[ error.getField() ][ "#error.getValidationType()#Message" ],
+				error
+			);
 		}
 		// Validate localization?
-		else if( hasLocale() ){
+		else if ( hasLocale() ) {
 			// get i18n message, if it exists
 			var message = resourceService.getResource(
-				resource= "#targetName#.#error.getField()#.#error.getValidationType()#",
-				default	= "",
-				locale	= getValidationLocale()
+				resource = "#targetName#.#error.getField()#.#error.getValidationType()#",
+				default  = "",
+				locale   = getValidationLocale()
 			);
 			// Override with localized message
-			if( len( message ) ){
+			if ( len( message ) ) {
 				// process global replacements
 				globalReplacements( message, error );
 			}
@@ -155,24 +163,64 @@ component accessors="true" {
 	 */
 	private void function globalReplacements( required message, required error ){
 		// The rejected value
-		arguments.message = replacenocase( arguments.message, "{rejectedValue}", arguments.error.getRejectedValue(), "all");
+		arguments.message = replaceNoCase(
+			arguments.message,
+			"{rejectedValue}",
+			arguments.error.getRejectedValue(),
+			"all"
+		);
 		// The property or field value
-		arguments.message = replacenocase( arguments.message, "{field}", arguments.error.getField(), "all");
+		arguments.message = replaceNoCase(
+			arguments.message,
+			"{field}",
+			arguments.error.getField(),
+			"all"
+		);
 		// Hyrule Compatibility for property
-		arguments.message = replacenocase( arguments.message, "{property}", arguments.error.getField(), "all");
+		arguments.message = replaceNoCase(
+			arguments.message,
+			"{property}",
+			arguments.error.getField(),
+			"all"
+		);
 		// The validation type
-		arguments.message = replacenocase( arguments.message, "{validationType}", arguments.error.getValidationType(), "all");
+		arguments.message = replaceNoCase(
+			arguments.message,
+			"{validationType}",
+			arguments.error.getValidationType(),
+			"all"
+		);
 		// The validation data, should be skipped if validationData is a struct
-		if( !listfindnocase( "UDF,RequiredUnless,RequiredIf,Unique", arguments.error.getValidationType() )){
-		 	arguments.message = replacenocase( arguments.message, "{validationData}", arguments.error.getValidationData(), "all");
+		if (
+			!listFindNoCase(
+				"UDF,RequiredUnless,RequiredIf,Unique",
+				arguments.error.getValidationType()
+			)
+		) {
+			arguments.message = replaceNoCase(
+				arguments.message,
+				"{validationData}",
+				arguments.error.getValidationData(),
+				"all"
+			);
 		}
 		// The target name of the object
-		arguments.message = replacenocase( arguments.message, "{targetName}", getTargetName(), "all");
+		arguments.message = replaceNoCase(
+			arguments.message,
+			"{targetName}",
+			getTargetName(),
+			"all"
+		);
 
 		// process result metadata replacements
 		var errorData = arguments.error.getErrorMetadata();
-		for( var key in errorData ){
-			arguments.message = replacenocase( arguments.message, "{#key#}", errorData[key], "all" );
+		for ( var key in errorData ) {
+			arguments.message = replaceNoCase(
+				arguments.message,
+				"{#key#}",
+				errorData[ key ],
+				"all"
+			);
 		}
 
 		// override message
@@ -185,7 +233,7 @@ component accessors="true" {
 	 * @field The field to count on (optional)
 	 */
 	boolean function hasErrors( string field ){
-		return (arrayLen( getAllErrors(argumentCollection=arguments) ) gt 0);
+		return ( arrayLen( getAllErrors( argumentCollection = arguments ) ) gt 0 );
 	}
 
 	/**
@@ -194,7 +242,7 @@ component accessors="true" {
 	 * @field The field to count on (optional)
 	 */
 	numeric function getErrorCount( string field ){
-		return arrayLen( getAllErrors(argumentCollection=arguments)  );
+		return arrayLen( getAllErrors( argumentCollection = arguments ) );
 	}
 
 	/**
@@ -205,12 +253,12 @@ component accessors="true" {
 	array function getAllErrors( string field ){
 		var errorTarget = errors;
 
-		if( structKeyExists(arguments,"field") ){
+		if ( structKeyExists( arguments, "field" ) ) {
 			errorTarget = getFieldErrors( arguments.field );
 		}
 
 		var e = [];
-		for( var thisKey in errorTarget ){
+		for ( var thisKey in errorTarget ) {
 			arrayAppend( e, thisKey.getMessage() );
 		}
 
@@ -224,18 +272,21 @@ component accessors="true" {
 		var errorTarget = errors;
 
 		// filter by field?
-		if( structKeyExists(arguments,"field") ){
+		if ( structKeyExists( arguments, "field" ) ) {
 			errorTarget = getFieldErrors( arguments.field );
 		}
 
 		var results = {};
-		for( var thisError in errorTarget ){
+		for ( var thisError in errorTarget ) {
 			// check if field struct exists, else create it
-			if( !structKeyExists( results, thisError.getField() ) ){
+			if ( !structKeyExists( results, thisError.getField() ) ) {
 				results[ thisError.getField() ] = [];
 			}
 			// Add error Message
-			arrayAppend( results[ thisError.getField() ] , thisError.getMemento() );
+			arrayAppend(
+				results[ thisError.getField() ],
+				thisError.getMemento()
+			);
 		}
 
 		return results;
@@ -245,7 +296,7 @@ component accessors="true" {
 	 * Get all errors or by field as a JSON structure
 	 */
 	string function getAllErrorsAsJSON( string field ){
-		var results = getAllErrorsAsStruct(argumentcollection=arguments);
+		var results = getAllErrorsAsStruct( argumentcollection = arguments );
 		return serializeJSON( results );
 	}
 
@@ -258,8 +309,10 @@ component accessors="true" {
 	 */
 	array function getFieldErrors( required string field ){
 		var r = [];
-		for( var thisError in errors ){
-			if( thisError.getField() eq arguments.field ){ arrayAppend(r, thisError); }
+		for ( var thisError in errors ) {
+			if ( thisError.getField() eq arguments.field ) {
+				arrayAppend( r, thisError );
+			}
 		}
 		return r;
 	}

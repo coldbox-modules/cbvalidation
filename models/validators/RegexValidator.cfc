@@ -32,12 +32,20 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// Verify we have a value, else skip
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
 		// Validate Regex
-		if ( isValid( "regex", arguments.targetValue, arguments.validationData ) ) {
+		if (
+			isValid(
+				"regex",
+				arguments.targetValue,
+				arguments.validationData
+			)
+		) {
 			return true;
 		}
 

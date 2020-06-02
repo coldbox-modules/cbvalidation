@@ -32,12 +32,17 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
 		// get secondary value from property
-		var compareValue = invoke( arguments.target, "get#arguments.validationData#" );
+		var compareValue = invoke(
+			arguments.target,
+			"get#arguments.validationData#"
+		);
 
 		// Compare it now
 		if ( compare( arguments.targetValue, compareValue ) EQ 0 ) {

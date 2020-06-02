@@ -31,9 +31,9 @@
         ".git*"
     ],
     "scripts":{
-        "toMaster":"recipe build/toMaster.boxr",
-        "format":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
-        "format:check":"cfformat run models/**/*.cfc,ModuleConfig.cfc,tests/specs/**/*.cfc,*.cfc --check",
-        "lint":"cflint models/**.cfc --text --html --json --!exitOnError --suppress"
+        "release":"recipe build/release.boxr",
+        "format":"cfformat run models/,test-harness/tests/,*.cfc --overwrite",
+        "format:watch":"cfformat watch models/,test-harness/tests/,*.cfc ./.cfformat.json",
+        "format:check":"cfformat check models/,test-harness/tests/,*.cfc"
     }
 }

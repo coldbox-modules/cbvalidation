@@ -45,7 +45,7 @@ component accessors="true" singleton {
 		}
 
 		// Check For Value
-		if( !isNull( arguments.targetValue ) && hasValue( arguments.targetValue ) ){
+		if ( !isNull( arguments.targetValue ) && hasValue( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -54,7 +54,9 @@ component accessors="true" singleton {
 			message        : "The '#arguments.field#' value is required",
 			field          : arguments.field,
 			validationType : getName(),
-			rejectedValue  : ( isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+			rejectedValue  : (
+				isNull( arguments.targetValue ) ? "NULL" : isSimpleValue( arguments.targetValue ) ? arguments.targetValue : ""
+			),
 			validationData : arguments.validationData
 		};
 

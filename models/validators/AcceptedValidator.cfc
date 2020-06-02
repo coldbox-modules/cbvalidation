@@ -33,11 +33,18 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) ) ) {
+		if (
+			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
+		) {
 			return true;
 		}
 
-		if ( listFindNoCase( "1,yes,true,on", arguments.targetValue ) ) {
+		if (
+			listFindNoCase(
+				"1,yes,true,on",
+				arguments.targetValue
+			)
+		) {
 			return true;
 		}
 
