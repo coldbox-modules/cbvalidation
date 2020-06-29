@@ -131,12 +131,12 @@ component accessors="true" {
 	 */
 	struct function getMemento(){
 		return {
-			message        : message,
-			field          : field,
-			rejectedValue  : rejectedValue,
-			validationType : validationType,
-			validationData : validationData,
-			errorMetadata  : errorMetadata
+			"message"        : message,
+			"field"          : field,
+			"rejectedValue"  : rejectedValue,
+			"validationType" : validationType,
+			"validationData" : validationData,
+			"errorMetadata"  : errorMetadata
 		};
 	}
 
