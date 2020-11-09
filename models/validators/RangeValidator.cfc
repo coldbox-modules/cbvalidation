@@ -73,9 +73,9 @@ component accessors="true" singleton {
 		var error = validationResult
 			.newError( argumentCollection = args )
 			.setErrorMetadata( {
-				range : arguments.validationData,
-				min   : min,
-				max   : max
+				'range' : arguments.validationData,
+				'min'   : min,
+				'max'   : max
 			} );
 		validationResult.addError( error );
 		return false;

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [2.3.0] => 2020-NOV-09
+
+### Added
+
+* New github latest changelog publish
+* Quote all memento keys so they can preserve their casing
+* Quote all metadata keys so they can preserve their casing
+
+### Fixed
+
+* Metadata for validations so the docs can be generated correctly
+
+----
+
 ## [2.2.0] => 2020-JUN-02
 
 ### Added
