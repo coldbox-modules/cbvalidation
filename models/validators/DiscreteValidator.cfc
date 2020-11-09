@@ -107,8 +107,8 @@ component accessors="true" singleton {
 			var error = validationResult
 				.newError( argumentCollection = args )
 				.setErrorMetadata( {
-					operation      : operation,
-					operationValue : operationValue
+					'operation'      : operation,
+					'operationValue' : operationValue
 				} );
 			validationResult.addError( error );
 		}

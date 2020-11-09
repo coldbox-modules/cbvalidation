@@ -61,7 +61,7 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { sameas : arguments.validationData } );
+		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'sameas' : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
 	}

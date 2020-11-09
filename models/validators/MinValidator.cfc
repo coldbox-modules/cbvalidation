@@ -50,7 +50,7 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { min : arguments.validationData } );
+		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'min' : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
 	}
