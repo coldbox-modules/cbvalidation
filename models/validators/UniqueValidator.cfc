@@ -36,11 +36,35 @@ component accessors="true" singleton {
 	){
 		// Default the target column
 		var targetColumn = ( isNull( arguments.validationData.column ) ? arguments.field : arguments.validationData.column );
+
+		// Query string
+		var qryString = "SELECT 1 FROM #arguments.validationData.table# WHERE #targetColumn# = ?";
+		var qryParams = [ arguments.targetValue ];
+
+		// check If excludeKey check has been set
+		if( !isNull(arguments.validationData.excludeKey )){
+			//get excludeKey column name
+			var excludeKeyColumn = 
+				isNull( arguments.validationData.excludeKeyColumn ) 
+				? arguments.validationData.excludeKey
+				: arguments.validationData.excludeKeyColumn;
+			
+			//get excludeKey value
+			var excludeKeyValue = invoke(arguments.target,"get#arguments.validationData.excludeKey#");
+
+			//check if excludeKey is a valid sql value
+			if(	!isNull(excludeKeyValue) 
+				AND isSimpleValue(excludeKeyValue)
+				AND excludeKeyValue != ''
+			){
+				//append to sql where clause
+				qryString &= ' AND #excludeKeyColumn# != ?';
+				qryParams.append( excludeKeyValue );
+			}
+		}
+		
 		// Query it
-		var exists       = queryExecute(
-			"SELECT 1 FROM #arguments.validationData.table# WHERE #targetColumn# = ?",
-			[ arguments.targetValue ]
-		).recordCount > 0;
+		var exists = queryExecute(qryString, qryParams).recordCount > 0;
 
 		if ( !exists ) {
 			return true;
