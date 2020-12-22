@@ -80,12 +80,28 @@ component{
 		prc.object = validateOrFail( target=oModel, profiles=rc._profiles );
 
 		return "Validated";
+    }
+    
+    
+    /**
+	 * validateOnly
+	 */
+    function validateOnly( event, rc, prc){
+        
+        var oModel = populateModel( "User" );
+
+		// validate
+        prc.result = validate( oModel );
+
+		return "Validated";
+
 	}
 
 
 	// Run on first init
 	any function onAppInit( event, rc, prc ){
 
-	}
+    }
+    
 
 }

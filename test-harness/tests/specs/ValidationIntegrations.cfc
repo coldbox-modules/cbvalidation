@@ -81,7 +81,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							params = {
 								username     : "luis",
 								password     : "luis",
-								email        : "lmajano@ortussolutions.com",
+                                email        : "lmajano@ortussolutions.com",
+                                status       : 1,
 								bogus        : now(),
 								anotherBogus : now()
 							},
@@ -147,7 +148,82 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					} );
 				} );
 			} );
-		} );
+        } );
+        
+
+        story( "I want to access error metadata in UDF and method validators", function(){
+            given( "invalid data", function(){
+                then( "it should allow access to custom udf metadata", function(){
+                    var e = this.request(
+                        route  = "/main/validateOnly",
+                        params = {
+                            username     : "luis",
+                            email        : "lmajano@ortussolutions.com",
+                            password     : "luis"
+                        },
+                        method = "post"
+                    );
+
+                    var result = e.getPrivateValue( "result" );
+                    
+                    expect( result.getErrors().len() ).toBe( 1 );
+                    expect( result.getErrors()[ 1 ].getValidationType() ).toBe( "UDF" );
+                    expect( result.getErrors()[ 1 ].getErrorMetaData() ).toHaveKey( "custom" );
+                    
+                } );
+                then( "it should allow udf generated error messages based on metadata", function(){
+                    var e = this.request(
+                        route  = "/main/validateOnly",
+                        params = {
+                            username     : "luis",
+                            email        : "lmajano@ortussolutions.com",
+                            password     : "luis"
+                        },
+                        method = "post"
+                    );
+
+                    var result = e.getPrivateValue( "result" );
+                    expect( result.getErrors()[ 1 ].getMessage() ).toBe( "This is a custom error message from within the udf" );
+                } );
+                then( "it should allow access to custom method metadata", function(){
+                    var e = this.request(
+                        route  = "/main/validateOnly",
+                        params = {
+                            username     : "luis",
+                            email        : "lmajano@ortussolutions.com",
+                            password     : "luis",
+                            status       : 1,
+                            type         : 4 // should not validate
+                        },
+                        method = "post"
+                    );
+
+                    var result = e.getPrivateValue( "result" );
+
+                    expect( result.getErrors().len() ).toBe( 1 );
+                    expect( result.getErrors()[ 1 ].getValidationType() ).toBe( "method" );
+                    expect( result.getErrors()[ 1 ].getErrorMetaData() ).toHaveKey( "custom" );
+                    
+                } );
+                then( "it should allow method generated error messages based on metadata", function(){
+                    var e = this.request(
+                        route  = "/main/validateOnly",
+                        params = {
+                            username     : "luis",
+                            email        : "lmajano@ortussolutions.com",
+                            password     : "luis",
+                            status       : 1,
+                            type         : 4 // should not validate
+                        },
+                        method = "post"
+                    );
+
+                    var result = e.getPrivateValue( "result" );
+                    expect( result.getErrors()[ 1 ].getMessage() ).toBe( "This is a custom error message from within the method" );
+                    
+                } );
+            } );
+        } );
 	}
 
 }

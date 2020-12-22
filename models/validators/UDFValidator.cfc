@@ -31,10 +31,14 @@ component accessors="true" singleton {
 		any targetValue,
 		any validationData
 	){
-		// Validate against the UDF/closure
+        
+        var errorMetadata = {};
+
+        // Validate against the UDF/closure
 		var passed = arguments.validationData(
 			isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
-			arguments.target
+            arguments.target,
+            errorMetadata
 		);
 
 		if ( passed ) {
@@ -49,7 +53,7 @@ component accessors="true" singleton {
 			validationData : arguments.validationData
 		};
 
-		validationResult.addError( validationResult.newError( argumentCollection = args ) );
+		validationResult.addError( validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata ) );
 
 		return false;
 	}
