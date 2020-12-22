@@ -21,7 +21,7 @@ component accessors="true" {
                 metadata[ "customMessage" ] = "This is a custom error message from within the udf";
                 return listFind( "1,2,3", value );
             }, 
-            udfMessage : "{customMessage}",
+            udfMessage : "{customMessage}"
         },
         type    : { 
             required : false, 
