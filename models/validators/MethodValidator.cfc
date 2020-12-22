@@ -35,17 +35,19 @@ component
 		any validationData,
 		struct rules
 	){
+        var errorMetadata = {};
+        
 		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
-		}
+        }
 
 		// Validate via method
 		if (
 			invoke(
 				arguments.target,
 				arguments.validationData,
-				[ arguments.targetValue ]
+				[ arguments.targetValue, errorMetadata ]
 			)
 		) {
 			return true;
@@ -59,7 +61,7 @@ component
 			validationData : arguments.validationData
 		};
 
-		validationResult.addError( validationResult.newError( argumentCollection = args ) );
+		validationResult.addError( validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata ) );
 		return false;
 	}
 
