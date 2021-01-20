@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"2.4.0",
+    "version":"3.0.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -11,7 +11,7 @@
         "type":"git",
         "url":"https://github.com/coldbox-modules/cbvalidation"
     },
-    "shortDescription":"This module provides server side validation to ColdBox applications",
+    "shortDescription":"This module provides server side validation to ColdBox applications with localization and i18n support",
     "license":[
         {
             "type":"Apache2",
@@ -23,7 +23,7 @@
         "Curt Gratz <gratz@computerknowhow.com>"
     ],
     "dependencies":{
-        "cbi18n":"^1.4.0"
+        "cbi18n":"^2.0.0"
     },
     "ignore":[
         "**/.*",

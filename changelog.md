@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.0.0] => 2021-JAN-20
+
+### Added
+
+* Migration to cbi18n 2.x series. This will require for you to update your cbi18n settings in your ColdBox configuration file and the modules that leverage cbi18n.  Please see https://coldbox-i18n.ortusbooks.com/intro/release-history/whats-new-with-2.0.0#compatibility-updates on how to upgrade your application easily in about 5 minutes.
+
+----
 ## [2.3.0] => 2020-NOV-09
 
 ### Added

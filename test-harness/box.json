@@ -5,9 +5,9 @@
     "private":true,
     "description":"",
     "dependencies":{
-        "coldbox":"^5.0.0",
-        "cbi18n":"^1.4.0",
-        "testbox":"^3.1.0+339"
+        "coldbox":"^6.0.0",
+        "cbi18n":"^2.0.0",
+        "testbox":"^4.0.0"
     },
     "installPaths":{
         "coldbox":"coldbox/",
