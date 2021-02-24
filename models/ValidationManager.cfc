@@ -50,8 +50,6 @@
  * </pre>
  *
  */
-import cbvalidation.models.*;
-import cbvalidation.models.result.*;
 component
 	accessors="true"
 	serialize="false"

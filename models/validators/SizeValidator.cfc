@@ -37,15 +37,8 @@ component accessors="true" singleton {
 		) {
 			return true;
 		}
-
-		// check
-		if (
-			!isValid( "string", arguments.validationData ) || !isValid(
-				"regex",
-				arguments.validationData,
-				"(\-?\d)+(?:\.\.\-?\d+)?"
-			)
-		) {
+        // check
+		if ( !isValid( "string", arguments.validationData ) || !reFind( "(\-?\d)+(?:\.\.\-?\d+)?", arguments.validationData	) ) {
 			throw(
 				message = "The range you sent is invalid: #arguments.validationData#",
 				detail  = "It must be in the format of {minNumber}..{maxNumber} or {minNumber}",
