@@ -75,7 +75,8 @@
                         username = { required=true, size="6..20" },
                         password = { required=true, size="6..20 "}
                     }
-                }
+                },
+                i18nResource = "includes/cbi18n/custom"
             }
         };
 

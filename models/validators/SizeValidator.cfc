@@ -4,9 +4,7 @@
  * ---
  * This validator validates the size or length of the value of a field
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -31,10 +29,8 @@ component accessors="true" singleton {
 		any targetValue = "",
 		any validationData
 	){
-		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+        // return true if no data to check, type needs a data element to be checked.
+		if ( isNullOrEmpty(arguments.targetValue) ) {
 			return true;
 		}
         // check
@@ -86,8 +82,9 @@ component accessors="true" singleton {
 			}
 		}
 
+        // still not validated, then create validation error
 		var args = {
-			message        : "The '#arguments.field#' value is not in the required size range (#arguments.validationData#)",
+			message        : "PLACEHOLDER", //will be set in ValidationResult
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
@@ -103,13 +100,6 @@ component accessors="true" singleton {
 			} );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

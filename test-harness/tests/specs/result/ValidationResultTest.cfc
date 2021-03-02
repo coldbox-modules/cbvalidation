@@ -9,6 +9,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function setup(){
 		super.setup();
 		model.init();
+        prepareMock(model);
+        model.$("hasI18nResource",false);
+        model.$("getDefaultMessage","dummy message");
 	}
 
 	function testLocale(){

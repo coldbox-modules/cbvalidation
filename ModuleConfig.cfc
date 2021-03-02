@@ -23,23 +23,38 @@ component {
 	this.dependencies               = [ "cbi18n" ];
 	// ColdBox Static path to validation manager
 	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
+	this.CBVALIDATION_DEFAULT_RESOURCE = "cbvalidation";
+	this.CBVALIDATION_CUSTOM_RESOURCE = "cbvalidationCustom";
 
 	/**
 	 * Configure module
 	 */
 	function configure(){
+
         settings = {
             manager = this.COLDBOX_VALIDATION_MANAGER,
+            i18nResource = "",
             sharedConstraints = {
             }
         };
-	}
+        cbi18n = {
+            resourceBundles = {
+                "#this.CBVALIDATION_DEFAULT_RESOURCE#" = "#moduleMapping#/includes/cbi18n/cbvalidation"
+            }
+        };
+    }
 
 	/**
 	 * Fired when the module is registered and activated.
 	 */
 	function onLoad(){
-		// Did you change the validation manager?
+        if (len( variables.settings.i18nResource )) {
+            cbi18n.resourceBundles[this.CBVALIDATION_CUSTOM_RESOURCE] = variables.settings.i18nResource;
+        }
+        variables.settings["CBVALIDATION_DEFAULT_RESOURCE"] = this.CBVALIDATION_DEFAULT_RESOURCE;
+        variables.settings["CBVALIDATION_CUSTOM_RESOURCE"] = this.CBVALIDATION_CUSTOM_RESOURCE;
+
+        // Did you change the validation manager?
 		if ( variables.settings.manager != this.COLDBOX_VALIDATION_MANAGER ) {
 			binder
 				.map(

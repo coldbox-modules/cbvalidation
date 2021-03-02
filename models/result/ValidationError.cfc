@@ -49,7 +49,7 @@ component accessors="true" {
 	/**
 	 * Get the error validation data
 	 */
-	string function getValidationData(){
+	any function getValidationData(){
 		return validationData;
 	}
 

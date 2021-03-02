@@ -14,7 +14,7 @@ component{
 			password = {required=true, size="6..20"}
 		};
 		// validation
-		var result = validate( target=rc, constraints=constraints );
+		var result = validate( target=rc, constraints=constraints, locale = getFWLocale() );
 
 		if( !result.hasErrors() ){
 			flash.put( "notice", "User info validated!" );

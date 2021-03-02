@@ -41,6 +41,11 @@ component accessors="true" {
 	 */
 	property name="profiles" type="string";
 
+    /**
+     * The cbvalidation settings
+     */
+    property name="settings" type="struct" inject="coldbox:moduleSettings:cbvalidation";
+
 	/**
 	 * Constructor
 	 */
@@ -90,6 +95,7 @@ component accessors="true" {
 	/**
 	 * has locale information
 	 */
+    // TODO: not sure if we need this function, probably not
 	boolean function hasLocale(){
 		return ( len( locale ) GT 0 );
 	}
@@ -122,35 +128,25 @@ component accessors="true" {
 	 * @return IValidationResult
 	 */
 	any function addError( required error ){
-		// Verify Custom Messages via constraints, these take precedence
-		if (
-			structKeyExists( constraints, error.getField() ) AND structKeyExists(
-				constraints[ error.getField() ],
-				"#error.getValidationType()#Message"
-			)
-		) {
-			// override message with custom constraint
-			// process global replacements
-			globalReplacements(
-				constraints[ error.getField() ][ "#error.getValidationType()#Message" ],
-				error
-			);
+
+        var message = "";
+        // Verify Custom Messages via constraints, these take precedence
+		if ( len( getCustomMessageFromConstraint( error ) ) ) {
+            message = getCustomMessageFromConstraint( error );
+        }
+		// verify custom message from i18nResource 
+		else if ( hasI18nResource() ) {
+            // get i18n message from CUSTOM resource, if it exists
+			var message = getCustomMessageFromI18nResource( error );
 		}
-		// Validate localization?
-		else if ( hasLocale() ) {
-			// get i18n message, if it exists
-			var message = resourceService.getResource(
-				resource = "#targetName#.#error.getField()#.#error.getValidationType()#",
-				default  = "",
-				locale   = getValidationLocale()
-			);
-			// Override with localized message
-			if ( len( message ) ) {
-				// process global replacements
-				globalReplacements( message, error );
-			}
-		}
-		// append error
+        // if message has no length yet we need a default message
+        if ( !message.len() ) {
+            message = getDefaultMessage( error );
+        }
+
+        globalReplacements( message, error	);
+
+        // append error
 		arrayAppend( errors, arguments.error );
 		return this;
 	}
@@ -159,7 +155,8 @@ component accessors="true" {
 	 * Replace global messages
 	 *
 	 * @message The message
-	 * @error The error object
+	 * @error The validation error to add into the results object
+	 * @error_generic IValidationError
 	 */
 	private void function globalReplacements( required message, required error ){
 		// The rejected value
@@ -176,6 +173,7 @@ component accessors="true" {
 			arguments.error.getField(),
 			"all"
 		);
+        writedump(arguments.message);
 		// Hyrule Compatibility for property
 		arguments.message = replaceNoCase(
 			arguments.message,
@@ -191,12 +189,7 @@ component accessors="true" {
 			"all"
 		);
 		// The validation data, should be skipped if validationData is a struct
-		if (
-			!listFindNoCase(
-				"UDF,RequiredUnless,RequiredIf,Unique",
-				arguments.error.getValidationType()
-			)
-		) {
+		if ( isSimpleValue( arguments.error.getValidationData()) ) {
 			arguments.message = replaceNoCase(
 				arguments.message,
 				"{validationData}",
@@ -222,7 +215,6 @@ component accessors="true" {
 				"all"
 			);
 		}
-
 		// override message
 		arguments.error.setMessage( arguments.message );
 	}
@@ -344,4 +336,74 @@ component accessors="true" {
 		return this;
 	}
 
+    /**
+     * detects if i18n resource is present
+     * 
+     * @return boolean
+     */
+    private boolean function hasI18nResource() {
+        // if settings.i18nResource has lenght, there always is a valid custom resource (if not, module configure would fail)
+        return variables.settings.i18nResource.len() > 0 ;
+    }
+
+    /**
+     * returns custom message from constraints
+     * 
+ 	 * @error The validation error to add into the results object
+	 * @error_generic IValidationError
+    * @return string empty if not found
+     */
+    private string function getCustomMessageFromConstraint( required error ){
+ 		if (
+			structKeyExists( variables.constraints, arguments.error.getField() ) AND structKeyExists(
+				variables.constraints[ arguments.error.getField() ],
+				"#arguments.error.getValidationType()#Message"
+			)
+		) {
+			return variables.constraints[ arguments.error.getField() ][ "#arguments.error.getValidationType()#Message" ];
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * returns custom message from i18n resource
+     * 
+ 	 * @error The validation error to add into the results object
+	 * @error_generic IValidationError
+    * @return string and empty if not found
+     */
+    private string function getCustomMessageFromI18nResource( required error ){
+        return variables.resourceService.getResource(
+            resource = "messages.#arguments.error.getValidationType()#",
+            default  = "",
+            locale   = getValidationLocale(),
+            bundle = variables.settings.CBVALIDATION_CUSTOM_RESOURCE
+        );
+    }
+
+    /**
+     * return (localized) default message based on validationType from default resources
+     * 
+	 * @error The validation error to add into the results object
+	 * @error_generic IValidationError
+     * @return string
+     * @throws MissingValidatorTranslation (should alwasy be there for default validator types)
+     */
+    private string function getDefaultMessage( error ){
+        var message = resourceService.getResource(
+            resource = "messages.#arguments.error.getValidationType()#",
+            default = "",
+            locale = getValidationLocale(),
+            bundle = variables.settings.CBVALIDATION_DEFAULT_RESOURCE
+        );
+        if ( message.len() ) {
+            return message;
+        } else {
+            throw(
+				type         = "MissingValidatorTranslation",
+				message      = "Missing translation for validatorType #arguments.error.getValidationType()#"
+			);
+        }
+    }
 }
