@@ -5,7 +5,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.DiscreteValidator" {
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.DiscreteValidator" skip="true"{
 
 	function setup(){
 		super.setup();

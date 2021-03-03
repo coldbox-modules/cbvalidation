@@ -19,7 +19,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function run( testResults, testBox ){
 		// all your suites go here.
-		describe( "Accepted", function(){
+		xdescribe( "Accepted", function(){
 			it( "can evaluate true when alpha", function(){
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 

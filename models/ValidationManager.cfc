@@ -79,6 +79,11 @@ component
 	 */
 	property name="registeredValidators" type="Struct";
 
+    /**
+     * The cbvalidation settings
+     */
+    property name="settings" type="Struct" inject="coldbox:moduleSettings:cbvalidation";
+
 	// Unique manager id
 	this.id = createUUID();
 
@@ -169,9 +174,10 @@ component
 			initArguments = {
 				locale          : arguments.locale,
 				targetName      : targetName,
-				resourceService : resourceService,
+				resourceService : variables.resourceService,
 				constraints     : allConstraints,
-				profiles        : arguments.profiles
+				profiles        : arguments.profiles,
+                settings        : variables.settings
 			}
 		);
 
@@ -302,7 +308,7 @@ component
 				validatorType  = key,
 				validationData = arguments.rules[ key ]
 			).validate(
-				validationResult = results,
+				validationResult = arguments.results,
 				target           = arguments.target,
 				field            = arguments.field,
 				targetValue      = invoke(

@@ -10,8 +10,13 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		super.setup();
 		model.init();
         prepareMock(model);
-        model.$("hasI18nResource",false);
-        model.$("getDefaultMessage","dummy message");
+        model.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
+        mockRB = getMockBox()
+        .createEmptyMock( "cbi18n.models.ResourceService" )
+        .$( "getResource" )
+        .$results( "Some dummy message" );
+        model.setResourceService( mockRB );
+//        model.$("getDefaultMessage","dummy message");
 	}
 
 	function testLocale(){
@@ -83,6 +88,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			"1,2,3"
 		);
 		model.setLocale( "en_US" );
+        model.setSettings( { i18nResource = "some/path", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
+        
 		mockRB = getMockBox()
 			.createEmptyMock( "cbi18n.models.ResourceService" )
 			.$( "getResource" )
@@ -91,6 +98,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 		model.addError( mockError );
 		debug( mockError.getmemento() );
+        debug(model.getSettings().i18nResource);
+        debug(model.hasI18nResource());
 		assertEquals(
 			"Your stuff doesn't work test inList 1,2,3",
 			mockError.getMessage()

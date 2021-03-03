@@ -44,7 +44,7 @@ component accessors="true" {
     /**
      * The cbvalidation settings
      */
-    property name="settings" type="struct" inject="coldbox:moduleSettings:cbvalidation";
+    property name="settings" type="struct"; 
 
 	/**
 	 * Constructor
@@ -54,7 +54,8 @@ component accessors="true" {
 		string targetName   = "",
 		any resourceService = "",
 		struct constraints  = structNew(),
-		string profiles     = ""
+		string profiles     = "",
+        struct settings     = structNew()
 	){
 		variables.errors         = [];
 		variables.resultMetadata = {};
@@ -65,6 +66,7 @@ component accessors="true" {
 		variables.resourceService = arguments.resourceService;
 		variables.constraints     = arguments.constraints;
 		variables.profiles        = arguments.profiles;
+        variables.settings        = arguments.settings;
 		return this;
 	}
 
@@ -128,7 +130,6 @@ component accessors="true" {
 	 * @return IValidationResult
 	 */
 	any function addError( required error ){
-
         var message = "";
         // Verify Custom Messages via constraints, these take precedence
 		if ( len( getCustomMessageFromConstraint( error ) ) ) {
@@ -137,10 +138,11 @@ component accessors="true" {
 		// verify custom message from i18nResource 
 		else if ( hasI18nResource() ) {
             // get i18n message from CUSTOM resource, if it exists
-			var message = getCustomMessageFromI18nResource( error );
-		}
+			message = getCustomMessageFromI18nResource( error );
+        }
+
         // if message has no length yet we need a default message
-        if ( !message.len() ) {
+        if ( !message.len() && !arguments.error.getMessage().len() ) {
             message = getDefaultMessage( error );
         }
 
@@ -173,8 +175,7 @@ component accessors="true" {
 			arguments.error.getField(),
 			"all"
 		);
-        writedump(arguments.message);
-		// Hyrule Compatibility for property
+ 		// Hyrule Compatibility for property
 		arguments.message = replaceNoCase(
 			arguments.message,
 			"{property}",
@@ -341,7 +342,7 @@ component accessors="true" {
      * 
      * @return boolean
      */
-    private boolean function hasI18nResource() {
+    public boolean function hasI18nResource() {
         // if settings.i18nResource has lenght, there always is a valid custom resource (if not, module configure would fail)
         return variables.settings.i18nResource.len() > 0 ;
     }

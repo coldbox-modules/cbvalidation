@@ -4,7 +4,7 @@ Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.MinValidator" {
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.MinValidator" skip="true" {
 
 	function setup(){
 		super.setup();

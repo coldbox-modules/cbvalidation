@@ -8,9 +8,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function setup(){
 		super.setup();
 		mockRB = createEmptyMock( "cbi18n.models.ResourceService" );
+        mockRB.$("getResource","someString");
 		model.init();
 		model.setWireBox( mockWireBox );
 		model.setResourceService( mockRB );
+        model.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
 	}
 
 	function testProcessRules(){

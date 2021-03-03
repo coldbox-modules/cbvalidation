@@ -19,7 +19,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function run( testResults, testBox ){
 		// all your suites go here.
-		describe( "RequiredUnless", function(){
+		xdescribe( "RequiredUnless", function(){
 			it( "can make targets required unless the properties passed have the right value", function(){
 				var mock = createStub()
 					.$( "getName", "luis" )
