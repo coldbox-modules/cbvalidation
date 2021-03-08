@@ -1,5 +1,5 @@
 {
-	"messages": {
+	"_messages": {
 		"alpha": " '{field}' is invalid , only characters a to z allowed",
 		"alpha_dash": " '{field}' is invalid , only characters a-z, numbers underscores and dashes allowed",
 		"alpha_num": "The '{field}' is invalid , only characters a-z and numbers allowed",
@@ -22,7 +22,7 @@
 		"query": "The '{field}' has an invalid type, expected type is query",
 		"range": "The '{field}' value is not in the value field range ({validationData})",
 		"regex": "The '{field}' value does not match the regular expression: {validationData}",
-		"required": "The value of {field} is an invalid json string",
+		"required": "The value of {field} is required",
 		"size": "The '{field}' value is not in the required size range {validationData}",
 		"ssn": " '{field}' is not a valid social security number",
 		"string": "The '{field}' has an invalid type, expected type is string",

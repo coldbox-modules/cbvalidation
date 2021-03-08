@@ -1,5 +1,5 @@
 {
-	"messages": {
+	"_messages": {
 		"alpha": " «{field}» n'est pas valide, seuls les caractères de a à z sont autorisés",
 		"alpha_dash": " «{field}» n'est pas valide, seuls les caractères a-z, les nombres, les traits de soulignement et les tirets sont autorisés",
 		"alpha_num": "Le \"{field}\" n'est pas valide, seuls les caractères a-z et les nombres sont autorisés",
@@ -22,7 +22,7 @@
 		"query": "Le \"{field}\" a un type non valide, le type attendu est la requête",
 		"range": "La valeur \"{field}\" ne se trouve pas dans la plage du champ de valeur ({validationData})",
 		"regex": "La valeur \"{field}\" ne correspond pas à l'expression régulière: {validationData}",
-		"required": "La valeur de {field} est une chaîne json non valide",
+		"required": "La valeur de {field} est obligatoire",
 		"size": "La valeur \"{field}\" n'est pas dans la plage de tailles requise {validationData}",
 		"ssn": " «{field}» n'est pas un numéro de sécurité sociale valide",
 		"string": "Le \"{field}\" a un type non valide, le type attendu est une chaîne",

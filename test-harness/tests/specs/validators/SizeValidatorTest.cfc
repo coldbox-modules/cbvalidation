@@ -13,6 +13,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testValidateSimple(){
 		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+        mockRB = getMockBox()
+            .createEmptyMock( "cbi18n.models.ResourceService" )
+            .$( "getResource" )
+            .$results( "Some dummy message" );
+        result.setResourceService( mockRB );
         result.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
 
 
@@ -76,6 +81,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testValidateComplex(){
 		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+        mockRB = getMockBox()
+            .createEmptyMock( "cbi18n.models.ResourceService" )
+            .$( "getResource" )
+            .$results( "Some dummy message" );
+        result.setResourceService( mockRB );
         result.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
 
 		r = model.validate( result, this, "test", "123", "3..5" );

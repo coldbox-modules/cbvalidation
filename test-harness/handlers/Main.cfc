@@ -11,7 +11,7 @@ component{
 	any function save( event, rc, prc){
 		var constraints = {
 			username = {required=true, size="6..20"},
-			password = {required=true, size="6..20"}
+			"password" = {required=true, size="6..20"}
 		};
 		// validation
 		var result = validate( target=rc, constraints=constraints, locale = getFWLocale() );
@@ -23,7 +23,6 @@ component{
 			flash.put( "notice", result.getAllErrors().tostring() );
 			return index(event,rc,prc);
 		}
-
 	}
 
 	any function saveShared( event, rc, prc){
@@ -39,6 +38,30 @@ component{
 		}
 	}
 
+    any function saveCustomMessages( event, rc, prc ){
+		var constraints = {
+			username = {required=true, size="6..20"},
+			"password" = {required=true, size="6..20"},
+            _messages = {
+                "username.required": "A {field} is required",
+                "username.size": "A {property} has minimum 2 characters, maximum 20",
+                "password": "A valid {field} string is required"
+            },
+            _fields = {
+                "username": "account name"
+            }
+		};
+		// validation
+		var result = validate( target=rc, constraints=constraints, locale = getFWLocale() );
+
+		if( !result.hasErrors() ){
+			flash.put( "notice", "User info validated!" );
+			relocate('main');
+		} else {
+			flash.put( "notice", result.getAllErrors().tostring() );
+			return index(event,rc,prc);
+		}
+    }
 
 	/**
 	* validateOrFailWithKeys

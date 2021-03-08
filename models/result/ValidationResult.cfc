@@ -130,24 +130,21 @@ component accessors="true" {
 	 * @return IValidationResult
 	 */
 	any function addError( required error ){
-        var message = "";
+        var message = arguments.error.getMessage();
         // Verify Custom Messages via constraints, these take precedence
 		if ( len( getCustomMessageFromConstraint( error ) ) ) {
             message = getCustomMessageFromConstraint( error );
         }
 		// verify custom message from i18nResource 
-		else if ( hasI18nResource() ) {
+		else if ( len( getCustomMessageFromI18nResource( error ) ) ) {
             // get i18n message from CUSTOM resource, if it exists
 			message = getCustomMessageFromI18nResource( error );
         }
-
         // if message has no length yet we need a default message
-        if ( !message.len() && !arguments.error.getMessage().len() ) {
+        if ( !message.len() ) {
             message = getDefaultMessage( error );
         }
-
         globalReplacements( message, error	);
-
         // append error
 		arrayAppend( errors, arguments.error );
 		return this;
@@ -169,17 +166,29 @@ component accessors="true" {
 			"all"
 		);
 		// The property or field value
+        // find out if there is a {field} translation
+        // check in constraints first
+        var fieldLabel = getConstraintFieldLabel( arguments.error );
+ 
+        // check in cbi18n customization next
+        if ( !fieldLabel.len() ) {
+            fieldLabel = getFieldLabelFromI18nResource( arguments.error );
+        };
+        if ( !fieldLabel.len() ) {
+            fieldLabel = arguments.error.getField();
+        };
+        
 		arguments.message = replaceNoCase(
 			arguments.message,
 			"{field}",
-			arguments.error.getField(),
+			fieldLabel,
 			"all"
 		);
- 		// Hyrule Compatibility for property
+        // Hyrule Compatibility for property
 		arguments.message = replaceNoCase(
 			arguments.message,
 			"{property}",
-			arguments.error.getField(),
+			fieldLabel,
 			"all"
 		);
 		// The validation type
@@ -355,16 +364,33 @@ component accessors="true" {
     * @return string empty if not found
      */
     private string function getCustomMessageFromConstraint( required error ){
- 		if (
-			structKeyExists( variables.constraints, arguments.error.getField() ) AND structKeyExists(
-				variables.constraints[ arguments.error.getField() ],
-				"#arguments.error.getValidationType()#Message"
-			)
-		) {
-			return variables.constraints[ arguments.error.getField() ][ "#arguments.error.getValidationType()#Message" ];
-        } else {
-            return "";
+        if ( structKeyExists( variables.constraints, "_messages" ) ){
+            //check exact message for field plus type first
+            var FieldPlusTypeKey = "#error.getField()#.#error.getValidationType()#";
+            if ( structkeyExists(variables.constraints._messages, FieldPlusTypeKey )  ) {
+                return structFind(variables.constraints._messages,FieldPlusTypeKey);
+            }
+            // check generic custom message for field
+            if ( structkeyExists( variables.constraints._messages, error.getField() ) ) {
+                return structfind( variables.constraints._messages, error.getField() );
+            }
         }
+        return "";
+    }
+
+    /**
+     * returns custom field label from constraints
+     * 
+ 	 * @error The validation error to add into the results object
+     * @return string, empty if not found
+     */
+    private string function getConstraintFieldLabel( required error ){
+        if ( structKeyExists( variables.constraints, "_fields") ){
+            if ( structKeyExists( variables.constraints._fields, error.getField()  ) ) {
+                return structfind( variables.constraints._fields, error.getField() );
+            }
+        }
+        return "";
     }
 
     /**
@@ -375,14 +401,31 @@ component accessors="true" {
     * @return string and empty if not found
      */
     private string function getCustomMessageFromI18nResource( required error ){
-        return variables.resourceService.getResource(
-            resource = "messages.#arguments.error.getValidationType()#",
-            default  = "",
-            locale   = getValidationLocale(),
-            bundle = variables.settings.CBVALIDATION_CUSTOM_RESOURCE
-        );
+        return hasI18nResource() ? 
+            variables.resourceService.getResource(
+                resource = "_messages.#arguments.error.getValidationType()#",
+                default  = "",
+                locale   = getValidationLocale(),
+                bundle = variables.settings.CBVALIDATION_CUSTOM_RESOURCE
+            ) : "";
     }
 
+    /**
+     * returns custom field label from i18n resource
+     * 
+ 	 * @error The validation error to add into the results object
+    * @return string and empty if not found
+     */
+    private string function getFieldLabelFromI18nResource( required error ){
+        return hasI18nResource() ? 
+            variables.resourceService.getResource(
+                resource = "_fields.#arguments.error.getField()#",
+                default  = "",
+                locale   = getValidationLocale(),
+                bundle = variables.settings.CBVALIDATION_CUSTOM_RESOURCE
+            ) : "";
+    }
+    
     /**
      * return (localized) default message based on validationType from default resources
      * 
@@ -391,9 +434,9 @@ component accessors="true" {
      * @return string
      * @throws MissingValidatorTranslation (should alwasy be there for default validator types)
      */
-    private string function getDefaultMessage( error ){
+    private string function getDefaultMessage( required error ){
         var message = resourceService.getResource(
-            resource = "messages.#arguments.error.getValidationType()#",
+            resource = "_messages.#arguments.error.getValidationType()#",
             default = "",
             locale = getValidationLocale(),
             bundle = variables.settings.CBVALIDATION_DEFAULT_RESOURCE

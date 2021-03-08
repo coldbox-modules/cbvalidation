@@ -1,5 +1,5 @@
 {
-    "messages" : {
-        "size" : "A custom size error message"
+    "_messages" : {
+        "size" : "A custom size error message for field {field}"
     }
 }

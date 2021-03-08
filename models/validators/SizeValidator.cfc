@@ -84,7 +84,7 @@ component extends="BaseValidator" accessors="true" singleton {
 
         // still not validated, then create validation error
 		var args = {
-			message        : "PLACEHOLDER", //will be set in ValidationResult
+			message        : "", //will be set in ValidationResult
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),

@@ -4,7 +4,7 @@ Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RequiredValidator" skip="true"{
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RequiredValidator" {
 
 	function setup(){
 		super.setup();
@@ -13,6 +13,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testValidate(){
 		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+        mockRB = getMockBox()
+            .createEmptyMock( "cbi18n.models.ResourceService" )
+            .$( "getResource" )
+            .$results( "Some dummy message" );
+        result.setResourceService( mockRB );
+        result.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
 		// null
 		r      = model.validate(
 			result,

@@ -211,6 +211,10 @@ component
 		// iterate over constraints defined
 		for ( var thisField in allConstraints ) {
 			var validateField = true;
+            // if 'messages' key, ignore
+			if ( thisField == "_messages" || thisField == "_fields" ) {
+				validateField = false;
+			}
 			if ( len( arguments.includeFields ) AND NOT listFindNoCase( arguments.includeFields, thisField ) ) {
 				validateField = false;
 			}
@@ -298,11 +302,6 @@ component
 	){
 		// process the incoming rules
 		for ( var key in arguments.rules ) {
-			// if message validators, just ignore
-			if ( reFindNoCase( "Message$", key ) ) {
-				continue;
-			}
-
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
 			getValidator(
 				validatorType  = key,

@@ -1,5 +1,5 @@
 {
-	"messages": {
+	"_messages": {
 		"alpha": " '{field}' no es válido, solo se permiten los caracteres de la A a la Z",
 		"alpha_dash": " \"{field}\" no es válido, solo se permiten caracteres de la a a la z, números guiones bajos y guiones",
 		"alpha_num": "El \"{field}\" no es válido, solo se permiten caracteres de la a a la z y números",
@@ -22,7 +22,7 @@
 		"query": "El \"{field}\" tiene un tipo no válido, el tipo esperado es consulta",
 		"range": "El valor '{field}' no está en el rango del campo de valor ({validationData})",
 		"regex": "El valor '{field}' no coincide con la expresión regular: {validationData}",
-		"required": "El valor de {field} es una cadena json no válida.",
+		"required": "El valor de {field} es obligatorio.",
 		"size": "El valor \"{field}\" no se encuentra en el rango de tamaño requerido {validationData}",
 		"ssn": " '{field}' no es un número de seguro social válido",
 		"string": "El \"{field}\" tiene un tipo no válido, el tipo esperado es una cadena",

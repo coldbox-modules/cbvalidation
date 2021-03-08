@@ -1,5 +1,5 @@
 {
-    "messages" : {
-        "size" : "Dit is een aangepast size foutmelding| (a custom size error message)"
+    "_messages" : {
+        "size" : "Dit is een aangepast size foutmelding voor {field}"
     }
 }

@@ -1,5 +1,5 @@
 {
-	"messages": {
+	"_messages": {
 		"alpha": " '{field}' ist ungültig, nur die Zeichen a bis z sind zulässig",
 		"alpha_dash": " '{field}' ist ungültig, nur Zeichen a-z, Zahlen, Unterstriche und Bindestriche sind zulässig",
 		"alpha_num": "Das '{field}' ist ungültig, nur die Zeichen a-z und Zahlen sind zulässig",
@@ -22,7 +22,7 @@
 		"query": "Die '{field}' hat einen ungültigen Typ, der erwartete Typ ist eine Abfrage",
 		"range": "Der Wert '{field}' liegt nicht im Wertefeldbereich ({validationData}).",
 		"regex": "Der Wert '{field}' stimmt nicht mit dem regulären Ausdruck überein: {validationData}",
-		"required": "Der Wert von {field} ist eine ungültige JSON-Zeichenfolge",
+		"required": "Der Wert von {field} ist erforderlich",
 		"size": "Der Wert '{field}' liegt nicht im erforderlichen Größenbereich {validationData}",
 		"ssn": " '{field}' ist keine gültige Sozialversicherungsnummer",
 		"string": "Die '{field}' hat einen ungültigen Typ, der erwartete Typ ist eine Zeichenfolge",

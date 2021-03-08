@@ -4,7 +4,7 @@
  * ---
  * This validator checks if a field has value and not null
  */
-component accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton {
 
 	property name="name";
 
@@ -51,7 +51,7 @@ component accessors="true" singleton {
 
 		// No data, fail it
 		var args = {
-			message        : "The '#arguments.field#' value is required",
+			message        : "", //will be set in ValidationResult
 			field          : arguments.field,
 			validationType : getName(),
 			rejectedValue  : (

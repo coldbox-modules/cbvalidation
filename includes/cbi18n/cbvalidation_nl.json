@@ -1,5 +1,5 @@
 {
-	"messages": {
+	"_messages": {
 		"alpha": " '{field}' is ongeldig, alleen de tekens a tot z zijn toegestaan",
 		"alpha_dash": " '{field}' is ongeldig, alleen tekens a-z, cijfers, onderstrepingstekens en streepjes zijn toegestaan",
 		"alpha_num": "De '{field}' is ongeldig, alleen tekens a-z en cijfers zijn toegestaan",
@@ -22,7 +22,7 @@
 		"query": "'{field}' heeft een ongeldig type, het verwachte type is een query object",
 		"range": "De waarde van '{field}' bevindt zich niet in het bereik ({validationData})",
 		"regex": "De waarde voor '{field}' komt niet overeen met de reguliere expressie: {validationData}",
-		"required": "De waarde van {field} is een ongeldige json-tekenreeks",
+		"required": "De waarde van {field} is verplicht",
 		"size": "De waarde van '{field}' valt niet binnen het vereiste bereik {validationData}",
 		"ssn": " '{field}' is geen geldig US burgerservicenummer",
 		"string": " '{field}' heeft een ongeldig type, het verwachte type is een tekenreeks",

@@ -40,6 +40,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testAddError(){
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
+
 		mockError.configure(
 			"unit test",
 			"test",
@@ -63,12 +64,15 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		);
 		mockConstraints = {
 			"test" : {
-				required        : true,
-				requiredMessage : "This stuff is required dude for the field: {field}!"
+                required        : true
+            },
+            "_messages" : {
+                "test.required" : "This stuff is required dude for the field: {field}!"
 			}
 		};
 		model.init( constraints = mockConstraints );
-		assertTrue( arrayLen( model.getErrors() ) eq 0 );
+        model.setSettings( { i18nResource = "", CBVALIDATION_DEFAULT_RESOURCE ="cbvalidation", CBVALIDATION_CUSTOM_RESOURCE ="cbvalidationCustom" } );
+ 		assertTrue( arrayLen( model.getErrors() ) eq 0 );
 		// test the custom messages now
 		model.addError( mockError );
 		assertTrue( arrayLen( model.getErrors() ) eq 1 );
@@ -93,7 +97,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		mockRB = getMockBox()
 			.createEmptyMock( "cbi18n.models.ResourceService" )
 			.$( "getResource" )
-			.$results( "Your stuff doesn't work {field} {validationType} {validationData}" );
+			.$results( "Your stuff doesn't work {field} {validationType} {validationData}","" );
 		model.setResourceService( mockRB );
 
 		model.addError( mockError );
