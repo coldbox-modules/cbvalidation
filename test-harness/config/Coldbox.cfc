@@ -26,7 +26,8 @@
 			//Error/Exception Handling
 			exceptionHandler		= "",
 			onInvalidEvent			= "",
-			customErrorTemplate 	= "/coldbox/system/includes/BugReport.cfm",
+            customErrorTemplate = "/coldbox/system/exceptions/Whoops.cfm",
+
 
 			//Application Aspects
 			handlerCaching 			= false,
@@ -68,15 +69,17 @@
 			info = [ "coldbox.system" ]
 		};
 
-		validation = {
-			sharedConstraints = {
-				"sharedUser" = {
-					username = { required=true, size="6..20" },
-					password = { required=true, size="6..20 "}
-				}
-			}
-		};
-
+		moduleSettings ={
+            cbvalidation = {
+                sharedConstraints = {
+                    "sharedUser" = {
+                        username = { required=true, size="6..20" },
+                        password = { required=true, size="6..20 "}
+                    }
+                },
+                i18nResource = "includes/cbi18n/custom"
+            }
+        };
 	}
 
 	/**

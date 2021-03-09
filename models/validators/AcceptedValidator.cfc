@@ -4,9 +4,7 @@
  * ---
  * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -58,13 +56,6 @@ component accessors="true" singleton {
 		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'max' : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

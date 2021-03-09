@@ -66,10 +66,10 @@ component accessors="true" {
 	/**
 	 * Set the validation target object name
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setTargetName( required string name ){
-		targetName = arguments.name;
+		variables.targetName = arguments.name;
 		return this;
 	}
 
@@ -77,27 +77,27 @@ component accessors="true" {
 	 * Get the name of the target object that got validated
 	 */
 	string function getTargetName(){
-		return targetName;
+		return variables.targetName;
 	}
 
 	/**
 	 * Get the validation locale
 	 */
 	string function getValidationLocale(){
-		return locale;
+		return variables.locale ;
 	}
 
 	/**
 	 * has locale information
 	 */
 	boolean function hasLocale(){
-		return ( len( locale ) GT 0 );
+		return ( len( variables.locale  ) GT 0 );
 	}
 
 	/**
 	 * Set the validation locale
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setLocale( required string locale ){
 		variables.locale = arguments.locale;
@@ -107,7 +107,7 @@ component accessors="true" {
 	/**
 	 * Get a new error object pre poulated with the arguments it has been passed
 	 *
-	 * @return IValidationError
+	 * @return cbvalidation.interfaces.IValidationError
 	 */
 	any function newError(){
 		return duplicate( errorTemplate ).configure( argumentCollection = arguments );
@@ -117,30 +117,30 @@ component accessors="true" {
 	 * Add errors into the result object
 	 *
 	 * @error The validation error to add into the results object
-	 * @error_generic IValidationError
+	 * @error_generic cbvalidation.interfaces.IValidationError
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function addError( required error ){
 		// Verify Custom Messages via constraints, these take precedence
 		if (
-			structKeyExists( constraints, error.getField() ) AND structKeyExists(
-				constraints[ error.getField() ],
-				"#error.getValidationType()#Message"
+			structKeyExists( variables.constraints, arguments.error.getField() ) AND structKeyExists(
+				variables.constraints[ arguments.error.getField() ],
+				"#arguments.error.getValidationType()#Message"
 			)
 		) {
 			// override message with custom constraint
 			// process global replacements
 			globalReplacements(
-				constraints[ error.getField() ][ "#error.getValidationType()#Message" ],
+				variables.constraints[ arguments.error.getField() ][ "#arguments.error.getValidationType()#Message" ],
 				error
 			);
 		}
 		// Validate localization?
 		else if ( hasLocale() ) {
 			// get i18n message, if it exists
-			var message = resourceService.getResource(
-				resource = "#targetName#.#error.getField()#.#error.getValidationType()#",
+			var message = variables.resourceService.getResource(
+				resource = "#variables.targetName#.#arguments.error.getField()#.#arguments.error.getValidationType()#",
 				default  = "",
 				locale   = getValidationLocale()
 			);
@@ -151,7 +151,7 @@ component accessors="true" {
 			}
 		}
 		// append error
-		arrayAppend( errors, arguments.error );
+		arrayAppend( variables.errors, arguments.error );
 		return this;
 	}
 
@@ -159,7 +159,7 @@ component accessors="true" {
 	 * Replace global messages
 	 *
 	 * @message The message
-	 * @error The error object
+	 * @error cbvalidation.interfaces.IvalidationError
 	 */
 	private void function globalReplacements( required message, required error ){
 		// The rejected value
@@ -191,12 +191,8 @@ component accessors="true" {
 			"all"
 		);
 		// The validation data, should be skipped if validationData is a struct
-		if (
-			!listFindNoCase(
-				"UDF,RequiredUnless,RequiredIf,Unique",
-				arguments.error.getValidationType()
-			)
-		) {
+        // Only possible because error.getvaldationData is returning any now
+		if ( !isStruct( arguments.error.getValidationData() ) ) {
 			arguments.message = replaceNoCase(
 				arguments.message,
 				"{validationData}",
@@ -251,7 +247,7 @@ component accessors="true" {
 	 * @field The field to use to filter the error messages on (optional)
 	 */
 	array function getAllErrors( string field ){
-		var errorTarget = errors;
+		var errorTarget = variables.errors;
 
 		if ( structKeyExists( arguments, "field" ) ) {
 			errorTarget = getFieldErrors( arguments.field );
@@ -269,7 +265,7 @@ component accessors="true" {
 	 * Get all errors as flat structure that can easily be used for UI display
 	 */
 	struct function getAllErrorsAsStruct( string field ){
-		var errorTarget = errors;
+		var errorTarget = variables.errors;
 
 		// filter by field?
 		if ( structKeyExists( arguments, "field" ) ) {
@@ -305,11 +301,11 @@ component accessors="true" {
 	 *
 	 * @field The field to return error objects on
 	 *
-	 * @return IValidationError[]
+	 * @return cbvalidation.interfaces.IValidationError[]
 	 */
 	array function getFieldErrors( required string field ){
 		var r = [];
-		for ( var thisError in errors ) {
+		for ( var thisError in variables.errors ) {
 			if ( thisError.getField() eq arguments.field ) {
 				arrayAppend( r, thisError );
 			}
@@ -320,10 +316,10 @@ component accessors="true" {
 	/**
 	 * Clear All errors
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function clearErrors(){
-		arrayClear( errors );
+		arrayClear( variables.errors );
 		return this;
 	}
 
@@ -331,13 +327,13 @@ component accessors="true" {
 	 * Get a collection of metadata about the validation results
 	 */
 	struct function getResultMetadata(){
-		return resultMetadata;
+		return variables.resultMetadata;
 	}
 
 	/**
 	 * Set a collection of metadata into the results object
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setResultMetadata( required struct data ){
 		variables.resultMetadata = arguments.data;

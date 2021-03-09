@@ -11,9 +11,7 @@ component
 	singleton
 {
 
-	property name="name";
-
-	/**
+    /**
 	 * Constructor
 	 */
 	RequiredIfValidator function init(){

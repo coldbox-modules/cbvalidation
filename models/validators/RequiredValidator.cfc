@@ -4,9 +4,7 @@
  * ---
  * This validator checks if a field has value and not null
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -90,13 +88,6 @@ component accessors="true" singleton {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

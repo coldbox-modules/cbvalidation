@@ -4,9 +4,7 @@
  * ---
  * This validator validates against a unique method
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -60,13 +58,6 @@ component accessors="true" singleton {
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

@@ -4,9 +4,7 @@
  * ---
  * This validator validates if an incoming value exists in a range of values
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -79,13 +77,6 @@ component accessors="true" singleton {
 			} );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

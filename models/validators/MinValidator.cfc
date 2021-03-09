@@ -4,9 +4,7 @@
  * ---
  * This validator validates if a value is is greater than a minimum number
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -55,11 +53,5 @@ component accessors="true" singleton {
 		return false;
 	}
 
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
-	}
 
 }

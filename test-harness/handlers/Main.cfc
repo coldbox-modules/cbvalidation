@@ -17,8 +17,8 @@ component{
 		var result = validate( target=rc, constraints=constraints );
 
 		if( !result.hasErrors() ){
-			flash.put( "User info validated!" );
-			setNextEvent('main');
+			flash.put( "notice", "User info validated!" );
+			relocate('main');
 		} else {
 			flash.put( "notice", result.getAllErrors().tostring() );
 			return index(event,rc,prc);

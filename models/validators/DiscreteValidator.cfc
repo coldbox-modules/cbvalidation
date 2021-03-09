@@ -3,9 +3,7 @@
  * www.ortussolutions.com
  * ---
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -114,13 +112,6 @@ component accessors="true" singleton {
 		}
 
 		return r;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

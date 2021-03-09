@@ -4,9 +4,7 @@
  * ---
  * This validator validates if a field is the same as another field with no case sensitivity
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -64,13 +62,6 @@ component accessors="true" singleton {
 		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'sameas' : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

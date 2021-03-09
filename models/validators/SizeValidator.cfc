@@ -4,9 +4,7 @@
  * ---
  * This validator validates the size or length of the value of a field
  */
-component accessors="true" singleton {
-
-	property name="name";
+component extends="BaseValidator" aessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -39,13 +37,10 @@ component accessors="true" singleton {
 		}
 
 		// check
-		if (
-			!isValid( "string", arguments.validationData ) || !isValid(
-				"regex",
-				arguments.validationData,
-				"(\-?\d)+(?:\.\.\-?\d+)?"
-			)
-		) {
+		if ( 
+            !isValid( "string", arguments.validationData ) || 
+            !reFind( "(\-?\d)+(?:\.\.\-?\d+)?", arguments.validationData ) 
+        ){
 			throw(
 				message = "The range you sent is invalid: #arguments.validationData#",
 				detail  = "It must be in the format of {minNumber}..{maxNumber} or {minNumber}",
@@ -112,11 +107,5 @@ component accessors="true" singleton {
 		return false;
 	}
 
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
-	}
 
 }
