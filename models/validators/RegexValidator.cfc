@@ -30,9 +30,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		any validationData
 	){
 		// Verify we have a value, else skip
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+        if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
