@@ -4,7 +4,11 @@
  * ---
  * This validator validates against a user defined regular expression
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -30,7 +34,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		any validationData
 	){
 		// Verify we have a value, else skip
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -52,10 +56,11 @@ component extends="BaseValidator" aessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'regex' : arguments.validationData } );
+		var error = validationResult
+			.newError( argumentCollection = args )
+			.setErrorMetadata( { "regex" : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
 	}
-
 
 }

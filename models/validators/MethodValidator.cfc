@@ -4,7 +4,11 @@
  * ---
  * This validator validates against a unique method
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -31,7 +35,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 

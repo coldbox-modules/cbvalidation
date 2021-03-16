@@ -4,7 +4,11 @@
  * ---
  * This validator checks if a field has value and not null
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor

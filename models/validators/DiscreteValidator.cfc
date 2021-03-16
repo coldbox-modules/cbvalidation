@@ -3,7 +3,11 @@
  * www.ortussolutions.com
  * ---
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -58,7 +62,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -103,8 +107,8 @@ component extends="BaseValidator" aessors="true" singleton {
 			var error = validationResult
 				.newError( argumentCollection = args )
 				.setErrorMetadata( {
-					'operation'      : operation,
-					'operationValue' : operationValue
+					"operation"      : operation,
+					"operationValue" : operationValue
 				} );
 			validationResult.addError( error );
 		}

@@ -6,7 +6,11 @@
  * - table : The table name to seek
  * - column : The column to evaluate for uniqueness or defaults to the name of the field
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor

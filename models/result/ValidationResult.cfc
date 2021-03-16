@@ -84,14 +84,14 @@ component accessors="true" {
 	 * Get the validation locale
 	 */
 	string function getValidationLocale(){
-		return variables.locale ;
+		return variables.locale;
 	}
 
 	/**
 	 * has locale information
 	 */
 	boolean function hasLocale(){
-		return ( len( variables.locale  ) GT 0 );
+		return ( len( variables.locale ) GT 0 );
 	}
 
 	/**
@@ -124,7 +124,10 @@ component accessors="true" {
 	any function addError( required error ){
 		// Verify Custom Messages via constraints, these take precedence
 		if (
-			structKeyExists( variables.constraints, arguments.error.getField() ) AND structKeyExists(
+			structKeyExists(
+				variables.constraints,
+				arguments.error.getField()
+			) AND structKeyExists(
 				variables.constraints[ arguments.error.getField() ],
 				"#arguments.error.getValidationType()#Message"
 			)
@@ -191,7 +194,7 @@ component accessors="true" {
 			"all"
 		);
 		// The validation data, should be skipped if validationData is a struct
-        // Only possible because error.getvaldationData is returning any now
+		// Only possible because error.getvaldationData is returning any now
 		if ( !isStruct( arguments.error.getValidationData() ) ) {
 			arguments.message = replaceNoCase(
 				arguments.message,

@@ -4,7 +4,11 @@
  * ---
  * This validator validates against a UDF
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor

@@ -7,21 +7,21 @@
 component {
 
 	// Module Properties
-	this.title                      = "validation";
-	this.author                     = "Luis Majano";
-	this.webURL                     = "http://www.ortussolutions.com";
-	this.description                = "This module provides server-side validation to ColdBox applications";
-	this.version                    = "@build.version@+@build.number@";
+	this.title       = "validation";
+	this.author      = "Luis Majano";
+	this.webURL      = "http://www.ortussolutions.com";
+	this.description = "This module provides server-side validation to ColdBox applications";
+	this.version     = "@build.version@+@build.number@";
 
-    // Model Namespace
-	this.modelNamespace             = "cbvalidation";
+	// Model Namespace
+	this.modelNamespace    = "cbvalidation";
 	// CF Mapping
-	this.cfmapping                  = "cbvalidation";
+	this.cfmapping         = "cbvalidation";
 	// Helpers
-	this.applicationHelper          = [ "helpers/Mixins.cfm" ];
+	this.applicationHelper = [ "helpers/Mixins.cfm" ];
 
 
-    // Module Dependencies That Must Be Loaded First, use internal names or aliases
+	// Module Dependencies That Must Be Loaded First, use internal names or aliases
 	this.dependencies               = [ "cbi18n" ];
 	// ColdBox Static path to validation manager
 	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
@@ -30,22 +30,19 @@ component {
 	 * Configure module
 	 */
 	function configure(){
-
-        // Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
-        settings = {
-            manager = this.COLDBOX_VALIDATION_MANAGER,
-            //i18nResource = "",
-            sharedConstraints = {
-            }
-        };
+		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
+		settings = {
+			manager           : this.COLDBOX_VALIDATION_MANAGER,
+			// i18nResource = "",
+			sharedConstraints : {}
+		};
 	}
 
 	/**
 	 * Fired when the module is registered and activated.
 	 */
 	function onLoad(){
-
-        // Did you change the validation manager?
+		// Did you change the validation manager?
 		if ( variables.settings.manager != this.COLDBOX_VALIDATION_MANAGER ) {
 			binder
 				.map(
@@ -59,11 +56,12 @@ component {
 		wirebox
 			.getInstance( "validationManager@cbvalidation" )
 			.setSharedConstraints( variables.settings.sharedConstraints );
-    }
+	}
 
 	/**
 	 * Fired when the module is unregistered and unloaded
 	 */
 	function onUnload(){
 	}
+
 }

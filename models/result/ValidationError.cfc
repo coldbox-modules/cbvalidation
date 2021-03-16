@@ -48,8 +48,8 @@ component accessors="true" {
 
 	/**
 	 * Get the error validation data
-     * 
-     * @return any (string or sometimes struct for newer validators)
+	 *
+	 * @return any (string or sometimes struct for newer validators)
 	 */
 	any function getValidationData(){
 		return variables.validationData;
@@ -104,21 +104,21 @@ component accessors="true" {
 	 * Get the error validation type
 	 */
 	string function getValidationType(){
-		return variables.validationType ;
+		return variables.validationType;
 	}
 
 	/**
 	 * Get the error message
 	 */
 	string function getMessage(){
-		return variables.message ;
+		return variables.message;
 	}
 
 	/**
 	 * Get the error field
 	 */
 	string function getField(){
-		return variables.field ;
+		return variables.field;
 	}
 
 	/**
@@ -133,10 +133,10 @@ component accessors="true" {
 	 */
 	struct function getMemento(){
 		return {
-			"message"        : variables.message ,
-			"field"          : variables.field ,
+			"message"        : variables.message,
+			"field"          : variables.field,
 			"rejectedValue"  : variables.rejectedValue,
-			"validationType" : variables.validationType ,
+			"validationType" : variables.validationType,
 			"validationData" : variables.validationData,
 			"errorMetadata"  : variables.errorMetadata
 		};

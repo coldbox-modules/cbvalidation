@@ -4,7 +4,11 @@
  * ---
  * This validator verifies field type
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -51,7 +55,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -174,12 +178,13 @@ component extends="BaseValidator" aessors="true" singleton {
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 				validationData : arguments.validationData
 			};
-			var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'type' : arguments.validationData } );
+			var error = validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( { "type" : arguments.validationData } );
 			validationResult.addError( error );
 		}
 
 		return r;
 	}
-
 
 }

@@ -4,7 +4,11 @@
  * ---
  * This validator validates the size or length of the value of a field
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -30,15 +34,18 @@ component extends="BaseValidator" aessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
 		// check
-		if ( 
-            !isValid( "string", arguments.validationData ) || 
-            !reFind( "(\-?\d)+(?:\.\.\-?\d+)?", arguments.validationData ) 
-        ){
+		if (
+			!isValid( "string", arguments.validationData ) ||
+			!reFind(
+				"(\-?\d)+(?:\.\.\-?\d+)?",
+				arguments.validationData
+			)
+		) {
 			throw(
 				message = "The range you sent is invalid: #arguments.validationData#",
 				detail  = "It must be in the format of {minNumber}..{maxNumber} or {minNumber}",
@@ -97,13 +104,12 @@ component extends="BaseValidator" aessors="true" singleton {
 		var error = validationResult
 			.newError( argumentCollection = args )
 			.setErrorMetadata( {
-				'size' : arguments.validationData,
-				'min'  : min,
-				'max'  : max
+				"size" : arguments.validationData,
+				"min"  : min,
+				"max"  : max
 			} );
 		validationResult.addError( error );
 		return false;
 	}
-
 
 }

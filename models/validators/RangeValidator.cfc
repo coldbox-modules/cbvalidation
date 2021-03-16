@@ -4,7 +4,11 @@
  * ---
  * This validator validates if an incoming value exists in a range of values
  */
-component extends="BaseValidator" aessors="true" singleton {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -30,7 +34,7 @@ component extends="BaseValidator" aessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-        if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -69,9 +73,9 @@ component extends="BaseValidator" aessors="true" singleton {
 		var error = validationResult
 			.newError( argumentCollection = args )
 			.setErrorMetadata( {
-				'range' : arguments.validationData,
-				'min'   : min,
-				'max'   : max
+				"range" : arguments.validationData,
+				"min"   : min,
+				"max"   : max
 			} );
 		validationResult.addError( error );
 		return false;
