@@ -4,9 +4,11 @@
  * ---
  * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -32,9 +34,7 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -50,16 +50,11 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'max' : arguments.validationData } );
+		var error = validationResult
+			.newError( argumentCollection = args )
+			.setErrorMetadata( { "max" : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

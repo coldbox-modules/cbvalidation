@@ -11,8 +11,6 @@ component
 	singleton
 {
 
-	property name="name";
-
 	/**
 	 * Constructor
 	 */

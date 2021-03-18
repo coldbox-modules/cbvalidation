@@ -6,9 +6,11 @@
  * - table : The table name to seek
  * - column : The column to evaluate for uniqueness or defaults to the name of the field
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -58,13 +60,6 @@ component accessors="true" singleton {
 		);
 
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return "Unique";
 	}
 
 }

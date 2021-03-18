@@ -4,9 +4,11 @@
  * ---
  * This validator verifies field type
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -53,9 +55,7 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -178,18 +178,13 @@ component accessors="true" singleton {
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 				validationData : arguments.validationData
 			};
-			var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'type' : arguments.validationData } );
+			var error = validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( { "type" : arguments.validationData } );
 			validationResult.addError( error );
 		}
 
 		return r;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

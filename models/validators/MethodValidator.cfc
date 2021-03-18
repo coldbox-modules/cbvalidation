@@ -4,9 +4,11 @@
  * ---
  * This validator validates against a unique method
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -33,9 +35,7 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -60,13 +60,6 @@ component accessors="true" singleton {
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

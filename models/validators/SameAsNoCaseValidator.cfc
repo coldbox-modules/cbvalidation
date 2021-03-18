@@ -4,9 +4,11 @@
  * ---
  * This validator validates if a field is the same as another field with no case sensitivity
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -43,9 +45,7 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -61,16 +61,11 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'sameas' : arguments.validationData } );
+		var error = validationResult
+			.newError( argumentCollection = args )
+			.setErrorMetadata( { "sameas" : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

@@ -4,9 +4,11 @@
  * ---
  * This validator validates the size or length of the value of a field
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -32,18 +34,16 @@ component accessors="true" singleton {
 		any validationData
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
 		// check
 		if (
-			!isValid( "string", arguments.validationData ) || !isValid(
-				"regex",
-				arguments.validationData,
-				"(\-?\d)+(?:\.\.\-?\d+)?"
+			!isValid( "string", arguments.validationData ) ||
+			!reFind(
+				"(\-?\d)+(?:\.\.\-?\d+)?",
+				arguments.validationData
 			)
 		) {
 			throw(
@@ -104,19 +104,12 @@ component accessors="true" singleton {
 		var error = validationResult
 			.newError( argumentCollection = args )
 			.setErrorMetadata( {
-				'size' : arguments.validationData,
-				'min'  : min,
-				'max'  : max
+				"size" : arguments.validationData,
+				"min"  : min,
+				"max"  : max
 			} );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }
