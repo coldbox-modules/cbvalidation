@@ -52,7 +52,7 @@ component accessors="true" singleton {
             if ( !isNull( identityValue ) ) {
                 c.ne( identityField, identityValue );
             }
-            if ( c.count() ) return true;
+            if ( !c.count() ) return true;
         } else {
             // uniqueness detection for non orm
             // validationData.table (required)
