@@ -69,7 +69,11 @@ component
 	/**
 	 * Verify if the target value has value
 	 */
-	boolean function hasValue( required targetValue ){
+	boolean function hasValue( any targetValue ){
+        if ( isNull( arguments.targetValue ) ) {
+            return false;
+        }
+
 		// Simple Tests
 		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
 			return true;
