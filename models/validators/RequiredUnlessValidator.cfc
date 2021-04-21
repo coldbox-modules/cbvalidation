@@ -97,32 +97,4 @@ component
 		return false;
 	}
 
-    /**
-	 * Verify if the target value has value
-	 */
-	boolean function hasValue( required targetValue ){
-		// Simple Tests
-		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
-			return true;
-		}
-		// Array Tests
-		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
-			return true;
-		}
-		// Query Tests
-		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
-			return true;
-		}
-		// Struct Tests
-		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
-			return true;
-		}
-		// Object
-		if ( isObject( arguments.targetValue ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
 }
