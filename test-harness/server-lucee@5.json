@@ -1,5 +1,5 @@
 {
-    "name":"lucee@5",
+    "name":"cbvalidation-lucee@5",
     "app":{
         "serverHomeDirectory":".engine/lucee5",
         "cfengine":"lucee@5"
