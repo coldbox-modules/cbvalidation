@@ -2,9 +2,7 @@
  * Copyright since 2020 by Ortus Solutions, Corp
  * www.ortussolutions.com
  * ---
- * This validator checks the database according to validation data for field uniqueness
- * - table : The table name to seek
- * - column : The column to evaluate for uniqueness or defaults to the name of the field
+ * This validator validates if a value is unique in a database
  */
 component
 	extends  ="BaseValidator"
@@ -12,17 +10,21 @@ component
 	singleton
 {
 
+	property name="name";
+	property name="res"           inject="model:resourceService@cbi18n";
+	property name="moduleService" inject="coldbox:moduleService";
+	property name="wirebox"       inject="wirebox";
+
 	/**
 	 * Constructor
 	 */
 	UniqueValidator function init(){
-		variables.name = "Unique";
+		variables.name = "UniqueValidator";
 		return this;
 	}
 
 	/**
 	 * Will check if an incoming value validates
-	 *
 	 * @validationResult The result object of the validation
 	 * @target The target object to validate on
 	 * @field The field on the target object to validate on
@@ -30,35 +32,61 @@ component
 	 * @validationData The validation data the validator was created with
 	 */
 	boolean function validate(
-		required any validationResult,
+		required  validationResult,
 		required any target,
 		required string field,
 		any targetValue,
 		any validationData
 	){
-		// Default the target column
-		var targetColumn = ( isNull( arguments.validationData.column ) ? arguments.field : arguments.validationData.column );
-		// Query it
-		var exists       = queryExecute(
-			"SELECT 1 FROM #arguments.validationData.table# WHERE #targetColumn# = ?",
-			[ arguments.targetValue ]
-		).recordCount > 0;
+		// uniqueness detection for non orm (orm has its own validator)
+		// validationData.table (required)
+		param validationData.column      = arguments.field;
+		param validationData.keyProperty = "id";
+		param validationData.keyColumn   = validationData.keyProperty;
+		// validationData.dataSource optional
+		// validationData.isLoaded to override isLoaded detection
 
-		if ( !exists ) {
+		// return true if no data to check, type needs a data element to be checked.
+		if ( isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
-		validationResult.addError(
-			validationResult.newError(
-				argumentCollection = {
-					message        : "The #targetColumn# '#arguments.targetValue#' is already in use",
-					field          : arguments.field,
-					validationType : getName(),
-					validationData : arguments.validationData
-				}
-			)
+		var sql     = "Select 1 from #validationData.table# where #validationData.column# = :name";
+		// prepare query params
+		var params  = { name : arguments.targetValue };
+		// add datasource property, or use default
+		var options = arguments.validationdata.keyExists( "datasource" ) ? {
+			datasource : arguments.validationdata.datasource
+		} : {};
+		// now get IDvalue or null if there's no ID value yet
+		var IdValue = invoke(
+			target,
+			"get#validationData.keyProperty#"
 		);
+		// isLoaded: if not present detect isLoaded by valid ID which has some length
+		var isLoaded = !arguments.validationData.KeyExists( "isLoaded" ) ? !isNull( idValue ) && len( IdValue ) : arguments.validationData.isLoaded;
+		// add datasource property, or use default
+		if ( isLoaded ) {
+			// add extra param and sql to exclude current record
+			params.id = IdValue;
+			sql &= " and #validationData.keyColumn# <> :id"
+		}
+		var result = queryExecute( sql, params, options )
+		if ( !result.recordCount ) return true;
 
+		// construction of your validation error messages
+		var args = {
+			message        : "The '#arguments.field#' value '#arguments.targetValue#' is not unique",
+			field          : arguments.field,
+			validationType : getName(),
+			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+			validationData : arguments.validationData
+		};
+		validationResult.addError(
+			validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( { UniqueValidator : arguments.validationData } )
+		);
 		return false;
 	}
 
