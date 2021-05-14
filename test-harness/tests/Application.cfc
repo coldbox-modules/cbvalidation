@@ -38,4 +38,25 @@ component {
 	this.mappings[ "/moduleroot" ]            = moduleRootPath;
 	this.mappings[ "/#request.MODULE_NAME#" ] = moduleRootPath & "#request.MODULE_NAME#";
 
+	// request start
+	public boolean function onRequestStart( String targetPage ){
+		if ( url.keyExists( "fwreinit" ) ) {
+			if ( structKeyExists( server, "lucee" ) ) {
+				pagePoolClear();
+			}
+		}
+
+		return true;
+	}
+
+	public function onRequestEnd(){
+		// CB 6 graceful shutdown
+		if ( !isNull( application.cbController ) ) {
+			application.cbController.getLoaderService().processShutdown();
+		}
+
+		structDelete( application, "cbController" );
+		structDelete( application, "wirebox" );
+	}
+
 }

@@ -25,8 +25,8 @@ component
 	 * @validationResultThe result object of the validation
 	 * @targetThe target object to validate on
 	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
 	 */
 	boolean function validate(
 		required any validationResult,

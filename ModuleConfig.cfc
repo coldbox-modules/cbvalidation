@@ -1,15 +1,14 @@
 /**
- *********************************************************************************
- * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
- * www.coldbox.org | www.luismajano.com | www.ortussolutions.com
- ********************************************************************************
+ * Copyright since 2020 by Ortus Solutions, Corp
+ * www.ortussolutions.com
+ * ---
  */
 component {
 
 	// Module Properties
 	this.title       = "validation";
 	this.author      = "Luis Majano";
-	this.webURL      = "http://www.ortussolutions.com";
+	this.webURL      = "https://www.ortussolutions.com";
 	this.description = "This module provides server-side validation to ColdBox applications";
 	this.version     = "@build.version@+@build.number@";
 
@@ -19,7 +18,6 @@ component {
 	this.cfmapping         = "cbvalidation";
 	// Helpers
 	this.applicationHelper = [ "helpers/Mixins.cfm" ];
-
 
 	// Module Dependencies That Must Be Loaded First, use internal names or aliases
 	this.dependencies               = [ "cbi18n" ];

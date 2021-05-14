@@ -23,9 +23,4 @@ interface {
 		struct rules
 	);
 
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName();
-
 }

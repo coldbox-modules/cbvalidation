@@ -32,9 +32,9 @@
     ],
     "scripts":{
         "release":"recipe build/release.boxr",
-        "format":"cfformat run models/,test-harness/tests/,*.cfc --overwrite",
-        "format:watch":"cfformat watch models/,test-harness/tests/,*.cfc ./.cfformat.json",
-        "format:check":"cfformat check models/,test-harness/tests/,*.cfc"
+        "format":"cfformat run interfaces,models/,test-harness/tests/,ModuleConfig.cfc --overwrite",
+        "format:watch":"cfformat watch interfaces,models/,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
+        "format:check":"cfformat check interfaces,models/,test-harness/tests/,ModuleConfig.cfc"
     },
     "installPaths":{
         "cbi18n":"modules/cbi18n/"
