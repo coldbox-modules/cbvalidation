@@ -317,6 +317,36 @@ component accessors="true" {
 	}
 
 	/**
+	 * Call back that will be executed if the validation results had errors in them.
+	 * The consumer receives the results instance: `(results) => {}, function( results ){}`
+	 *
+	 * @consumer Block to be executed if the result of the validation had errors.
+	 *
+	 * @return Same instance
+	 */
+	function onError( required consumer ){
+		if ( this.hasErrors() ) {
+			arguments.consumer( this );
+		}
+		return this;
+	}
+
+	/**
+	 * Call back that will be executed if the validation results had NO errors in them.
+	 * The consumer receives the results instance: `(results) => {}, function( results ){}`
+	 *
+	 * @consumer Block to be executed if the result of the validation had NO errors.
+	 *
+	 * @return Same instance
+	 */
+	function onSuccess( required consumer ){
+		if ( !this.hasErrors() ) {
+			arguments.consumer( this );
+		}
+		return this;
+	}
+
+	/**
 	 * Clear All errors
 	 *
 	 * @return cbvalidation.interfaces.IValidationResult

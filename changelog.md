@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* New `onError( closure ), onSuccess( closure )` callbacks that can be used to validate results using the `validate()` method and concatenate the callbacks.
 * New `assert()` helper that can assit you in validating truthful expressions or throwing exceptions
 * Two new helpers: `validateIsNullorEmpty()` and `validateHasValue` so you can do simple validations not only on objects and constraints.
 * `RequiredIf, RequiredUnless` can now be declared with a simple value pointing to a field. Basically testing if `anotherField` exists, or unless `anotherField` exists.
