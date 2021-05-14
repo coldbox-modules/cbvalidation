@@ -26,42 +26,40 @@ component {
 			password : { required : true, size : "6..20" }
 		};
 		// validation
-		var result = validate(
+		validate(
 			target      = rc,
 			constraints = constraints
-		);
-
-		if ( !result.hasErrors() ) {
-			flash.put( "notice", "User info validated!" );
-			relocate( "main" );
-		} else {
+		).onError( function( results ){
 			flash.put(
 				"notice",
-				result.getAllErrors().tostring()
+				arguments.results.getAllErrors().tostring()
 			);
 			return index( event, rc, prc );
-		}
+		})
+		.onSuccess( function( results ){
+			flash.put( "notice", "User info validated!" );
+			relocate( "main" );
+		} )
+		;
 	}
 
 	any function saveShared( event, rc, prc ){
 		// validation
-		var result = validate(
+		validate(
 			target      = rc,
 			constraints = "sharedUser"
-		);
-
-		if ( !result.hasErrors() ) {
-			flash.put( "User info validated!" );
-			setNextEvent( "main" );
-		} else {
+		).onError( function( results ){
 			flash.put(
 				"notice",
-				result.getAllErrors().tostring()
+				results.getAllErrors().tostring()
 			);
 			return index( event, rc, prc );
-		}
+		})
+		.onSuccess( function( results ){
+			flash.put( "User info validated!" );
+			setNextEvent( "main" );
+		} );
 	}
-
 
 	/**
 	 * validateOrFailWithKeys

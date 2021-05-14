@@ -49,7 +49,7 @@ component
 		// validationData.isLoaded to override isLoaded detection
 
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ?: javaCast( "null", "null" ) ) ) {
 			return true;
 		}
 
