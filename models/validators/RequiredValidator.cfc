@@ -25,13 +25,15 @@ component
 	 * @fieldThe field on the target object to validate on
 	 * @targetValue The target value to validate
 	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// check
 		if ( !isBoolean( arguments.validationData ) ) {
@@ -63,38 +65,6 @@ component
 		};
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
-		return false;
-	}
-
-	/**
-	 * Verify if the target value has value
-	 */
-	boolean function hasValue( any targetValue ){
-		if ( isNull( arguments.targetValue ) ) {
-			return false;
-		}
-
-		// Simple Tests
-		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
-			return true;
-		}
-		// Array Tests
-		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
-			return true;
-		}
-		// Query Tests
-		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
-			return true;
-		}
-		// Struct Tests
-		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
-			return true;
-		}
-		// Object
-		if ( isObject( arguments.targetValue ) ) {
-			return true;
-		}
-
 		return false;
 	}
 

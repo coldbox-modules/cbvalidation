@@ -24,14 +24,15 @@ component
 	 * @targetThe target object to validate on
 	 * @fieldThe field on the target object to validate on
 	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// Verify we have a value, else skip
 		if ( isNullOrEmpty( arguments.targetValue ) ) {

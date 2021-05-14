@@ -24,6 +24,7 @@ component
 	 * @field The field on the target object to validate on
 	 * @targetValue The target value to validate
 	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,

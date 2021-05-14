@@ -30,13 +30,15 @@ component
 	 * @field The field on the target object to validate on
 	 * @targetValue The target value to validate
 	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
-		required  validationResult,
+		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// uniqueness detection for non orm (orm has its own validator)
 		// validationData.table (required)
