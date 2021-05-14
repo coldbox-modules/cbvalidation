@@ -3,191 +3,175 @@
  * www.ortussolutions.com
  * ---
  */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.ValidationManager" {
+component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 
-	function setup(){
-		super.setup();
-		mockRB = createEmptyMock( "cbi18n.models.ResourceService" );
-		model.init();
-		model.setWireBox( mockWireBox );
-		model.setResourceService( mockRB );
+	function beforeAll(){
+		super.beforeAll();
+		// do your own stuff here
 	}
 
-	function testProcessRules(){
-		results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
-		// mockValidator = createMock("coldbox.test.specs.validation.resources.MockValidator");
-
-		// model.$("getValidator", mockValidator);
-
-		mockRules = {
-			required : true,
-			sameAs   : "joe",
-			udf      : variables._validateit
-		};
-
-		prepareMock( this ).$( "getName", "luis" ).$( "getJoe", "luis" );
-		model.processRules(
-			results = results,
-			rules   = mockRules,
-			target  = this,
-			field   = "name"
-		);
-
-		assertEquals( 0, results.getErrorCount() );
+	function afterAll(){
+		// do your own stuff here
+		super.afterAll();
 	}
 
-	function testIgnoresAllKeysEndingInMessage(){
-		var results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+	function run(){
+		describe( "Integrations Specs", function(){
+			beforeEach( function( currentSpec ){
+				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
+				setup();
 
-		var mockRule = {
-			required      : true,
-			testMessage   : "Hello",
-			uniqueMessage : "Not Unique Man",
-			udf           : variables._validateit
-		};
+				manager = getInstance( "validationManager@cbValidation" );
+			} );
 
-		var mock = createStub().$( "getName", "luis" );
-		model.processRules(
-			results = results,
-			rules   = mockRule,
-			target  = mock,
-			field   = "name"
-		);
 
-		assertEquals( 0, results.getErrorCount() );
+			it( "can process rules", function(){
+				var results   = getInstance( "cbvalidation.models.result.ValidationResult" );
+				var mockRules = {
+					required : true,
+					sameAs   : "joe",
+					udf      : variables._validateit
+				};
+
+				prepareMock( this ).$( "getName", "luis" ).$( "getJoe", "luis" );
+
+				manager.processRules(
+					results = results,
+					rules   = mockRules,
+					target  = this,
+					field   = "name"
+				);
+
+				assertEquals( 0, results.getErrorCount() );
+			} );
+
+
+			it( "can process rules with custom validators from a wirebox mapping", function(){
+				var results       = getInstance( "cbvalidation.models.result.ValidationResult" );
+				var mockValidator = prepareMock( getInstance( "tests.resources.MockValidator" ) ).$( "validate", true );
+				var mockRule      = { "tests.resources.MockValidator" : { customField : "hi" } };
+				var mock          = createStub().$( "getName", "luis" );
+
+				manager.processRules(
+					results = results,
+					rules   = mockRule,
+					target  = mock,
+					field   = "name"
+				);
+				assertTrue(
+					mockValidator.$once( "validate" ),
+					"[validate] should have been called on [customValidator]"
+				);
+			} );
+
+			it( "can validate and ignore keys ending with `Message`", function(){
+				var mockRules = {
+					required      : true,
+					testMessage   : "Hello",
+					uniqueMessage : "Not Unique Man",
+					udf           : variables._validateit
+				};
+
+				var mock    = createStub().$( "getName", "luis" );
+				var results = getInstance( "cbvalidation.models.result.ValidationResult" );
+				manager.processRules(
+					results = results,
+					rules   = mockRules,
+					target  = mock,
+					field   = "name"
+				);
+
+				assertEquals( 0, results.getErrorCount() );
+			} );
+
+			it( "can get shared constraints", function(){
+				expect( manager.getSharedConstraints() ).notToBeEmpty();
+			} );
+
+			it( "can validate a generic form", function(){
+				var mockData        = { name : "luis", age : "33" };
+				var mockConstraints = {
+					name : { required : true },
+					age  : { required : true, max : "35" }
+				};
+
+				var r = manager.validate(
+					target      = mockData,
+					constraints = mockConstraints
+				);
+				assertEquals( false, r.hasErrors() );
+
+				var mockData = { name : "luis", age : "55" };
+				var r        = manager.validate(
+					target      = mockData,
+					constraints = mockConstraints
+				);
+				assertEquals( true, r.hasErrors() );
+				debug( r.getAllErrors() );
+			} );
+
+			it( "can validate with specific fields", function(){
+				var mockData        = { name : "", age : "" };
+				var mockConstraints = {
+					name : { required : true },
+					age  : { required : true, max : "35" }
+				};
+
+				var r = manager.validate(
+					target      = mockData,
+					fields      = "name",
+					constraints = mockConstraints
+				);
+				assertEquals( true, r.hasErrors() );
+				assertEquals(
+					0,
+					arrayLen( r.getFieldErrors( "age" ) )
+				);
+				assertEquals(
+					1,
+					arrayLen( r.getFieldErrors( "name" ) )
+				);
+			} );
+
+			it( "can validate with include fields", function(){
+				var mockData        = { name : "", age : "" };
+				var mockConstraints = {
+					name : { required : true },
+					age  : { required : true, max : "35" }
+				};
+
+				var r = manager.validate(
+					target        = { age : 30 },
+					constraints   = mockConstraints,
+					includeFields = "age"
+				);
+				assertEquals( false, r.hasErrors() );
+			} );
+
+			it( "can validate with excluded fields", function(){
+				var mockData        = { name : "", age : "" };
+				var mockConstraints = {
+					name : { required : true },
+					age  : { required : true, max : "35" }
+				};
+
+				var r = manager.validate(
+					target        = mockData,
+					constraints   = mockConstraints,
+					excludeFields = "age"
+				);
+				assertEquals( true, r.hasErrors() );
+				assertEquals(
+					0,
+					arrayLen( r.getFieldErrors( "age" ) )
+				);
+				assertEquals(
+					1,
+					arrayLen( r.getFieldErrors( "name" ) )
+				);
+			} );
+		} );
 	}
-
-	function testProcessRulesLooksForWireBoxMappingOfKeyIfNotAValidValidator(){
-		var results = createMock( "cbvalidation.models.result.ValidationResult" ).init();
-
-		var customValidatorMock = createMock( "cbvalidation.models.validators.RequiredValidator" );
-		customValidatorMock.$( "validate", true );
-
-		var mockBinder = createMock( "coldbox.system.ioc.config.Binder" );
-		mockBinder
-			.$( "mappingExists" )
-			.$args( "customValidator" )
-			.$results( true );
-
-
-		mockWireBox.setBinder( mockBinder );
-		mockWireBox
-			.$( "getInstance" )
-			.$args( "customValidator" )
-			.$results( customValidatorMock );
-
-		var mockRule = { customValidator : { customField : "hi" } };
-		var mock     = createStub().$( "getName", "luis" );
-		model.processRules(
-			results = results,
-			rules   = mockRule,
-			target  = mock,
-			field   = "name"
-		);
-
-		assertTrue(
-			customValidatorMock.$once( "validate" ),
-			"[validate] should have been called on [customValidator]"
-		);
-		var args = customValidatorMock.$callLog().validate[ 1 ];
-		assertEquals(
-			args.validationData,
-			{ customField : "hi" },
-			"validationData was not passed through correctly to [customValidator]"
-		);
-	}
-
-	function testGetConstraints(){
-		assertTrue( structIsEmpty( model.getSharedConstraints() ) );
-		data = { "test" : {} };
-		model.setSharedConstraints( data );
-		debug( model.getSharedConstraints() );
-		assertTrue( structIsEmpty( model.getSharedConstraints( "test" ) ) );
-	}
-
-	function testGenericForm(){
-		mockData        = { name : "luis", age : "33" };
-		mockConstraints = {
-			name : { required : true },
-			age  : { required : true, max : "35" }
-		};
-
-		r = model.validate(
-			target      = mockData,
-			constraints = mockConstraints
-		);
-		assertEquals( false, r.hasErrors() );
-
-		mockData = { name : "luis", age : "55" };
-		r        = model.validate(
-			target      = mockData,
-			constraints = mockConstraints
-		);
-		assertEquals( true, r.hasErrors() );
-		debug( r.getAllErrors() );
-	}
-
-	function testWithFields(){
-		mockData        = { name : "", age : "" };
-		mockConstraints = {
-			name : { required : true },
-			age  : { required : true, max : "35" }
-		};
-
-		r = model.validate(
-			target      = mockData,
-			fields      = "name",
-			constraints = mockConstraints
-		);
-		assertEquals( true, r.hasErrors() );
-		assertEquals(
-			0,
-			arrayLen( r.getFieldErrors( "age" ) )
-		);
-		assertEquals(
-			1,
-			arrayLen( r.getFieldErrors( "name" ) )
-		);
-	}
-
-	function testWithExcludedFields(){
-		mockData        = { name : "", age : "" };
-		mockConstraints = {
-			name : { required : true },
-			age  : { required : true, max : "35" }
-		};
-
-		r = model.validate(
-			target        = mockData,
-			constraints   = mockConstraints,
-			excludeFields = "age"
-		);
-		assertEquals( true, r.hasErrors() );
-		assertEquals(
-			0,
-			arrayLen( r.getFieldErrors( "age" ) )
-		);
-		assertEquals(
-			1,
-			arrayLen( r.getFieldErrors( "name" ) )
-		);
-	}
-
-	function testWithIncludeFields(){
-		mockData        = { name : "", age : "" };
-		mockConstraints = {
-			name : { required : true },
-			age  : { required : true, max : "35" }
-		};
-
-		r = model.validate(
-			target        = { age : 30 },
-			constraints   = mockConstraints,
-			includeFields = "age"
-		);
-		assertEquals( false, r.hasErrors() );
-	}
-
 
 	private function _validateit( targetValue, target ){
 		return true;
