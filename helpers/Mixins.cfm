@@ -59,4 +59,40 @@ function validateModel(
 	return getValidationManager().validate( argumentCollection=arguments );
 }
 
+/**
+ * Verify if the target value has a value
+ * Checks for nullness or for length if it's a simple value, array, query, struct or object.
+ */
+boolean function validateHasValue( any targetValue ){
+	return getValidationManager().getValidator( "Required", {} ).hasValue( argumentCollection = arguments );
+}
+
+/**
+ * Check if a value is null or is a simple value and it's empty
+ *
+ * @targetValue the value to check for nullness/emptyness
+ */
+boolean function validateIsNullOrEmpty( any targetValue ){
+	return getValidationManager().getValidator( "Required", {} ).hasValue( argumentCollection = arguments );
+}
+
+/**
+ * This method mimics the Java assert() function, where it evaluates the target to a boolean value and it must be true
+ * to pass and return a true to you, or throw an `AssertException`
+ *
+ * @target The tareget to evaluate for being true
+ * @message The message to send in the exception
+ *
+ * @throws AssertException if the target is a false or null value
+ * @return True, if the target is a non-null value. If false, then it will throw the `AssertError` exception
+ */
+boolean function assert( target, message="" ){
+	if( !isNull( arguments.target ) && arguments.target ){
+		return true;
+	}
+	throw(
+		type : "AssertException",
+		message : len( arguments.message ) ? arguments.message : "Assertion failed from #callStackGet()[2].toString()#"
+	);
+}
 </cfscript>

@@ -5,6 +5,18 @@ component {
 
 	// Index
 	any function index( event, rc, prc ){
+
+		// Test Mixins
+		log.info( "validateHasValue #validateHasValue( "true" )# has passed!" );
+		log.info( "validateIsNullOrEmpty #validateIsNullOrEmpty( "true" )# has passed!" );
+		assert( true );
+		try{
+			assert( false, "bogus line" );
+		} catch( AssertException e ){}
+		catch( any e ){
+			rethrow;
+		}
+
 		event.setView( "main/index" );
 	}
 
