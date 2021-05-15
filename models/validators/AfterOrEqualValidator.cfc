@@ -50,29 +50,33 @@ component
 			);
 		}
 
+		// The compare value is set or it can be another field
+		var compareValue = arguments.validationData;
+		if ( !isDate( compareValue ) ) {
+			compareValue = invoke(
+				arguments.target,
+				"get#arguments.validationData#"
+			);
+		}
+
 		/**
 		 * -1 if date1 is before than date2
 		 * 0 if date1 is equal to date2
 		 * 1 if date1 is after than date2
 		 */
-		if (
-			dateCompare(
-				arguments.targetValue,
-				arguments.validationData
-			) >= 0
-		) {
+		if ( dateCompare( arguments.targetValue, compareValue ) >= 0 ) {
 			return true;
 		}
 
 		validationResult.addError(
 			validationResult.newError(
 				argumentCollection = {
-					message        : "The '#arguments.field#' is not after or equal to the validation date of [#arguments.validationData#]",
+					message        : "The '#arguments.field#' is not after or equal to the validation date of [#compareValue#]",
 					field          : arguments.field,
 					validationType : getName(),
 					rejectedValue  : ( arguments.targetValue ),
 					validationData : arguments.validationData,
-					errorMetadata  : { "afterOrEqual" : arguments.validationData }
+					errorMetadata  : { "afterOrEqual" : compareValue }
 				}
 			)
 		);
