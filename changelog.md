@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* New validator: `After` which can help you validate that a target value is a date and is after the validation date
+* New validator: `AfterOrEqual` which can help you validate that a target value is a date and is after or equal the validation date
+* New validator: `Before` which can help you validate that a target value is a date and is before the validation date
+* New validator: `BeforeOrEqual` which can help you validate that a target value is a date and is before or equal the validation date
 * New `onError( closure ), onSuccess( closure )` callbacks that can be used to validate results using the `validate()` method and concatenate the callbacks.
 * New `assert()` helper that can assit you in validating truthful expressions or throwing exceptions
 * Two new helpers: `validateIsNullorEmpty()` and `validateHasValue` so you can do simple validations not only on objects and constraints.

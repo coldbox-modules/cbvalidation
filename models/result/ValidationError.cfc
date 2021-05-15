@@ -149,6 +149,7 @@ component accessors="true" {
 	 * @field The required field that case the exception
 	 * @rejectedValue The optional rejected value
 	 * @validationType The name of the rejected validator
+	 * @errorMetadata The error metadata if any
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
 	 */
@@ -157,7 +158,8 @@ component accessors="true" {
 		required string field,
 		string rejectedValue,
 		string validationType,
-		any validationData
+		any validationData,
+		struct errorMetadata
 	){
 		for ( var key in arguments ) {
 			if ( structKeyExists( arguments, key ) ) {
