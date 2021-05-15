@@ -4,9 +4,11 @@
  * ---
  * This validator validates against a UDF
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -21,15 +23,17 @@ component accessors="true" singleton {
 	 * @validationResultThe result object of the validation
 	 * @targetThe target object to validate on
 	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// Validate against the UDF/closure
 		var passed = arguments.validationData(
@@ -52,13 +56,6 @@ component accessors="true" singleton {
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

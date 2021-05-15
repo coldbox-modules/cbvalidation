@@ -1,27 +1,56 @@
-/**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
-*/
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RangeValidator" {
 
-	function setup(){
+	/*********************************** LIFE CYCLE Methods ***********************************/
+
+	// executes before all suites+specs in the run() method
+	function beforeAll(){
 		super.setup();
 		model.init();
 	}
 
-	function testValidateSimple(){
-		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+	// executes after all suites+specs in the run() method
+	function afterAll(){
+	}
 
-		r = model.validate( result, this, "test", "10", "1..10" );
-		assertEquals( true, r );
+	function run( testResults, testBox ){
+		// all your suites go here.
+		describe( "Accepted", function(){
+			beforeEach( function( currentSpec ){
+				result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+			} );
 
-		r = model.validate( result, this, "test", "3", "3..20" );
-		assertEquals( true, r );
+			it( "can validate different range values", function(){
+				r = model.validate(
+					validationResult: result,
+					target          : this,
+					field           : "test",
+					targetValue     : "10",
+					validationData  : "1..10",
+					rules           : {}
+				);
+				assertEquals( true, r );
 
-		r = model.validate( result, this, "test", "123", "5..9" );
-		assertEquals( false, r );
+				r = model.validate(
+					validationResult: result,
+					target          : this,
+					field           : "test",
+					targetValue     : "3",
+					validationData  : "3..20",
+					rules           : {}
+				);
+				assertEquals( true, r );
+
+				r = model.validate(
+					validationResult: result,
+					target          : this,
+					field           : "test",
+					targetValue     : "123",
+					validationData  : "5..9",
+					rules           : {}
+				);
+				assertEquals( false, r );
+			} );
+		} );
 	}
 
 }

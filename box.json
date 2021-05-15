@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"3.0.0",
+    "version":"3.1.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -32,8 +32,11 @@
     ],
     "scripts":{
         "release":"recipe build/release.boxr",
-        "format":"cfformat run models/,test-harness/tests/,*.cfc --overwrite",
-        "format:watch":"cfformat watch models/,test-harness/tests/,*.cfc ./.cfformat.json",
-        "format:check":"cfformat check models/,test-harness/tests/,*.cfc"
+        "format":"cfformat run interfaces,models/,test-harness/tests/,ModuleConfig.cfc --overwrite",
+        "format:watch":"cfformat watch interfaces,models/,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
+        "format:check":"cfformat check interfaces,models/,test-harness/tests/,ModuleConfig.cfc"
+    },
+    "installPaths":{
+        "cbi18n":"modules/cbi18n/"
     }
 }

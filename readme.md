@@ -68,24 +68,50 @@ function validateOrFail()
  * Retrieve the application's configured Validation Manager
  */
 function getValidationManager()
+
+/**
+ * Verify if the target value has a value
+ * Checks for nullness or for length if it's a simple value, array, query, struct or object.
+ */
+boolean function validateHasValue( any targetValue )
+
+/**
+ * Check if a value is null or is a simple value and it's empty
+ *
+ * @targetValue the value to check for nullness/emptyness
+ */
+boolean function validateIsNullOrEmpty( any targetValue )
+
+/**
+ * This method mimics the Java assert() function, where it evaluates the target to a boolean value and it must be true
+ * to pass and return a true to you, or throw an `AssertException`
+ *
+ * @target The tareget to evaluate for being true
+ * @message The message to send in the exception
+ *
+ * @throws AssertException if the target is a false or null value
+ * @return True, if the target is a non-null value. If false, then it will throw the `AssertError` exception
+ */
+boolean function assert( target, message="" )
 ```
 
 ## Settings
 
-Here are the module settings you can place in your `ColdBox.cfc` by using the `validation` settings structure:
+Here are the module settings you can place in your `ColdBox.cfc` by using the `cbvalidation` settings structure in the `modulesettings`
 
 ```js
-validation = {
-    // The third-party validation manager to use, by default it uses CBValidation.
-    manager = "class path",
+modulesettings = {
+	cbValidation = {
+		// The third-party validation manager to use, by default it uses CBValidation.
+		manager = "class path",
 
-    // You can store global constraint rules here with unique names
-    sharedConstraints = {
-        name = {
-            field = { constraints here }
-        }
-    }
-
+		// You can store global constraint rules here with unique names
+		sharedConstraints = {
+			name = {
+				field = { constraints here }
+			}
+		}
+	}
 }
 ```
 
@@ -101,69 +127,89 @@ Each property can have one or more constraints attached to it.  In an object you
 this.constraints = {
 
 	propertyName = {
-		// The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
-		accepted : any value,
+        // The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
+        accepted : any value
+        
+        // The field under validation must be a date after the set targetDate
+        after : targetDate
+        
+        // The field under validation must be a date after or equal the set targetDate
+        afterOrEqual : targetDate
 
-		// The field must be alpahbetical ONLY
-		alpha : any value,
+        // The field must be alphanumeric ONLY
+        alpha : any value
+        
+        // The field under validation is an array and all items must pass this validation as well
+        arrayItem : {
+            // All the constraints to validate the items with
+        }
+        
+        // The field under validation must be a date before the set targetDate
+        before : targetDate
+        
+        // The field under validation must be a date before or equal the set targetDate
+        beforeOrEqual : targetDate
+        
+        // The field under validation must be a date that is equal the set targetDate
+        dateEquals : targetDate
+        
+        // discrete math modifiers
+        discrete : (gt,gte,lt,lte,eq,neq):value
 
-		// discrete math modifiers
-		discrete : (gt,gte,lt,lte,eq,neq):value
+        // value in list
+        inList : list
 
-		// value in list
-		inList : list,
+        // max value
+        max : value
 
-		// max value
-		max : value,
+        // Validation method to use in the target object must return boolean accept the incoming value and target object 
+        method : methodName
 
-		// Validation method to use in the target object must return boolean accept the incoming value and target object
-		method : methodName,
+        // min value
+        min : value
 
-		// min value
-		min : value,
+        // range is a range of values the property value should exist in
+        range : eg: 1..10 or 5..-5
 
-		// range is a range of values the property value should exist in
-		range : eg: 1..10 or 5..-5,
-		
-		// regex validation
-		regex : valid no case regex
+        // regex validation
+        regex : valid no case regex
 
-		// required field or not, includes null values
-		required : boolean [false],
+        // required field or not, includes null values
+        required : boolean [false]
 
-		// The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
-		requiredIf : {
-			anotherfield:value, anotherfield:value
-		}
-		
-		// The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed
-		requiredUnless : {
-			anotherfield:value, anotherfield:value
-		}
-		
-		// same as but with no case
-		sameAsNoCase : propertyName
+        // The field under validation must be present and not empty if the `anotherfield` field is equal to the passed `value`.
+        requiredIf : {
+            anotherfield:value, anotherfield:value
+        }
 
-		// same as another property
-		sameAs : propertyName
+        // The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
+        requiredUnless : {
+            anotherfield:value, anotherfield:value
+        }
 
-		// size or length of the value which can be a (struct,string,array,query)
-		size  : numeric or range, eg: 10 or 6..8
+        // same as but with no case
+        sameAsNoCase : propertyName
 
-		// specific type constraint, one in the list.
-		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,string,telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+        // same as another property
+        sameAs : propertyName
 
-		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
-		udf = variables.UDF or this.UDF or a closure.
+        // size or length of the value which can be a (struct,string,array,query)
+        size  : numeric or range, eg: 10 or 6..8
 
-		// Check if a column is unique in the database
-		unique = {
-			table : The table name,
-			column : The column to check, defaults to the property field in check
-		}
-		
-		// Custom validator, must implement coldbox.system.validation.validators.IValidator
-		validator : path or wirebox id, example: 'mypath.MyValidator' or 'id:MyValidator'
+        // specific type constraint, one in the list.
+        type  : (alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode),
+
+        // UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
+        udf = variables.UDF or this.UDF or a closure.
+
+        // Check if a column is unique in the database
+        unique = {
+            table : The table name,
+            column : The column to check, defaults to the property field in check
+        }
+
+        // Custom validator, must implement coldbox.system.validation.validators.IValidator
+        validator : path or wirebox id, example: 'mypath.MyValidator' or 'id:MyValidator'
 	}
 
 }

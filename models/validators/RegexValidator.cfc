@@ -4,9 +4,11 @@
  * ---
  * This validator validates against a user defined regular expression
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -21,20 +23,19 @@ component accessors="true" singleton {
 	 * @validationResultThe result object of the validation
 	 * @targetThe target object to validate on
 	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @targetValue The target value to validate
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// Verify we have a value, else skip
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -56,16 +57,11 @@ component accessors="true" singleton {
 			rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 			validationData : arguments.validationData
 		};
-		var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'regex' : arguments.validationData } );
+		var error = validationResult
+			.newError( argumentCollection = args )
+			.setErrorMetadata( { "regex" : arguments.validationData } );
 		validationResult.addError( error );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

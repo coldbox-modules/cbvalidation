@@ -10,15 +10,15 @@ interface {
 	/**
 	 * Add errors into the result object
 	 * @error The validation error to add into the results object
-	 * @error_generic IValidationError
+	 * @error_generic cbvalidation.interfaces.IValidationError
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function addError( required error );
 
 	/**
 	 * Set the validation target object name
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setTargetName( required string name );
 
@@ -40,7 +40,7 @@ interface {
 	/**
 	 * Set the validation locale
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setLocale( required string locale );
 
@@ -53,7 +53,7 @@ interface {
 
 	/**
 	 * Clear All errors
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function clearErrors();
 
@@ -74,7 +74,7 @@ interface {
 	 * Get an error object for a specific field that failed. Throws exception if the field does not exist
 	 * @fieldThe field to return error objects on
 	 *
-	 * @return IValidationError[]
+	 * @return cbvalidation.interfaces.IValidationError[]
 	 */
 	array function getFieldErrors( required string field );
 
@@ -86,7 +86,7 @@ interface {
 	/**
 	 * Set a collection of metadata into the results object
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setResultMetadata( required struct data );
 

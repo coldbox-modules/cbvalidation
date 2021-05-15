@@ -5,7 +5,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 The ColdBox validator interface, all inspired by awesome Hyrule Validation Framework by Dan Vega
 */
-component accessors="true" implements="cbvalidation.models.validators.IValidator" {
+component accessors="true" singleton {
 
 	property name="name";
 
@@ -23,7 +23,7 @@ component accessors="true" implements="cbvalidation.models.validators.IValidator
 	 * @validationData.hint The validation data the validator was created with
 	 */
 	boolean function validate(
-		required cbvalidation.models.result.IValidationResult validationResult,
+		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,

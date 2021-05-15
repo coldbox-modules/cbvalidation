@@ -102,7 +102,7 @@ component
 		)
 			// don't do the interfaces
 			.filter( function( item ){
-				return ( item != "IValidator.cfc" );
+				return ( item != "BaseValidator.cfc" );
 			} )
 			// Purge extension
 			.map( function( item ){
@@ -128,7 +128,7 @@ component
 	 * @IncludeFields An optional list of fields to include in the validation.
 	 * @profiles If passed, a list of profile names to use for validation constraints
 	 *
-	 * @return cbvalidation.interfaces.IValidationResult
+	 * @return cbvalidation.interfaces.component extends="Basevalidator" a
 	 */
 	any function validate(
 		required any target,
@@ -168,7 +168,7 @@ component
 			initArguments = {
 				locale          : arguments.locale,
 				targetName      : targetName,
-				resourceService : resourceService,
+				resourceService : variables.resourceService,
 				constraints     : allConstraints,
 				profiles        : arguments.profiles
 			}
@@ -278,7 +278,7 @@ component
 	 * Process validation rules on a target object and field
 	 *
 	 * @results The validation result object
-	 * @results_generic cbvalidation.interfaces.IValidationResult
+	 * @results_generic cbvalidation.interfaces.component extends="Basevalidator" a
 	 * @rules The structure containing validation rules
 	 * @target The target object to do validation on
 	 * @field The field to validate

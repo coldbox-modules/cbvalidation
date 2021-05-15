@@ -11,25 +11,25 @@ interface {
 	 * Set the error message
 	 * @messageThe error message
 	 */
-	IValidationError function setMessage( required string message );
+	cbvalidation.interfaces.IValidationError function setMessage( required string message );
 
 	/**
 	 * Set the field
 	 * @messageThe error message
 	 */
-	IValidationError function setField( required string field );
+	cbvalidation.interfaces.IValidationError function setField( required string field );
 
 	/**
 	 * Set the rejected value
 	 * @valueThe rejected value
 	 */
-	IValidationError function setRejectedValue( required any value );
+	cbvalidation.interfaces.IValidationError function setRejectedValue( required any value );
 
 	/**
 	 * Set the validator type name that rejected
 	 * @validationTypeThe name of the rejected validator
 	 */
-	IValidationError function setValidationType( required any validationType );
+	cbvalidation.interfaces.IValidationError function setValidationType( required any validationType );
 
 	/**
 	 * Get the error validation type
@@ -40,7 +40,7 @@ interface {
 	 * Set the validator data
 	 * @dataThe data of the validator
 	 */
-	IValidationError function setValidationData( required any data );
+	cbvalidation.interfaces.IValidationError function setValidationData( required any data );
 
 	/**
 	 * Get the error validation data
