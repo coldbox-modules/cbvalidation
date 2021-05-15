@@ -54,7 +54,7 @@ component
 					var comparePropertyValue = invoke( target, "get#arguments.key#" );
 					// Null checks
 					if ( isNull( comparePropertyValue ) ) {
-						return !hasValue( arguments.value ?: javaCast( "null", "null" ) );
+						return !hasValue( arguments.value ?: javaCast( "null", "" ) );
 					}
 					// Check if the compareValue is the same as the defined one
 					return ( arguments.value == comparePropertyValue ? true : false );

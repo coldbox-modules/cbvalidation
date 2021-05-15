@@ -35,7 +35,7 @@ component
 		struct rules
 	){
 		// Verify we have a value, else skip
-		if ( isNullOrEmpty( arguments.targetValue ?: javaCast( "null", "null" ) ) ) {
+		if ( isNullOrEmpty( arguments.targetValue ?: javaCast( "null", "" ) ) ) {
 			return true;
 		}
 
