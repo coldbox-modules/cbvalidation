@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* New validator: `DateEquals` which can help you validate that a target value is a date and is the same date as the validation date or other field
 * New validator: `After` which can help you validate that a target value is a date and is after the validation date
 * New validator: `AfterOrEqual` which can help you validate that a target value is a date and is after or equal the validation date
 * New validator: `Before` which can help you validate that a target value is a date and is before the validation date
