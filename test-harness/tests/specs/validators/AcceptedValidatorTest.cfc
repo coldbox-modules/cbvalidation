@@ -1,6 +1,3 @@
-/**
- * My BDD Test
- */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.AcceptedValidator" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
@@ -20,33 +17,75 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 	function run( testResults, testBox ){
 		// all your suites go here.
 		describe( "Accepted", function(){
-			it( "can evaluate true when the value is 1,true,on and yes", function(){
-				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+			beforeEach( function( currentSpec ){
+				result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+			} );
 
+			it( "can evaluate true when the value is 1,true,on and yes", function(){
 				expect( model.validate( result, this, "testField", "1", "" ) ).toBeTrue();
 				expect(
 					model.validate(
-						result,
-						this,
-						"testField",
-						"true",
-						""
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "true",
+						validationData  : "",
+						rules           : {}
 					)
 				).toBeTrue();
-				expect( model.validate( result, this, "testField", "on", "" ) ).toBeTrue();
-				expect( model.validate( result, this, "testField", "yes", "" ) ).toBeTrue();
-
 				expect(
 					model.validate(
-						result,
-						this,
-						"testField",
-						"false",
-						""
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "on",
+						validationData  : "",
+						rules           : {}
 					)
-				).toBeFalse();
-				expect( model.validate( result, this, "testField", "n", "" ) ).toBeFalse();
-				expect( model.validate( result, this, "testField", "no", "" ) ).toBeFalse();
+				).toBeTrue();
+				expect(
+					model.validate(
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "yes",
+						validationData  : "",
+						rules           : {}
+					)
+				).toBeTrue();
+			} );
+
+			it( "can evaluate false when the value is false, n or no", function(){
+				expect(
+					model.validate(
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "false",
+						validationData  : "",
+						rules           : {}
+					)
+				).toBeFalse( "using false" );
+				expect(
+					model.validate(
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "n",
+						validationData  : "",
+						rules           : {}
+					)
+				).toBeFalse( "using n" );
+				expect(
+					model.validate(
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "no",
+						validationData  : "",
+						rules           : {}
+					)
+				).toBeFalse( "using no" );
 			} );
 		} );
 	}
