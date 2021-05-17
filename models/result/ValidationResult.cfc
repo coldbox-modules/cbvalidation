@@ -193,9 +193,8 @@ component accessors="true" {
 			arguments.error.getValidationType(),
 			"all"
 		);
-		// The validation data, should be skipped if validationData is a struct
-		// Only possible because error.getvaldationData is returning any now
-		if ( !isStruct( arguments.error.getValidationData() ) ) {
+		// Validation data that is SIMPLE ONLY!
+		if ( isSimpleValue( arguments.error.getValidationData() ) ) {
 			arguments.message = replaceNoCase(
 				arguments.message,
 				"{validationData}",
