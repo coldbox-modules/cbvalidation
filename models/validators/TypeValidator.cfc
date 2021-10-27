@@ -170,6 +170,10 @@ component
 				r = isXML( arguments.targetValue );
 				break;
 			}
+			case "binary": {
+				r = isValid( "binary", arguments.targetValue );
+				break;
+			}
 		}
 
 		if ( !r ) {
