@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.2.0] => 2021-NOV-12
 
+### Added
+
+* Migrations to github actions
+* ACF2021 Support and automated testing
+
 ### Fixed
 
 * Binary Type validator was not working by @nockhigan

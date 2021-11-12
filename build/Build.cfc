@@ -17,14 +17,13 @@ component {
 
 		// Source Excludes Not Added to final binary
 		variables.excludes = [
-			".gitignore",
-			".travis.yml",
-			".artifacts",
-			".tmp",
 			"build",
+			"node-modules",
+			"resources",
 			"test-harness",
-			".DS_Store",
-			".git"
+			"(package|package-lock).json",
+			"webpack.config.js",
+			"^\..*"
 		];
 
 		// Cleanup + Init Build Directories
@@ -65,9 +64,6 @@ component {
 		// Create project mapping
 		fileSystemUtil.createMapping( arguments.projectName, variables.cwd );
 
-		// Run the tests
-		runTests();
-
 		// Build the source
 		buildSource( argumentCollection = arguments );
 
@@ -99,7 +95,8 @@ component {
 			.params(
 				runner     = variables.testRunner,
 				verbose    = true,
-				outputFile = "build/results.json"
+				outputFile = "#variables.cwd#/test-harness/results/test-results",
+				outputFormats="json,antjunit"
 			)
 			.run();
 
@@ -201,6 +198,8 @@ component {
 		version   = "1.0.0",
 		outputDir = ".tmp/apidocs"
 	){
+		// Create project mapping
+		fileSystemUtil.createMapping( arguments.projectName, variables.cwd );
 		// Generate Docs
 		print.greenLine( "Generating API Docs, please wait..." ).toConsole();
 		directoryCreate( arguments.outputDir, true, true );
@@ -285,7 +284,7 @@ component {
 			function( path ){
 				var isExcluded = false;
 				variables.excludes.each( function( item ){
-					if ( path.replaceNoCase( variables.cwd, "", "all" ).findNoCase( item ) ) {
+					if ( path.replaceNoCase( variables.cwd, "", "all" ).reFindNoCase( item ) ) {
 						isExcluded = true;
 					}
 				} );
