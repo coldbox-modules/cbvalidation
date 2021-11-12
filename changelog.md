@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.2.0] => 2021-NOV-12
+
+### Fixed
+
+* Binary Type validator was not working by @nockhigan
+
+### Changed
+
+* Formatting goodness by andreas.eppinger@webwaysag.ch
+
+----
+
 ## [3.1.0] => 2021-MAY-17
 
 ### Fixed
