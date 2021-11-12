@@ -35,14 +35,13 @@ component
 		any validationData,
 		struct rules
 	){
-        
-        var errorMetadata = {};
+		var errorMetadata = {};
 
-        // Validate against the UDF/closure
+		// Validate against the UDF/closure
 		var passed = arguments.validationData(
 			isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
-            arguments.target,
-            errorMetadata
+			arguments.target,
+			errorMetadata
 		);
 
 		if ( passed ) {
@@ -57,7 +56,9 @@ component
 			validationData : arguments.validationData
 		};
 
-		validationResult.addError( validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata ) );
+		validationResult.addError(
+			validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata )
+		);
 
 		return false;
 	}
