@@ -20,9 +20,9 @@ component
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
 	 * @targetValue The target value to validate
 	 * @rules The rules imposed on the currently validating field
 	 */
