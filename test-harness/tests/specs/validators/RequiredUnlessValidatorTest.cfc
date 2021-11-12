@@ -117,33 +117,33 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				).toBeTrue();
 			} );
 
-            it( "simply checks for existence when passing in a simple value", function() {
-                var mock = createStub()
+			it( "simply checks for existence when passing in a simple value", function(){
+				var mock = createStub()
 					.$( "getName", "luis" )
 					.$( "getRole", "admin" )
 					.$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
 				expect(
-                    model.validate(
-                        result,
-                        mock,
-                        "testField",
-                        "",
-                        "name"
-                    )
-                ).toBeTrue();
-				
-                expect(
-                    model.validate(
-                        result,
-                        mock,
-                        "testField",
-                        "",
-                        "missing"
-                    )
-                ).toBeFalse();
-            } );
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"",
+						"name"
+					)
+				).toBeTrue();
+
+				expect(
+					model.validate(
+						result,
+						mock,
+						"testField",
+						"",
+						"missing"
+					)
+				).toBeFalse();
+			} );
 		} );
 	}
 
