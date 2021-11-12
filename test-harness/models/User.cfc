@@ -7,8 +7,8 @@ component accessors="true" {
     property name="type"     default="1";
 
 	this.constraintProfiles = {
-		new : "username,password,email",
-		update :  "username,email"
+		new    : "username,password,email",
+		update : "username,email"
 	};
 	this.constraints = {
 		username : { required : true, size : "2..20" },

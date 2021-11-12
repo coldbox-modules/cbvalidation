@@ -18,7 +18,7 @@ interface {
 	 * @excludeFieldsAn optional list of fields to exclude from the validation.
 	 * @includeFieldsAn optional list of fields to include in the validation.
 	 *
-	 * @return IValidationResult
+	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function validate(
 		required any target,
@@ -48,7 +48,7 @@ interface {
 	 *
 	 * @constraintsFilter by name or not
 	 *
-	 * @return IValidationManager
+	 * @return cbvalidation.interfaces.IValidationManager
 	 */
 	any function setSharedConstraints( struct constraints );
 
@@ -58,7 +58,7 @@ interface {
 	 * @nameFilter by name or not
 	 * @constraintThe constraint to store.
 	 *
-	 * @return IValidationManager
+	 * @return cbvalidation.interfaces.IValidationManager
 	 */
 	any function addSharedConstraint(
 		required string name,

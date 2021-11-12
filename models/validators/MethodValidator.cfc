@@ -4,9 +4,11 @@
  * ---
  * This validator validates against a unique method
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -23,24 +25,23 @@ component accessors="true" singleton {
 	 * @target The target object to validate on
 	 * @field The field on the target object to validate on
 	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
         
-        var errorMetadata = {};
+    var errorMetadata = {};
         
-        // return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
-			return true;
-        }
+    // return true if no data to check, type needs a data element to be checked.
+    if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
+        return true;
+    }
 
 		// Validate via method
 		if (
@@ -63,13 +64,6 @@ component accessors="true" singleton {
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata ) );
 		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

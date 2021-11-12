@@ -4,6 +4,7 @@
 .tmp/**
 
 test-harness/.engine/**
+test-harness/.env
 test-harness/coldbox/**
 test-harness/docbox/**
 test-harness/testbox/**

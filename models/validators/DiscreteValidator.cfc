@@ -3,9 +3,11 @@
  * www.ortussolutions.com
  * ---
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -18,18 +20,20 @@ component accessors="true" singleton {
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		if ( !find( ":", arguments.validationData ) OR listLen( arguments.validationData, ":" ) LT 2 ) {
 			throw(
@@ -60,9 +64,7 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -107,20 +109,13 @@ component accessors="true" singleton {
 			var error = validationResult
 				.newError( argumentCollection = args )
 				.setErrorMetadata( {
-					'operation'      : operation,
-					'operationValue' : operationValue
+					"operation"      : operation,
+					"operationValue" : operationValue
 				} );
 			validationResult.addError( error );
 		}
 
 		return r;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

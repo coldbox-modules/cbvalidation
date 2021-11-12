@@ -11,8 +11,6 @@ component
 	singleton
 {
 
-	property name="name";
-
 	/**
 	 * Constructor
 	 */
@@ -29,37 +27,56 @@ component
 	 * @field The field on the target object to validate on
 	 * @targetValue The target value to validate
 	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
-		// If you passed in simple data, conver it to a struct, simple values are not evaluated
-		if ( isSimpleValue( arguments.validationData ) ) {
-			arguments.validationData = {};
+		var isRequired = true;
+
+		// If you passed in simple data, simply check that the target field has a value
+		if ( isSimpleValue( arguments.validationData ) && len( arguments.validationData ) ) {
+			var otherFieldValue = invoke(
+				target,
+				"get#arguments.validationData#"
+			);
+			isRequired = !isNull( otherFieldValue ) && hasValue( otherFieldValue );
+		} else if ( isStruct( arguments.validationData ) ) {
+			// Inflate to array to test multiple properties
+			isRequired = arguments.validationData
+				.map( function( key, value ){
+					// Get comparison values
+					var comparePropertyValue = invoke( target, "get#arguments.key#" );
+					// Null checks
+					if ( isNull( comparePropertyValue ) ) {
+						return isNull( arguments.value ) || !hasValue( arguments.value );
+					}
+					// Check if the compareValue is the same as the defined one
+					return ( arguments.value == comparePropertyValue ? true : false );
+				} )
+				// AND them all for a single result
+				.reduce( function( result, key, value ){
+					return ( arguments.value && arguments.result );
+				}, true );
+		} else {
+			validationResult.addError(
+				validationResult.newError(
+					message        = "The target for RequiredIf must be a simple field name or a struct of field to target value pairs.",
+					field          = arguments.field,
+					validationType = getName(),
+					rejectedValue  = arguments.validationData,
+					validationData = arguments.validationData
+				)
+			);
+			return false;
 		}
 
-		// Inflate to array to test multiple properties
-		var isRequired = arguments.validationData
-			.map( function( key, value ){
-				// Get comparison values
-				var comparePropertyValue = invoke( target, "get#key#" );
-				// Null checks
-				if ( isNull( comparePropertyValue ) ) {
-					return isNull( arguments.value );
-				}
-				// Check if the compareValue is the same as the defined one
-				return ( arguments.value == comparePropertyValue ? true : false );
-			} )
-			// AND them all for a single result
-			.reduce( function( result, key, value ){
-				return ( arguments.value && arguments.result );
-			}, true );
-
-		if ( !arguments.validationData.count() || !isRequired ) {
+		if ( !isRequired ) {
 			return true;
 		}
 

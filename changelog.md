@@ -7,6 +7,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.2.0] => 2021-NOV-12
+
+### Added
+
+* Migrations to github actions
+* ACF2021 Support and automated testing
+
+### Fixed
+
+* Binary Type validator was not working by @nockhigan
+
+### Changed
+
+* Formatting goodness by andreas.eppinger@webwaysag.ch
+
+----
+
+## [3.1.0] => 2021-MAY-17
+
+### Fixed
+
+* Regression when doing global replacements for `validationData`. It was changed to a `!isStruct()` but in reality, it has to be simple ONLY for replacements.
+
+----
+
+## [3.1.0] => 2021-MAY-15
+
+### Added
+
+* New validator: `DateEquals` which can help you validate that a target value is a date and is the same date as the validation date or other field
+* New validator: `After` which can help you validate that a target value is a date and is after the validation date
+* New validator: `AfterOrEqual` which can help you validate that a target value is a date and is after or equal the validation date
+* New validator: `Before` which can help you validate that a target value is a date and is before the validation date
+* New validator: `BeforeOrEqual` which can help you validate that a target value is a date and is before or equal the validation date
+* New `onError( closure ), onSuccess( closure )` callbacks that can be used to validate results using the `validate()` method and concatenate the callbacks.
+* New `assert()` helper that can assit you in validating truthful expressions or throwing exceptions
+* Two new helpers: `validateIsNullorEmpty()` and `validateHasValue` so you can do simple validations not only on objects and constraints.
+* `RequiredIf, RequiredUnless` can now be declared with a simple value pointing to a field. Basically testing if `anotherField` exists, or unless `anotherField` exists.
+* New `BaseValidator` for usage by all validators to bring uniformity, global di, and helpers.
+  
+### Changed
+
+* The `IValidator` removes the `getName()` since that comes from the `BaseValidator` now.
+* The `UniqueValidator` now supports both creationg and update checks with new constraints.
+* Removed hard interface requirements to avoid lots of issues across CFML engines. Moved them to the `interfaces` folder so we can continue to document them and use them without direct compilation.
+
+### Fixed
+
+* Metadata for arguments did not have the right spacing for tosn of validators.
+* Added the missing `rules` struct argument to several validators that missed it.
+
+----
+
+## [3.0.0] => 2021-JAN-20
+
+### Added
+
+* Migration to cbi18n 2.x series. This will require for you to update your cbi18n settings in your ColdBox configuration file and the modules that leverage cbi18n.  Please see https://coldbox-i18n.ortusbooks.com/intro/release-history/whats-new-with-2.0.0#compatibility-updates on how to upgrade your application easily in about 5 minutes.
+
+----
+
 ## [2.3.0] => 2020-NOV-09
 
 ### Added

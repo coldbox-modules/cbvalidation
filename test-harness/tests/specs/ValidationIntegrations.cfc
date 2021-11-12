@@ -17,8 +17,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 	function run(){
 		describe( "Integrations Specs", function(){
 			beforeEach( function( currentSpec ){
-				structDelete( application, "cbController" );
-				structDelete( application, "wirebox" );
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
 			} );

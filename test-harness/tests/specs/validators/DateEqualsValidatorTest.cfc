@@ -1,4 +1,4 @@
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.AcceptedValidator" {
+component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.DateEqualsValidator" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
@@ -16,76 +16,80 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function run( testResults, testBox ){
 		// all your suites go here.
-		describe( "Accepted", function(){
+		describe( "Date Equals Validator", function(){
 			beforeEach( function( currentSpec ){
 				result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 			} );
 
-			it( "can evaluate true when the value is 1,true,on and yes", function(){
-				expect( model.validate( result, this, "testField", "1", "" ) ).toBeTrue();
+			it( "can throw an exception if the target value is not a date", function(){
+				expect( function(){
+					model.validate(
+						validationResult: result,
+						target          : this,
+						field           : "testField",
+						targetValue     : "I am not a date",
+						validationData  : now(),
+						rules           : {}
+					);
+				} ).toThrow();
+			} );
+
+			it( "can validate false if the field under validation is before the target", function(){
+				// testField = { afterDate = "value" }
 				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
 						field           : "testField",
-						targetValue     : "true",
-						validationData  : "",
+						targetValue     : dateAdd( "d", -5, now() ),
+						validationData  : now(),
 						rules           : {}
 					)
-				).toBeTrue();
+				).toBeFalse();
+			} );
+
+			it( "can validate false if the field under validation is after the target", function(){
+				// testField = { afterDate = "value" }
 				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
 						field           : "testField",
-						targetValue     : "on",
-						validationData  : "",
+						targetValue     : dateAdd( "d", 5, now() ),
+						validationData  : now(),
 						rules           : {}
 					)
-				).toBeTrue();
+				).toBeFalse();
+			} );
+
+			it( "can validate true if the field under validation is the same as the target", function(){
+				// testField = { afterDate = "value" }
+				var now = now();
 				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
 						field           : "testField",
-						targetValue     : "yes",
-						validationData  : "",
+						targetValue     : now,
+						validationData  : now,
 						rules           : {}
 					)
 				).toBeTrue();
 			} );
 
-			it( "can evaluate false when the value is false, n or no", function(){
+			it( "can validate true if the validation date is another field with the same date", function(){
+				// testField = { afterDate = "value" }
+				prepareMock( this ).$( "getStartDate", "01/01/2022" );
 				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
 						field           : "testField",
-						targetValue     : "false",
-						validationData  : "",
+						targetValue     : "01/01/2022",
+						validationData  : "startDate",
 						rules           : {}
 					)
-				).toBeFalse( "using false" );
-				expect(
-					model.validate(
-						validationResult: result,
-						target          : this,
-						field           : "testField",
-						targetValue     : "n",
-						validationData  : "",
-						rules           : {}
-					)
-				).toBeFalse( "using n" );
-				expect(
-					model.validate(
-						validationResult: result,
-						target          : this,
-						field           : "testField",
-						targetValue     : "no",
-						validationData  : "",
-						rules           : {}
-					)
-				).toBeFalse( "using no" );
+				).toBeTrue();
 			} );
 		} );
 	}

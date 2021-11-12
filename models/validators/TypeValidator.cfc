@@ -4,9 +4,11 @@
  * ---
  * This validator verifies field type
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -20,18 +22,20 @@ component accessors="true" singleton {
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// check incoming type
 		if (
@@ -53,9 +57,7 @@ component accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if (
-			isNull( arguments.targetValue ) || ( isSimpleValue( arguments.targetValue ) && !len( arguments.targetValue ) )
-		) {
+		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
@@ -168,6 +170,10 @@ component accessors="true" singleton {
 				r = isXML( arguments.targetValue );
 				break;
 			}
+			case "binary": {
+				r = isValid( "binary", arguments.targetValue );
+				break;
+			}
 		}
 
 		if ( !r ) {
@@ -178,18 +184,13 @@ component accessors="true" singleton {
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
 				validationData : arguments.validationData
 			};
-			var error = validationResult.newError( argumentCollection = args ).setErrorMetadata( { 'type' : arguments.validationData } );
+			var error = validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( { "type" : arguments.validationData } );
 			validationResult.addError( error );
 		}
 
 		return r;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }

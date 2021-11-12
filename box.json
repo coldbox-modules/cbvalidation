@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"2.4.0",
+    "version":"3.3.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -11,7 +11,7 @@
         "type":"git",
         "url":"https://github.com/coldbox-modules/cbvalidation"
     },
-    "shortDescription":"This module provides server side validation to ColdBox applications",
+    "shortDescription":"This module provides server side validation to ColdBox applications with localization and i18n support",
     "license":[
         {
             "type":"Apache2",
@@ -23,7 +23,7 @@
         "Curt Gratz <gratz@computerknowhow.com>"
     ],
     "dependencies":{
-        "cbi18n":"^1.4.0"
+        "cbi18n":"^2.0.0"
     },
     "ignore":[
         "**/.*",
@@ -32,8 +32,11 @@
     ],
     "scripts":{
         "release":"recipe build/release.boxr",
-        "format":"cfformat run models/,test-harness/tests/,*.cfc --overwrite",
-        "format:watch":"cfformat watch models/,test-harness/tests/,*.cfc ./.cfformat.json",
-        "format:check":"cfformat check models/,test-harness/tests/,*.cfc"
+        "format":"cfformat run interfaces,models/,test-harness/tests/,ModuleConfig.cfc --overwrite",
+        "format:watch":"cfformat watch interfaces,models/,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
+        "format:check":"cfformat check interfaces,models/,test-harness/tests/,ModuleConfig.cfc"
+    },
+    "installPaths":{
+        "cbi18n":"modules/cbi18n/"
     }
 }

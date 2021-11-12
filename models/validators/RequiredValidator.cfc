@@ -4,9 +4,11 @@
  * ---
  * This validator checks if a field has value and not null
  */
-component accessors="true" singleton {
-
-	property name="name";
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+{
 
 	/**
 	 * Constructor
@@ -18,18 +20,20 @@ component accessors="true" singleton {
 
 	/**
 	 * Will check if an incoming value validates
-	 * @validationResultThe result object of the validation
-	 * @targetThe target object to validate on
-	 * @fieldThe field on the target object to validate on
-	 * @targetValueThe target value to validate
-	 * @validationDataThe validation data the validator was created with
+	 * @validationResult The result object of the validation
+	 * @target The target object to validate on
+	 * @field The field on the target object to validate on
+	 * @targetValue The target value to validate
+	 * @validationData The validation data the validator was created with
+	 * @rules The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
 		required any target,
 		required string field,
 		any targetValue,
-		any validationData
+		any validationData,
+		struct rules
 	){
 		// check
 		if ( !isBoolean( arguments.validationData ) ) {
@@ -62,41 +66,6 @@ component accessors="true" singleton {
 
 		validationResult.addError( validationResult.newError( argumentCollection = args ) );
 		return false;
-	}
-
-	/**
-	 * Verify if the target value has value
-	 */
-	boolean function hasValue( required targetValue ){
-		// Simple Tests
-		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
-			return true;
-		}
-		// Array Tests
-		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
-			return true;
-		}
-		// Query Tests
-		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
-			return true;
-		}
-		// Struct Tests
-		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
-			return true;
-		}
-		// Object
-		if ( isObject( arguments.targetValue ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the name of the validator
-	 */
-	string function getName(){
-		return variables.name;
 	}
 
 }
