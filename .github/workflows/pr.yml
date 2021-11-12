@@ -1,0 +1,93 @@
+name: Pull Requests
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "master"
+      - "development"
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-20.04
+    env:
+      DB_USER: root
+      DB_PASSWORD: root
+    strategy:
+      fail-fast: true
+      matrix:
+        cfengine: [ "lucee@5", "adobe@2016", "adobe@2018", "adobe@2021" ]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: "11"
+
+      - name: Setup CommandBox
+        uses: elpete/setup-commandbox@v1.0.0
+
+      - name: Install Test Harness Dependencies
+        working-directory: ./test-harness
+        run: |
+          box install
+
+      - name: Start ${{ matrix.cfengine }} Server
+        working-directory: ./test-harness
+        run: |
+          box server start serverConfigFile="server-${{ matrix.cfengine }}.json" --noSaveSettings --debug
+          curl http://127.0.0.1:60299
+
+      - name: Run Tests
+        working-directory: ./test-harness
+        run: |
+          mkdir tests/results
+          box package set testbox.runner="http://localhost:60299/tests/runner.cfm"
+          box testbox run --verbose outputFile=tests/results/test-results outputFormats=json,antjunit
+
+      - name: Publish PR Test Reports
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: 'test-harness/tests/results/**/*.xml'
+          check_name: "${{ matrix.cfengine }} Test Results"
+          summary: true
+
+      - name: Failure Debugging Info
+        if: ${{ failure() }}
+        working-directory: ./test-harness
+        run: |
+          box server log serverConfigFile="server-${{ matrix.cfengine }}.json"
+
+  format:
+    name: Format
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: "11"
+
+      - name: Set Up CommandBox
+        uses: elpete/setup-commandbox@v1.0.0
+
+      - name: Install CFFormat
+        run: box install commandbox-cfformat
+
+      - name: Run CFFormat
+        run: box run-script format
+
+      - name: Commit Format Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply cfformat changes
