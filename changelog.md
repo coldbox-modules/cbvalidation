@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.3.0] => 2021-NOV-12
+
+### Fixed
+
+* Date Comparisons Fail if Compare field is empty #58 thanks to @nockhigan: https://github.com/coldbox-modules/cbvalidation/pull/58
+* 
+
+----
+
 ## [3.2.0] => 2021-NOV-12
 
 ### Added
