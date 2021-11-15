@@ -170,6 +170,76 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					arrayLen( r.getFieldErrors( "name" ) )
 				);
 			} );
+
+			it( "can expand nested struct and array syntax", function(){
+				var mockData = {
+					"owner": {
+						"firstName": "John",
+						"lastName": "Doe",
+						"addresses": [
+							{
+								"streetOne": "123 Elm Street",
+								"city": "Anytown",
+								"state": "IL",
+								"zip": 60606
+							}
+						]
+					}
+				};
+				var mockConstraints = {
+					"owner.firstName": { "required": true, "type": "string" },
+					"owner.lastName": { "required": true, "type": "string" },
+					"owner.addresses.*.streetOne": { "required": true, "type": "string" },
+					"owner.addresses.*.streetTwo": { "required": false, "type": "string" },
+					"owner.addresses.*.city": { "required": true, "type": "string" },
+					"owner.addresses.*.state": { "required": true, "type": "string", "size": 2 },
+					"owner.addresses.*.zip": { "required": true, "type": "numeric", "size": 5 }
+				};
+
+				var r = manager.validate(
+					target      = mockData,
+					constraints = mockConstraints
+				);
+				assertEquals( false, r.hasErrors() );
+			} );
+
+			it( "can expand nested struct and array syntax and handle failed validation", function(){
+				var mockData = {
+					"owner": {
+						"firstName": "John",
+						"lastName": "Doe",
+						"addresses": [
+							{
+								"streetOne": "123 Elm Street",
+								"city": "Anytown",
+								"state": "IL",
+								"zip": 60606
+							},
+							{
+								"streetOne": "123 Elm Street",
+								"city": "Anytown",
+								"zip": 60606
+							}
+						]
+					}
+				};
+				var mockConstraints = {
+					"owner.firstName": { "required": true, "type": "string" },
+					"owner.lastName": { "required": true, "type": "string" },
+					"owner.addresses.*.streetOne": { "required": true, "type": "string" },
+					"owner.addresses.*.streetTwo": { "required": false, "type": "string" },
+					"owner.addresses.*.city": { "required": true, "type": "string" },
+					"owner.addresses.*.state": { "required": true, "type": "string", "size": 2 },
+					"owner.addresses.*.zip": { "required": true, "type": "numeric", "size": 5 }
+				};
+
+				var r = manager.validate(
+					target      = mockData,
+					constraints = mockConstraints
+				);
+				debug( r.getAllErrorsAsJson() );
+				assertEquals( true, r.hasErrors() );
+			} );
 		} );
 	}
 
