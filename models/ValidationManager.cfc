@@ -463,12 +463,13 @@ component
 
 	private void function expandConstraintShortcuts( required struct constraints ){
 		for ( var key in arguments.constraints ) {
-			if ( listLen( key, "." ) > 1 ) { // is an object or an array shortcut
+			if ( listLen( key, "." ) > 1 ) {
+				// is an object or an array shortcut
 				expandNestedConstraint(
 					constraintSlice = arguments.constraints,
-					constraints = arguments.constraints[ key ],
-					currentKey = listFirst( key, "." ),
-					nestedKeys = listRest( key, "." )
+					constraints     = arguments.constraints[ key ],
+					currentKey      = listFirst( key, "." ),
+					nestedKeys      = listRest( key, "." )
 				);
 				structDelete( arguments.constraints, key );
 			}
@@ -480,7 +481,7 @@ component
 		required struct constraints,
 		required string currentKey,
 		string nestedKeys = ""
-	) {
+	){
 		// writeDump( var = arguments );
 		if ( arguments.nestedKeys == "" ) {
 			arguments.constraintSlice[ currentKey ] = arguments.constraints;
@@ -491,16 +492,16 @@ component
 			arguments.constraintSlice[ currentKey ] = {};
 		}
 
-		var nextKey = listFirst( arguments.nestedKeys, "." );
+		var nextKey   = listFirst( arguments.nestedKeys, "." );
 		var nextSlice = {};
-		var nextKeys = listRest( arguments.nestedKeys, "." );
+		var nextKeys  = listRest( arguments.nestedKeys, "." );
 		if ( nextKey == "*" ) {
 			if ( !arguments.constraintSlice[ currentKey ].keyExists( "arrayItem" ) ) {
 				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = {};
 			}
 			nextSlice = arguments.constraintSlice[ currentKey ][ "arrayItem" ];
-			nextKey = listFirst( nextKeys, "." );
-			nextKeys = listRest( nextKeys, "." );
+			nextKey   = listFirst( nextKeys, "." );
+			nextKeys  = listRest( nextKeys, "." );
 		} else {
 			if ( !arguments.constraintSlice[ currentKey ].keyExists( "constraints" ) ) {
 				arguments.constraintSlice[ currentKey ][ "constraints" ] = {};
@@ -509,9 +510,9 @@ component
 		}
 		expandNestedConstraint(
 			constraintSlice = nextSlice,
-			constraints = arguments.constraints,
-			currentKey = nextKey,
-			nestedKeys = nextKeys
+			constraints     = arguments.constraints,
+			currentKey      = nextKey,
+			nestedKeys      = nextKeys
 		);
 	}
 
