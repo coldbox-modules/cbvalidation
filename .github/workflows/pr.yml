@@ -18,7 +18,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         cfengine: [ "lucee@5", "adobe@2016", "adobe@2018", "adobe@2021" ]
     steps:
