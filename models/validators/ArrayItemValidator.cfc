@@ -62,14 +62,24 @@ component
 		// Iterate and dance baby!
 		var itemValidationResults = arguments.targetValue.filter( function( thisItem, thisIndex ){
 			var vResult = variables.validationManager.validate(
-				target      = arguments.thisItem,
-				constraints = validationData
+				target      = { "item" : arguments.thisItem },
+				constraints = { "item" : validationData }
 			);
 			// Process errors into validation result
 			vResult
 				.getErrors()
 				.each( function( error ){
-					arguments.error.setField( "#field#[#thisIndex#].#arguments.error.getField()#" );
+					var newField    = "#field#[#thisIndex#]";
+					var nestedField = reReplace(
+						arguments.error.getField(),
+						"^item\.?",
+						"",
+						"one"
+					);
+					if ( nestedField != "" ) {
+						newField = newField & "." & nestedField;
+					}
+					arguments.error.setField( newField );
 					validationResult.addError( arguments.error );
 				} );
 			// Filter out valid items

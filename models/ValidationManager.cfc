@@ -170,6 +170,7 @@ component
 		);
 
 		expandConstraintShortcuts( allConstraints );
+		// writeDump( var = allConstraints );
 
 		// create new result object
 		var results = wirebox.getInstance(
@@ -499,7 +500,6 @@ component
 		required string currentKey,
 		string nestedKeys = ""
 	){
-		// writeDump( var = arguments );
 		if ( arguments.nestedKeys == "" ) {
 			arguments.constraintSlice[ currentKey ] = arguments.constraints;
 			return;
@@ -513,12 +513,16 @@ component
 		var nextSlice = {};
 		var nextKeys  = listRest( arguments.nestedKeys, "." );
 		if ( nextKey == "*" ) {
-			if ( !arguments.constraintSlice[ currentKey ].keyExists( "arrayItem" ) ) {
-				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = {};
+			nextKey  = listFirst( nextKeys, "." );
+			nextKeys = listRest( nextKeys, "." );
+			if ( nextKey == "" ) {
+				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = arguments.constraints;
+				return;
 			}
-			nextSlice = arguments.constraintSlice[ currentKey ][ "arrayItem" ];
-			nextKey   = listFirst( nextKeys, "." );
-			nextKeys  = listRest( nextKeys, "." );
+			if ( !arguments.constraintSlice[ currentKey ].keyExists( "arrayItem" ) ) {
+				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = { "constraints" : {} };
+			}
+			nextSlice = arguments.constraintSlice[ currentKey ][ "arrayItem" ][ "constraints" ];
 		} else {
 			if ( !arguments.constraintSlice[ currentKey ].keyExists( "constraints" ) ) {
 				arguments.constraintSlice[ currentKey ][ "constraints" ] = {};

@@ -174,9 +174,10 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			it( "can expand nested struct and array syntax", function(){
 				var mockData = {
 					"owner" : {
-						"firstName" : "John",
-						"lastName"  : "Doe",
-						"addresses" : [
+						"firstName"    : "John",
+						"lastName"     : "Doe",
+						"luckyNumbers" : [ 7, 11, 21 ],
+						"addresses"    : [
 							{
 								"streetOne" : "123 Elm Street",
 								"city"      : "Anytown",
@@ -187,8 +188,12 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					}
 				};
 				var mockConstraints = {
-					"owner.firstName"             : { "required" : true, "type" : "string" },
-					"owner.lastName"              : { "required" : true, "type" : "string" },
+					"owner.firstName"      : { "required" : true, "type" : "string" },
+					"owner.lastName"       : { "required" : true, "type" : "string" },
+					"owner.luckyNumbers.*" : {
+						"required" : true,
+						"type"     : "numeric"
+					},
 					"owner.addresses.*.streetOne" : { "required" : true, "type" : "string" },
 					"owner.addresses.*.streetTwo" : {
 						"required" : false,
@@ -215,9 +220,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			} );
 
 			it( "can use validator aliases in constraints", function(){
-				var mockData        = { "luckyNumbers" : [ 7, 11, 21, 111 ] };
+				var mockData        = { "luckyNumbers" : [ 7, 11, 111 ] };
 				var mockConstraints = {
-					"addresses" : {
+					"luckyNumbers" : {
 						"items" : {
 							"required" : true,
 							"type"     : "numeric"
