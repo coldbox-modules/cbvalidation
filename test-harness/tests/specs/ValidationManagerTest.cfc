@@ -214,6 +214,24 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				assertEquals( false, r.hasErrors() );
 			} );
 
+			it( "can use validator aliases in constraints", function(){
+				var mockData        = { "luckyNumbers" : [ 7, 11, 21, 111 ] };
+				var mockConstraints = {
+					"addresses" : {
+						"items" : {
+							"required" : true,
+							"type"     : "numeric"
+						}
+					}
+				};
+
+				var r = manager.validate(
+					target      = mockData,
+					constraints = mockConstraints
+				);
+				assertEquals( false, r.hasErrors() );
+			} );
+
 			it( "can expand nested struct and array syntax and handle failed validation", function(){
 				var mockData = {
 					"owner" : {
@@ -259,8 +277,13 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					target      = mockData,
 					constraints = mockConstraints
 				);
-				debug( r.getAllErrorsAsJson() );
 				assertEquals( true, r.hasErrors() );
+				var errors = r.getAllErrors( "owner.addresses[2].state" );
+				assertEquals( 1, errors.len() );
+				assertEquals(
+					"The 'state' value is required",
+					errors[ 1 ]
+				);
 			} );
 		} );
 	}

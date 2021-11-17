@@ -20,7 +20,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			beforeEach( function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
-				validator = getInstance( "ConstraintsValidator@cbValidation" );
+				validator = getInstance( "NestedConstraintsValidator@cbValidation" );
 			} );
 
 			it( "can invalidate when you don't pass a struct", function(){
@@ -121,11 +121,10 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						rules: {}
 					)
 				).toBeFalse();
-				expect( vResult.getAllErrors() ).toBeArray();
-				expect( vResult.getAllErrors() ).toHaveLength( 1 );
-				expect( vResult.getAllErrors()[ 1 ] ).toBe(
-					"Validation failed for [address.state]: The 'state' value is required"
-				);
+				var errors = vResult.getAllErrors( "address.state" );
+				expect( errors ).toBeArray();
+				expect( errors ).toHaveLength( 1 );
+				expect( errors[ 1 ] ).toBe( "The 'state' value is required" );
 			} );
 
 			it( "can nest more than one level", function(){
@@ -172,11 +171,10 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						rules: {}
 					)
 				).toBeFalse();
-				expect( vResult.getAllErrors() ).toBeArray();
-				expect( vResult.getAllErrors() ).toHaveLength( 1 );
-				expect( vResult.getAllErrors()[ 1 ] ).toBe(
-					"Validation failed for [owner.address.state]: The 'state' value is required"
-				);
+				var errors = vResult.getAllErrors( "owner.address.state" );
+				expect( errors ).toBeArray();
+				expect( errors ).toHaveLength( 1 );
+				expect( errors[ 1 ] ).toBe( "The 'state' value is required" );
 			} );
 		} );
 	}

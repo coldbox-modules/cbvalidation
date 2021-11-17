@@ -87,15 +87,24 @@ component
 	 * @sharedConstraints A structure of shared constraints
 	 */
 	ValidationManager function init( struct sharedConstraints = {} ){
-		// valid validator registrations
-		variables.validValidators      = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
 		variables.sharedConstraints    = arguments.sharedConstraints;
 		// Validators Path
 		variables.validatorsPath       = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
 		// Register validators
-		variables.registeredValidators = directoryList(
-			variables.validatorsPath,
+		variables.registeredValidators = discoverValidators( variables.validatorsPath );
+		// Register aliases
+		variables.validatorAliases     = {
+			"items"       : "arrayItem",
+			"constraints" : "nestedConstraints"
+		};
+
+		return this;
+	}
+
+	public struct function discoverValidators( required string path ){
+		return directoryList(
+			arguments.path,
 			false,
 			"name",
 			"*.cfc"
@@ -113,8 +122,6 @@ component
 				result[ item.replaceNoCase( "Validator", "" ) ] = "cbvalidation.models.validators.#item#";
 				return result;
 			}, {} );
-
-		return this;
 	}
 
 	/**
@@ -330,6 +337,16 @@ component
 		required string validatorType,
 		required any validationData
 	){
+		// Are we an alias?
+		if (
+			structKeyExists(
+				variables.validatorAliases,
+				arguments.validatorType
+			)
+		) {
+			arguments.validatorType = variables.validatorAliases[ arguments.validatorType ];
+		}
+
 		// Are we a core validator?
 		if (
 			structKeyExists(

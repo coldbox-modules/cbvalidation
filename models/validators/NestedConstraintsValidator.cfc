@@ -11,8 +11,8 @@ component
 	singleton
 {
 
-	ConstraintsValidator function init(){
-		variables.name = "ConstraintsValidator";
+	NestedConstraintsValidator function init(){
+		variables.name = "NestedConstraintsValidator";
 		return this;
 	}
 
@@ -62,18 +62,7 @@ component
 		vResult
 			.getErrors()
 			.each( function( error ){
-				arguments.error.setMessage(
-					replace(
-						arguments.error.getMessage(),
-						"Validation failed for [#arguments.error.getField()#]: ",
-						""
-					)
-				);
 				arguments.error.setField( "#field#.#arguments.error.getField()#" );
-				arguments.error.setMessage(
-					"Validation failed for [#arguments.error.getField()#]: " &
-					arguments.error.getMessage()
-				);
 				validationResult.addError( arguments.error );
 			} );
 

@@ -70,10 +70,6 @@ component
 				.getErrors()
 				.each( function( error ){
 					arguments.error.setField( "#field#[#thisIndex#].#arguments.error.getField()#" );
-					arguments.error.setMessage(
-						"Validation failed for the [#field#] array at index [#thisIndex#]. " &
-						arguments.error.getMessage()
-					);
 					validationResult.addError( arguments.error );
 				} );
 			// Filter out valid items
