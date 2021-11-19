@@ -87,15 +87,24 @@ component
 	 * @sharedConstraints A structure of shared constraints
 	 */
 	ValidationManager function init( struct sharedConstraints = {} ){
-		// valid validator registrations
-		variables.validValidators      = "required,type,size,range,regex,sameAs,sameAsNoCase,inList,discrete,udf,method,validator,min,max";
 		// store shared constraints if passed
 		variables.sharedConstraints    = arguments.sharedConstraints;
 		// Validators Path
 		variables.validatorsPath       = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
 		// Register validators
-		variables.registeredValidators = directoryList(
-			variables.validatorsPath,
+		variables.registeredValidators = discoverValidators( variables.validatorsPath );
+		// Register aliases
+		variables.validatorAliases     = {
+			"items"       : "arrayItem",
+			"constraints" : "nestedConstraints"
+		};
+
+		return this;
+	}
+
+	public struct function discoverValidators( required string path ){
+		return directoryList(
+			arguments.path,
 			false,
 			"name",
 			"*.cfc"
@@ -113,8 +122,6 @@ component
 				result[ item.replaceNoCase( "Validator", "" ) ] = "cbvalidation.models.validators.#item#";
 				return result;
 			}, {} );
-
-		return this;
 	}
 
 	/**
@@ -161,6 +168,9 @@ component
 			arguments.target,
 			arguments.constraints
 		);
+
+		expandConstraintShortcuts( allConstraints );
+		// writeDump( var = allConstraints );
 
 		// create new result object
 		var results = wirebox.getInstance(
@@ -328,6 +338,16 @@ component
 		required string validatorType,
 		required any validationData
 	){
+		// Are we an alias?
+		if (
+			structKeyExists(
+				variables.validatorAliases,
+				arguments.validatorType
+			)
+		) {
+			arguments.validatorType = variables.validatorAliases[ arguments.validatorType ];
+		}
+
 		// Are we a core validator?
 		if (
 			structKeyExists(
@@ -457,6 +477,64 @@ component
 	 */
 	private struct function discoverConstraints( required any target ){
 		return ( structKeyExists( arguments.target, "constraints" ) ? arguments.target.constraints : {} );
+	}
+
+	private void function expandConstraintShortcuts( required struct constraints ){
+		for ( var key in arguments.constraints ) {
+			if ( listLen( key, "." ) > 1 ) {
+				// is an object or an array shortcut
+				expandNestedConstraint(
+					constraintSlice = arguments.constraints,
+					constraints     = arguments.constraints[ key ],
+					currentKey      = listFirst( key, "." ),
+					nestedKeys      = listRest( key, "." )
+				);
+				structDelete( arguments.constraints, key );
+			}
+		}
+	}
+
+	private void function expandNestedConstraint(
+		required struct constraintSlice,
+		required struct constraints,
+		required string currentKey,
+		string nestedKeys = ""
+	){
+		if ( arguments.nestedKeys == "" ) {
+			arguments.constraintSlice[ currentKey ] = arguments.constraints;
+			return;
+		}
+
+		if ( !arguments.constraintSlice.keyExists( currentKey ) ) {
+			arguments.constraintSlice[ currentKey ] = {};
+		}
+
+		var nextKey   = listFirst( arguments.nestedKeys, "." );
+		var nextSlice = {};
+		var nextKeys  = listRest( arguments.nestedKeys, "." );
+		if ( nextKey == "*" ) {
+			nextKey  = listFirst( nextKeys, "." );
+			nextKeys = listRest( nextKeys, "." );
+			if ( nextKey == "" ) {
+				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = arguments.constraints;
+				return;
+			}
+			if ( !arguments.constraintSlice[ currentKey ].keyExists( "arrayItem" ) ) {
+				arguments.constraintSlice[ currentKey ][ "arrayItem" ] = { "constraints" : {} };
+			}
+			nextSlice = arguments.constraintSlice[ currentKey ][ "arrayItem" ][ "constraints" ];
+		} else {
+			if ( !arguments.constraintSlice[ currentKey ].keyExists( "constraints" ) ) {
+				arguments.constraintSlice[ currentKey ][ "constraints" ] = {};
+			}
+			nextSlice = arguments.constraintSlice[ currentKey ][ "constraints" ];
+		}
+		expandNestedConstraint(
+			constraintSlice = nextSlice,
+			constraints     = arguments.constraints,
+			currentKey      = nextKey,
+			nestedKeys      = nextKeys
+		);
 	}
 
 }

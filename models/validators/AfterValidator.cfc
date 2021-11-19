@@ -58,7 +58,7 @@ component
 				"get#arguments.validationData#"
 			);
 		}
-		
+
 		// return true if no value to compare against
 		if ( isNull( compareValue ) || isNullOrEmpty( compareValue ) ) {
 			return true;
