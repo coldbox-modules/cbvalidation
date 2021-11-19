@@ -35,7 +35,12 @@ component
 		struct rules
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || !isStruct( arguments.targetValue ) ) {
+		if ( isNull( arguments.targetValue ) ) {
+			return true;
+		}
+
+		// return false if the value is not a struct.
+		if ( !isStruct( arguments.targetValue ) ) {
 			var args = {
 				message : "The '#arguments.field#' value '#(
 					isSimpleValue( arguments.targetValue ) ? arguments.targetValue : serializeJSON(

@@ -89,6 +89,35 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				expect( vResult.getAllErrors() ).toBeEmpty();
 			} );
 
+			it( "does no validation when a null value is passed", function(){
+				var vResult = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+				expect(
+					validator.validate(
+						validationResult: vResult,
+						target          : this,
+						field           : "address",
+						targetValue     : javacast( "null", "" ),
+						validationData  : {
+							"streetOne" : { required : true, type : "string" },
+							"streetTwo" : { required : false, type : "string" },
+							"city"      : { required : true, type : "string" },
+							"state"     : {
+								required : true,
+								type     : "string",
+								size     : 2
+							},
+							"zip" : {
+								required : true,
+								type     : "numeric",
+								size     : 5
+							}
+						},
+						rules: {}
+					)
+				).toBeTrue();
+				expect( vResult.getAllErrors() ).toBeEmpty();
+			} );
+
 			it( "shows the nested field name when a nested constraint fails", function(){
 				var vResult = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 				expect(
