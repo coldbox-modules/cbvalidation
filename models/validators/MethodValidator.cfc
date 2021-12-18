@@ -40,7 +40,7 @@ component
 		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
-        }
+		}
 
 		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
