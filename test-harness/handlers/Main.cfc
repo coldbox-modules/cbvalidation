@@ -1,4 +1,4 @@
-﻿/**
+/**
  * My Event Handler Hint
  */
 component {
