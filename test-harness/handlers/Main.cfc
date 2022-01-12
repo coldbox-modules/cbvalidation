@@ -1,4 +1,4 @@
-﻿/**
+/**
  * My Event Handler Hint
  */
 component {
@@ -104,6 +104,21 @@ component {
 		);
 
 		return "Validated";
+    }
+    
+    
+    /**
+	 * validateOnly
+	 */
+    function validateOnly( event, rc, prc){
+        
+        var oModel = populateModel( "User" );
+
+		// validate
+        prc.result = validate( oModel );
+
+		return "Validated";
+
 	}
 
 
