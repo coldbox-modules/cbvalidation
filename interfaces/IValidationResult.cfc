@@ -9,7 +9,8 @@ interface {
 
 	/**
 	 * Add errors into the result object
-	 * @error The validation error to add into the results object
+	 *
+	 * @error         The validation error to add into the results object
 	 * @error_generic cbvalidation.interfaces.IValidationError
 	 *
 	 * @return cbvalidation.interfaces.IValidationResult
@@ -18,6 +19,7 @@ interface {
 
 	/**
 	 * Set the validation target object name
+	 *
 	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function setTargetName( required string name );
@@ -47,12 +49,14 @@ interface {
 
 	/**
 	 * Determine if the results had error or not
+	 *
 	 * @fieldThe field to count on (optional)
 	 */
 	boolean function hasErrors( string field );
 
 	/**
 	 * Clear All errors
+	 *
 	 * @return cbvalidation.interfaces.IValidationResult
 	 */
 	any function clearErrors();
@@ -60,18 +64,21 @@ interface {
 
 	/**
 	 * Get how many errors you have
+	 *
 	 * @fieldThe field to count on (optional)
 	 */
 	numeric function getErrorCount( string field );
 
 	/**
 	 * Get the Errors Array, which is an array of error messages (strings)
+	 *
 	 * @fieldThe field to use to filter the error messages on (optional)
 	 */
 	array function getAllErrors( string field );
 
 	/**
 	 * Get an error object for a specific field that failed. Throws exception if the field does not exist
+	 *
 	 * @fieldThe field to return error objects on
 	 *
 	 * @return cbvalidation.interfaces.IValidationError[]

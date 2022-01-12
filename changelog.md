@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.3.0] => 2022-JAN-12
+
+### Added
+
+* Allow UDF and Method Validators to Utilize Error Metadata by @homestar9 (https://github.com/coldbox-modules/cbvalidation/pull/48)
+
+### Fixed
+
+* Date Comparisons Fail if Compare field is empty #58 thanks to @nockhigan: https://github.com/coldbox-modules/cbvalidation/pull/58
+
+----
+
 ## [3.2.0] => 2021-NOV-12
 
 ### Added
@@ -46,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Two new helpers: `validateIsNullorEmpty()` and `validateHasValue` so you can do simple validations not only on objects and constraints.
 * `RequiredIf, RequiredUnless` can now be declared with a simple value pointing to a field. Basically testing if `anotherField` exists, or unless `anotherField` exists.
 * New `BaseValidator` for usage by all validators to bring uniformity, global di, and helpers.
-  
+
 ### Changed
 
 * The `IValidator` removes the `getName()` since that comes from the `BaseValidator` now.

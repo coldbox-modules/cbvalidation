@@ -11,10 +11,10 @@ interface {
 	/**
 	 * Validate an object
 	 *
-	 * @targetThe target object to validate
-	 * @fieldsOne or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
-	 * @constraintsAn optional shared constraints name or an actual structure of constraints to validate on.
-	 * @localeAn optional locale to use for i18n messages
+	 * @targetThe       target object to validate
+	 * @fieldsOne       or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
+	 * @constraintsAn   optional shared constraints name or an actual structure of constraints to validate on.
+	 * @localeAn        optional locale to use for i18n messages
 	 * @excludeFieldsAn optional list of fields to exclude from the validation.
 	 * @includeFieldsAn optional list of fields to include in the validation.
 	 *
@@ -55,14 +55,11 @@ interface {
 	/**
 	 * Store a shared constraint
 	 *
-	 * @nameFilter by name or not
+	 * @nameFilter    by name or not
 	 * @constraintThe constraint to store.
 	 *
 	 * @return cbvalidation.interfaces.IValidationManager
 	 */
-	any function addSharedConstraint(
-		required string name,
-		required struct constraint
-	);
+	any function addSharedConstraint( required string name, required struct constraint );
 
 }

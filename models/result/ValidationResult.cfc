@@ -116,7 +116,7 @@ component accessors="true" {
 	/**
 	 * Add errors into the result object
 	 *
-	 * @error The validation error to add into the results object
+	 * @error         The validation error to add into the results object
 	 * @error_generic cbvalidation.interfaces.IValidationError
 	 *
 	 * @return cbvalidation.interfaces.IValidationResult
@@ -124,10 +124,7 @@ component accessors="true" {
 	any function addError( required error ){
 		// Verify Custom Messages via constraints, these take precedence
 		if (
-			structKeyExists(
-				variables.constraints,
-				arguments.error.getField()
-			) AND structKeyExists(
+			structKeyExists( variables.constraints, arguments.error.getField() ) AND structKeyExists(
 				variables.constraints[ arguments.error.getField() ],
 				"#arguments.error.getValidationType()#Message"
 			)
@@ -162,7 +159,7 @@ component accessors="true" {
 	 * Replace global messages
 	 *
 	 * @message The message
-	 * @error cbvalidation.interfaces.IvalidationError
+	 * @error   cbvalidation.interfaces.IvalidationError
 	 */
 	private void function globalReplacements( required message, required error ){
 		// The rejected value
@@ -281,10 +278,7 @@ component accessors="true" {
 				results[ thisError.getField() ] = [];
 			}
 			// Add error Message
-			arrayAppend(
-				results[ thisError.getField() ],
-				thisError.getMemento()
-			);
+			arrayAppend( results[ thisError.getField() ], thisError.getMemento() );
 		}
 
 		return results;

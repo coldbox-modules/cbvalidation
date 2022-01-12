@@ -4,11 +4,7 @@
  * ---
  * This validator verifies field type
  */
-component
-	extends  ="BaseValidator"
-	accessors="true"
-	singleton
-{
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -22,12 +18,13 @@ component
 
 	/**
 	 * Will check if an incoming value validates
+	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @validationData   The validation data the validator was created with
+	 * @rules            The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -38,17 +35,7 @@ component
 		struct rules
 	){
 		// check incoming type
-		if (
-			!reFindNoCase(
-				"^(#replace(
-					variables.validTypes,
-					",",
-					"|",
-					"all"
-				)#)$",
-				arguments.validationData
-			)
-		) {
+		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", arguments.validationData ) ) {
 			throw(
 				message = "The type you sent is invalid: #arguments.validationData#",
 				detail  = "Valid types are #variables.validTypes#",
@@ -81,12 +68,7 @@ component
 				break;
 			}
 			case "alpha": {
-				r = (
-					reFindNoCase(
-						"^[a-zA-Z\s]*$",
-						arguments.targetValue
-					) gt 0
-				);
+				r = ( reFindNoCase( "^[a-zA-Z\s]*$", arguments.targetValue ) gt 0 );
 				break;
 			}
 			case "boolean": {

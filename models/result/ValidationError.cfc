@@ -19,6 +19,7 @@ component accessors="true" {
 
 	/**
 	 * Set error metadata that can be used in i18n message replacements or in views
+	 *
 	 * @data The name-value pairs of data to store in this error.
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -37,6 +38,7 @@ component accessors="true" {
 
 	/**
 	 * Set the validator data
+	 *
 	 * @data The data of the validator
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -58,6 +60,7 @@ component accessors="true" {
 
 	/**
 	 * Set the error message
+	 *
 	 * @message The error message
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -69,6 +72,7 @@ component accessors="true" {
 
 	/**
 	 * Set the field
+	 *
 	 * @message The error message
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -80,6 +84,7 @@ component accessors="true" {
 
 	/**
 	 * Set the rejected value
+	 *
 	 * @value The rejected value
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -91,6 +96,7 @@ component accessors="true" {
 
 	/**
 	 * Set the validator type name that rejected
+	 *
 	 * @validationType The name of the rejected validator
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
@@ -145,11 +151,12 @@ component accessors="true" {
 
 	/**
 	 * Configure method, which can do setters for all required error params
-	 * @message The required error message
-	 * @field The required field that case the exception
-	 * @rejectedValue The optional rejected value
+	 *
+	 * @message        The required error message
+	 * @field          The required field that case the exception
+	 * @rejectedValue  The optional rejected value
 	 * @validationType The name of the rejected validator
-	 * @errorMetadata The error metadata if any
+	 * @errorMetadata  The error metadata if any
 	 *
 	 * @return cbvalidation.interfaces.IValidationError
 	 */

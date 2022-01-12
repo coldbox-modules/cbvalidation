@@ -1,8 +1,6 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
+* *******************************************************************************
+* *******************************************************************************
 */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.result.ValidationResult" {
 
@@ -32,13 +30,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testAddError(){
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"test",
-			"45",
-			"inList",
-			"1,2,3"
-		);
+		mockError.configure( "unit test", "test", "45", "inList", "1,2,3" );
 		assertTrue( arrayLen( model.getErrors() ) eq 0 );
 
 		model.addError( mockError );
@@ -46,13 +38,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 		// with custom messages
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"test",
-			"",
-			"required",
-			"true"
-		);
+		mockError.configure( "unit test", "test", "", "required", "true" );
 		mockConstraints = {
 			"test" : {
 				required        : true,
@@ -65,20 +51,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		model.addError( mockError );
 		assertTrue( arrayLen( model.getErrors() ) eq 1 );
 		r = model.getFieldErrors( "test" )[ 1 ];
-		assertEquals(
-			"This stuff is required dude for the field: test!",
-			r.getMemento().message
-		);
+		assertEquals( "This stuff is required dude for the field: test!", r.getMemento().message );
 
 		// with i18n
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"test",
-			"45",
-			"inList",
-			"1,2,3"
-		);
+		mockError.configure( "unit test", "test", "45", "inList", "1,2,3" );
 		model.setLocale( "en_US" );
 		mockRB = getMockBox()
 			.createEmptyMock( "cbi18n.models.ResourceService" )
@@ -88,10 +65,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 		model.addError( mockError );
 		debug( mockError.getmemento() );
-		assertEquals(
-			"Your stuff doesn't work test inList 1,2,3",
-			mockError.getMessage()
-		);
+		assertEquals( "Your stuff doesn't work test inList 1,2,3", mockError.getMessage() );
 	}
 
 	function testHasErrors(){
@@ -131,24 +105,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testGetErrorAsStruct(){
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"test",
-			"45",
-			"inList",
-			"1,2,3"
-		);
+		mockError.configure( "unit test", "test", "45", "inList", "1,2,3" );
 		model.addError( mockError );
 
 		// with custom messages
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"fname",
-			"",
-			"required",
-			"true"
-		);
+		mockError.configure( "unit test", "fname", "", "required", "true" );
 		mockConstraints = {
 			"test" : {
 				required        : true,
@@ -164,24 +126,12 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 	function testGetErrorAsJSON(){
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"test",
-			"45",
-			"inList",
-			"1,2,3"
-		);
+		mockError.configure( "unit test", "test", "45", "inList", "1,2,3" );
 		model.addError( mockError );
 
 		// with custom messages
 		mockError = createMock( "cbvalidation.models.result.ValidationError" ).init();
-		mockError.configure(
-			"unit test",
-			"fname",
-			"",
-			"required",
-			"true"
-		);
+		mockError.configure( "unit test", "fname", "", "required", "true" );
 		mockConstraints = {
 			"test" : {
 				required        : true,

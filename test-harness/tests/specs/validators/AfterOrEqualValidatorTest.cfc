@@ -1,4 +1,7 @@
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.AfterOrEqualValidator" {
+component
+	extends="coldbox.system.testing.BaseModelTest"
+	model  ="cbvalidation.models.validators.AfterOrEqualValidator"
+{
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 

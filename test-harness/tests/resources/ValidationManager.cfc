@@ -14,36 +14,36 @@
  *
  * <pre>
  * constraints = {
- * 	propertyName = {
- * 		// required or not
- * 		required : boolean [false]
- * 		// type constraint
- * 		type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
- * 		// size or length of the value (struct,string,array,query)
- * 		size  : numeric or range, eg: 10 or 6..8
- * 		// range is a range of values the property value should exist in
- * 		range : eg: 1..10 or 5..-5
- * 		// regex validation
- * 		regex : valid no case regex
- * 		// same as another property
- * 		sameAs : propertyName
- * 		// same as but with no case
- * 		sameAsNoCase : propertyName
- * 		// value in list
- * 		inList : list
- * 		// discrete math modifiers
- * 		discrete : (gt,gte,lt,lte,eq,neq):value
- * 		// UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
- * 		udf : function,
- * 		// Validation method to use in the targt object must return boolean accept the incoming value and target object, validate(value,target):boolean
- * 		method : methodName
- * 		// Custom validator, must implement
- * 		validator : path or wirebox id: 'mypath.MyValidator' or 'id:MyValidator'
- * 		// min value
- * 		min : value
- * 		// max value
- * 		max : value
- * 	}
+ * propertyName = {
+ * // required or not
+ * required : boolean [false]
+ * // type constraint
+ * type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+ * // size or length of the value (struct,string,array,query)
+ * size  : numeric or range, eg: 10 or 6..8
+ * // range is a range of values the property value should exist in
+ * range : eg: 1..10 or 5..-5
+ * // regex validation
+ * regex : valid no case regex
+ * // same as another property
+ * sameAs : propertyName
+ * // same as but with no case
+ * sameAsNoCase : propertyName
+ * // value in list
+ * inList : list
+ * // discrete math modifiers
+ * discrete : (gt,gte,lt,lte,eq,neq):value
+ * // UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
+ * udf : function,
+ * // Validation method to use in the targt object must return boolean accept the incoming value and target object, validate(value,target):boolean
+ * method : methodName
+ * // Custom validator, must implement
+ * validator : path or wirebox id: 'mypath.MyValidator' or 'id:MyValidator'
+ * // min value
+ * min : value
+ * // max value
+ * max : value
+ * }
  * };
  *
  * vResults = validateModel(target=model);
@@ -52,11 +52,7 @@
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-component
-	accessors="true"
-	serialize="false"
-	singleton
-{
+component accessors="true" serialize="false" singleton {
 
 	/**
 	 * WireBox Object Factory
@@ -120,13 +116,13 @@ component
 	/**
 	 * Validate an object using constraints
 	 *
-	 * @target The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
-	 * @fields One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
-	 * @constraints An optional shared constraints name or an actual structure of constraints to validate on.
-	 * @locale An optional locale to use for i18n messages
+	 * @target        The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
+	 * @fields        One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
+	 * @constraints   An optional shared constraints name or an actual structure of constraints to validate on.
+	 * @locale        An optional locale to use for i18n messages
 	 * @excludeFields An optional list of fields to exclude from the validation.
 	 * @IncludeFields An optional list of fields to include in the validation.
-	 * @profiles If passed, a list of profile names to use for validation constraints
+	 * @profiles      If passed, a list of profile names to use for validation constraints
 	 *
 	 * @return cbvalidation.interfaces.component extends="Basevalidator" a
 	 */
@@ -150,17 +146,11 @@ component
 				targetName = "GenericForm";
 			}
 		} else {
-			targetName = listLast(
-				getMetadata( arguments.target ).name,
-				"."
-			);
+			targetName = listLast( getMetadata( arguments.target ).name, "." );
 		}
 
 		// discover and determine constraints definition for an incoming target.
-		var allConstraints = determineConstraintsDefinition(
-			arguments.target,
-			arguments.constraints
-		);
+		var allConstraints = determineConstraintsDefinition( arguments.target, arguments.constraints );
 
 		// create new result object
 		var results = wirebox.getInstance(
@@ -231,17 +221,18 @@ component
 
 	/**
 	 * Validate an object using constraints and throw a `ValidationException` if the validation fails
-
-	 * @target The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
-	 * @fields One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
-	 * @constraints An optional shared constraints name or an actual structure of constraints to validate on.
-	 * @locale An optional locale to use for i18n messages
+	 *
+	 * @target        The target object to validate or a structure like a form or collection. If it is a collection, we will build a generic object for you so we can validate the structure of name-value pairs.
+	 * @fields        One or more fields to validate on, by default it validates all fields in the constraints. This can be a simple list or an array.
+	 * @constraints   An optional shared constraints name or an actual structure of constraints to validate on.
+	 * @locale        An optional locale to use for i18n messages
 	 * @excludeFields An optional list of fields to exclude from the validation.
 	 * @IncludeFields An optional list of fields to include in the validation.
-	 * @profiles If passed, a list of profile names to use for validation constraints
+	 * @profiles      If passed, a list of profile names to use for validation constraints
+	 *
+	 * @return any,struct: The target object that was validated, or the structure fields that where validated.
 	 *
 	 * @throws ValidationException
-	 * @return any,struct: The target object that was validated, or the structure fields that where validated.
 	 */
 	function validateOrFail(
 		required any target,
@@ -277,11 +268,11 @@ component
 	/**
 	 * Process validation rules on a target object and field
 	 *
-	 * @results The validation result object
+	 * @results         The validation result object
 	 * @results_generic cbvalidation.interfaces.component extends="Basevalidator" a
-	 * @rules The structure containing validation rules
-	 * @target The target object to do validation on
-	 * @field The field to validate
+	 * @rules           The structure containing validation rules
+	 * @target          The target object to do validation on
+	 * @field           The field to validate
 	 */
 	ValidationManager function processRules(
 		required any results,
@@ -297,19 +288,13 @@ component
 			}
 
 			// had to use nasty evaluate until adobe cf get's their act together on invoke.
-			getValidator(
-				validatorType  = key,
-				validationData = arguments.rules[ key ]
-			).validate(
+			getValidator( validatorType = key, validationData = arguments.rules[ key ] ).validate(
 				validationResult = results,
 				target           = arguments.target,
 				field            = arguments.field,
-				targetValue      = invoke(
-					arguments.target,
-					"get" & arguments.field
-				),
-				validationData = arguments.rules[ key ],
-				rules          = arguments.rules
+				targetValue      = invoke( arguments.target, "get" & arguments.field ),
+				validationData   = arguments.rules[ key ],
+				rules            = arguments.rules
 			);
 		}
 		return this;
@@ -318,23 +303,16 @@ component
 	/**
 	 * Create validators according to types and validation data
 	 *
-	 * @validatorType The type of validator to retrieve, either internal or class path or wirebox ID
+	 * @validatorType  The type of validator to retrieve, either internal or class path or wirebox ID
 	 * @validationData The validation data that is used for custom validators
 	 *
-	 * @throws ValidationManager.InvalidValidatorType
 	 * @return cbvalidation.interfaces.IValidator
+	 *
+	 * @throws ValidationManager.InvalidValidatorType
 	 */
-	any function getValidator(
-		required string validatorType,
-		required any validationData
-	){
+	any function getValidator( required string validatorType, required any validationData ){
 		// Are we a core validator?
-		if (
-			structKeyExists(
-				variables.registeredValidators,
-				arguments.validatorType
-			)
-		) {
+		if ( structKeyExists( variables.registeredValidators, arguments.validatorType ) ) {
 			return wirebox.getInstance( variables.registeredValidators[ arguments.validatorType ] );
 		}
 
@@ -377,10 +355,7 @@ component
 	 * @name The shared constraint to check
 	 */
 	boolean function sharedConstraintsExists( required string name ){
-		return structKeyExists(
-			variables.sharedConstraints,
-			arguments.name
-		);
+		return structKeyExists( variables.sharedConstraints, arguments.name );
 	}
 
 
@@ -399,15 +374,12 @@ component
 	/**
 	 * Store a shared constraint
 	 *
-	 * @name The name to store the constraint as
+	 * @name       The name to store the constraint as
 	 * @constraint The constraint structures to store.
 	 *
 	 * @return cbvalidation.interfaces.IValidationManager
 	 */
-	any function addSharedConstraint(
-		required string name,
-		required struct constraint
-	){
+	any function addSharedConstraint( required string name, required struct constraint ){
 		variables.sharedConstraints[ arguments.name ] = arguments.constraints;
 		return this;
 	}
@@ -417,15 +389,12 @@ component
 	/**
 	 * Determine from where to take the constraints from
 	 *
-	 * @target The target object
+	 * @target      The target object
 	 * @constraints The constraints rules
 	 *
 	 * @throws ValidationManager.InvalidSharedConstraint
 	 */
-	private struct function determineConstraintsDefinition(
-		required any target,
-		any constraints = ""
-	){
+	private struct function determineConstraintsDefinition( required any target, any constraints = "" ){
 		var thisConstraints = {};
 
 		// if structure, just return it back

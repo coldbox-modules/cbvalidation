@@ -23,11 +23,11 @@ component
 	 * Will check if an incoming value validates
 	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @validationData   The validation data the validator was created with
+	 * @rules            The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -43,11 +43,8 @@ component
 		// If you passed in simple data, simply check that the target field has a value
 		if ( isSimpleValue( arguments.validationData ) && len( arguments.validationData ) ) {
 			valueExists         = !!arguments.validationData.len();
-			var otherFieldValue = invoke(
-				target,
-				"get#arguments.validationData#"
-			);
-			isOptional = !isNull( otherFieldValue ) && hasValue( otherFieldValue );
+			var otherFieldValue = invoke( target, "get#arguments.validationData#" );
+			isOptional          = !isNull( otherFieldValue ) && hasValue( otherFieldValue );
 		} else if ( isStruct( arguments.validationData ) ) {
 			valueExists = !!arguments.validationData.count();
 			isOptional  = arguments.validationData

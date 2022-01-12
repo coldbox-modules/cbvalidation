@@ -3,11 +3,7 @@
  * www.ortussolutions.com
  * ---
  */
-component
-	extends  ="BaseValidator"
-	accessors="true"
-	singleton
-{
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -20,12 +16,13 @@ component
 
 	/**
 	 * Will check if an incoming value validates
+	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @validationData   The validation data the validator was created with
+	 * @rules            The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -45,17 +42,7 @@ component
 		var operation      = getToken( arguments.validationData, 1, ":" );
 		var operationValue = getToken( arguments.validationData, 2, ":" );
 
-		if (
-			!reFindNoCase(
-				"^(#replace(
-					variables.validTypes,
-					",",
-					"|",
-					"all"
-				)#)$",
-				operation
-			)
-		) {
+		if ( !reFindNoCase( "^(#replace( variables.validTypes, ",", "|", "all" )#)$", operation ) ) {
 			throw(
 				message = "The validator data is invalid: #arguments.validationData#",
 				detail  = "Valid discrete types are #variables.validTypes#",

@@ -4,11 +4,7 @@
  * ---
  * This validator validates against a unique method
  */
-component
-	extends  ="BaseValidator"
-	accessors="true"
-	singleton
-{
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -22,10 +18,10 @@ component
 	 * Will check if an incoming value validates
 	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @rules            The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -35,6 +31,13 @@ component
 		any validationData,
 		struct rules
 	){
+		var errorMetadata = {};
+
+		// return true if no data to check, type needs a data element to be checked.
+		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
+			return true;
+		}
+
 		// return true if no data to check, type needs a data element to be checked.
 		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
@@ -45,7 +48,7 @@ component
 			invoke(
 				arguments.target,
 				arguments.validationData,
-				[ arguments.targetValue ]
+				[ arguments.targetValue, errorMetadata ]
 			)
 		) {
 			return true;
@@ -59,7 +62,9 @@ component
 			validationData : arguments.validationData
 		};
 
-		validationResult.addError( validationResult.newError( argumentCollection = args ) );
+		validationResult.addError(
+			validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata )
+		);
 		return false;
 	}
 

@@ -1,9 +1,4 @@
-﻿/**
-********************************************************************************
-Copyright 2005-2007 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.ortussolutions.com
-********************************************************************************
-*/
+﻿
 component {
 
 	// APPLICATION CFC PROPERTIES
@@ -17,11 +12,7 @@ component {
 	this.mappings[ "/tests" ] = getDirectoryFromPath( getCurrentTemplatePath() );
 
 	// The application root
-	rootPath = reReplaceNoCase(
-		this.mappings[ "/tests" ],
-		"tests(\\|/)",
-		""
-	);
+	rootPath                 = reReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
 	this.mappings[ "/root" ] = rootPath;
 
 	// UPDATE THE NAME OF THE MODULE IN TESTING BELOW

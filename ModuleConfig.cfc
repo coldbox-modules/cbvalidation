@@ -43,10 +43,7 @@ component {
 		// Did you change the validation manager?
 		if ( variables.settings.manager != this.COLDBOX_VALIDATION_MANAGER ) {
 			binder
-				.map(
-					alias = "validationManager@cbvalidation",
-					force = true
-				)
+				.map( alias = "validationManager@cbvalidation", force = true )
 				.to( variables.settings.manager )
 				.asSingleton();
 		}

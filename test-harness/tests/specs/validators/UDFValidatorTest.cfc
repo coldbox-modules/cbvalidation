@@ -1,8 +1,6 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
+* *******************************************************************************
+* *******************************************************************************
 */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.UDFValidator" {
 
@@ -25,13 +23,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertEquals( false, r );
 
 		// not empty
-		r = model.validate(
-			result,
-			this,
-			"test",
-			55,
-			variables.validate2
-		);
+		r = model.validate( result, this, "test", 55, variables.validate2 );
 		assertEquals( true, r );
 
 		// null

@@ -27,18 +27,11 @@ component {
 	/**
 	 * Process dynamic getters
 	 *
-	 * @missingMethodName
+	 * @missingMethodName     
 	 * @missingMethodArguments
 	 */
-	any function onMissingMethod(
-		required string missingMethodName,
-		required struct missingMethodArguments
-	){
-		var key = replaceNoCase(
-			arguments.missingMethodName,
-			"get",
-			""
-		);
+	any function onMissingMethod( required string missingMethodName, required struct missingMethodArguments ){
+		var key = replaceNoCase( arguments.missingMethodName, "get", "" );
 
 		if ( structKeyExists( variables.collection, key ) ) {
 			return variables.collection[ key ];

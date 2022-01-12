@@ -7,8 +7,8 @@
  */
 component extends="BaseValidator" accessors="true" singleton {
 
-	ArrayItemValidator function init(){
-		variables.name = "ArrayItemValidator";
+	NestedConstraintsValidator function init(){
+		variables.name = "NestedConstraintsValidator";
 		return this;
 	}
 
@@ -31,18 +31,18 @@ component extends="BaseValidator" accessors="true" singleton {
 		struct rules
 	){
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
+		if ( isNull( arguments.targetValue ) ) {
 			return true;
 		}
 
-		// If not an array ERROR OUT!
-		if ( !isArray( arguments.targetValue ) ) {
+		// return false if the value is not a struct.
+		if ( !isStruct( arguments.targetValue ) ) {
 			var args = {
 				message : "The '#arguments.field#' value '#(
 					isSimpleValue( arguments.targetValue ) ? arguments.targetValue : serializeJSON(
 						arguments.targetValue
 					)
-				)#' is not an Array",
+				)#' is not a Struct",
 				field          : arguments.field,
 				validationType : getName(),
 				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
@@ -55,35 +55,19 @@ component extends="BaseValidator" accessors="true" singleton {
 			return false;
 		}
 
-		// Iterate and dance baby!
-		var itemValidationResults = arguments.targetValue.filter( function( thisItem, thisIndex ){
-			var vResult = variables.validationManager.validate(
-				target      = { "item" : arguments.thisItem },
-				constraints = { "item" : validationData }
-			);
-			// Process errors into validation result
-			vResult
-				.getErrors()
-				.each( function( error ){
-					var newField    = "#field#[#thisIndex#]";
-					var nestedField = reReplace(
-						arguments.error.getField(),
-						"^item\.?",
-						"",
-						"one"
-					);
-					if ( nestedField != "" ) {
-						newField = newField & "." & nestedField;
-					}
-					arguments.error.setField( newField );
-					validationResult.addError( arguments.error );
-				} );
-			// Filter out valid items
-			return vResult.hasErrors();
-		} );
+		var vResult = variables.validationManager.validate(
+			target      = arguments.targetValue,
+			constraints = arguments.validationData
+		);
+		// Process errors into validation result
+		vResult
+			.getErrors()
+			.each( function( error ){
+				arguments.error.setField( "#field#.#arguments.error.getField()#" );
+				validationResult.addError( arguments.error );
+			} );
 
-		// If we have items, then we did not pass validation
-		return itemValidationResults.len() ? false : true;
+		return !vResult.hasErrors();
 	}
 
 	/**

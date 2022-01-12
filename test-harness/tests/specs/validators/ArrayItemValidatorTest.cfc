@@ -46,14 +46,48 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 					validator.validate(
 						validationResult: vResult,
 						target          : this,
+						field           : "luckyNumbers",
+						targetValue     : [ 7, 11, 21, 111 ],
+						validationData  : { "required" : true, "type" : "numeric" },
+						rules           : {}
+					)
+				).toBeTrue();
+			} );
+
+			it( "can fail appropriately using simple values", function(){
+				var vResult = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+				expect(
+					validator.validate(
+						validationResult: vResult,
+						target          : this,
+						field           : "luckyNumbers",
+						targetValue     : [ 7, 11, "not a number", 111 ],
+						validationData  : { "required" : true, "type" : "numeric" },
+						rules           : {}
+					)
+				).toBeFalse();
+				expect( vResult.getAllErrors( "luckyNumbers[3]" ) ).toHaveLength( 1 );
+				expect( vResult.getAllErrors( "luckyNumbers[3]" )[ 1 ] ).toBe(
+					"The 'item' has an invalid type, expected type is numeric"
+				);
+			} );
+
+			it( "can validate nested structs", function(){
+				var vResult = createMock( "cbvalidation.models.result.ValidationResult" ).init();
+				expect(
+					validator.validate(
+						validationResult: vResult,
+						target          : this,
 						field           : "testField",
 						targetValue     : [
 							{ name : "luis", age : 44 },
 							{ name : "joe", age : 19 }
 						],
 						validationData: {
-							"name" : { required : true },
-							"age"  : { required : true, range : "18..50" }
+							"constraints" : {
+								"name" : { required : true },
+								"age"  : { required : true, range : "18..50" }
+							}
 						},
 						rules: {}
 					)
@@ -74,13 +108,20 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							{ name : "eric" }
 						],
 						validationData: {
-							"name" : { required : true },
-							"age"  : { required : true, range : "18..50" }
+							"constraints" : {
+								"name" : { required : true },
+								"age"  : { required : true, range : "18..50" }
+							}
 						},
 						rules: {}
 					)
 				).toBeFalse();
-				expect( vResult.getAllErrors() ).toHaveLength( 2 );
+				expect( vResult.getAllErrors( "testField[3].age" ) ).toHaveLength( 1 );
+				expect( vResult.getAllErrors( "testField[3].age" )[ 1 ] ).toBe(
+					"The 'age' value is not the value field range (18..50)"
+				);
+				expect( vResult.getAllErrors( "testField[4].age" ) ).toHaveLength( 1 );
+				expect( vResult.getAllErrors( "testField[4].age" )[ 1 ] ).toBe( "The 'age' value is required" );
 			} );
 		} );
 	}
