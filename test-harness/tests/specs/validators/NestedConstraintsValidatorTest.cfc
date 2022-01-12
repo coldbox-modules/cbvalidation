@@ -35,16 +35,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							"streetOne" : { required : true, type : "string" },
 							"streetTwo" : { required : false, type : "string" },
 							"city"      : { required : true, type : "string" },
-							"state"     : {
-								required : true,
-								type     : "string",
-								size     : 2
-							},
-							"zip" : {
-								required : true,
-								type     : "numeric",
-								size     : 5
-							}
+							"state"     : { required : true, type : "string", size : 2 },
+							"zip"       : { required : true, type : "numeric", size : 5 }
 						},
 						rules: {}
 					)
@@ -72,16 +64,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							"streetOne" : { required : true, type : "string" },
 							"streetTwo" : { required : false, type : "string" },
 							"city"      : { required : true, type : "string" },
-							"state"     : {
-								required : true,
-								type     : "string",
-								size     : 2
-							},
-							"zip" : {
-								required : true,
-								type     : "numeric",
-								size     : 5
-							}
+							"state"     : { required : true, type : "string", size : 2 },
+							"zip"       : { required : true, type : "numeric", size : 5 }
 						},
 						rules: {}
 					)
@@ -101,16 +85,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							"streetOne" : { required : true, type : "string" },
 							"streetTwo" : { required : false, type : "string" },
 							"city"      : { required : true, type : "string" },
-							"state"     : {
-								required : true,
-								type     : "string",
-								size     : 2
-							},
-							"zip" : {
-								required : true,
-								type     : "numeric",
-								size     : 5
-							}
+							"state"     : { required : true, type : "string", size : 2 },
+							"zip"       : { required : true, type : "numeric", size : 5 }
 						},
 						rules: {}
 					)
@@ -136,16 +112,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 							"streetOne" : { required : true, type : "string" },
 							"streetTwo" : { required : false, type : "string" },
 							"city"      : { required : true, type : "string" },
-							"state"     : {
-								required : true,
-								type     : "string",
-								size     : 2
-							},
-							"zip" : {
-								required : true,
-								type     : "numeric",
-								size     : 5
-							}
+							"state"     : { required : true, type : "string", size : 2 },
+							"zip"       : { required : true, type : "numeric", size : 5 }
 						},
 						rules: {}
 					)
@@ -184,16 +152,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 									"streetOne" : { required : true, type : "string" },
 									"streetTwo" : { required : false, type : "string" },
 									"city"      : { required : true, type : "string" },
-									"state"     : {
-										required : true,
-										type     : "string",
-										size     : 2
-									},
-									"zip" : {
-										required : true,
-										type     : "numeric",
-										size     : 5
-									}
+									"state"     : { required : true, type : "string", size : 2 },
+									"zip"       : { required : true, type : "numeric", size : 5 }
 								}
 							}
 						},

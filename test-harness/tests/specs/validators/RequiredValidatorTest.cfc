@@ -1,8 +1,6 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
+* *******************************************************************************
+* *******************************************************************************
 */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RequiredValidator" {
 
@@ -31,26 +29,14 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertEquals( true, r );
 
 		// not empty
-		r = model.validate(
-			result,
-			this,
-			"test",
-			"woot",
-			"false"
-		);
+		r = model.validate( result, this, "test", "woot", "false" );
 		assertEquals( true, r );
 	}
 
 	function testValidateComplex(){
 		result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 		// array
-		r      = model.validate(
-			result,
-			this,
-			"test",
-			[ 1, 2, 3 ],
-			"true"
-		);
+		r      = model.validate( result, this, "test", [ 1, 2, 3 ], "true" );
 		assertEquals( true, r );
 
 		// query

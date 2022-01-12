@@ -1,7 +1,10 @@
 /**
  * My BDD Test
  */
-component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RequiredUnlessValidator" {
+component
+	extends="coldbox.system.testing.BaseModelTest"
+	model  ="cbvalidation.models.validators.RequiredUnlessValidator"
+{
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
@@ -124,25 +127,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					.$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-				expect(
-					model.validate(
-						result,
-						mock,
-						"testField",
-						"",
-						"name"
-					)
-				).toBeTrue();
+				expect( model.validate( result, mock, "testField", "", "name" ) ).toBeTrue();
 
-				expect(
-					model.validate(
-						result,
-						mock,
-						"testField",
-						"",
-						"missing"
-					)
-				).toBeFalse();
+				expect( model.validate( result, mock, "testField", "", "missing" ) ).toBeFalse();
 			} );
 		} );
 	}

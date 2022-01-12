@@ -4,11 +4,7 @@
  * ---
  * This validator validates if a value is unique in a database
  */
-component
-	extends  ="BaseValidator"
-	accessors="true"
-	singleton
-{
+component extends="BaseValidator" accessors="true" singleton {
 
 	property name="name";
 	property name="res"           inject="model:resourceService@cbi18n";
@@ -25,12 +21,13 @@ component
 
 	/**
 	 * Will check if an incoming value validates
+	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @validationData   The validation data the validator was created with
+	 * @rules            The rules imposed on the currently validating field
 	 */
 	boolean function validate(
 		required any validationResult,
@@ -61,10 +58,7 @@ component
 			datasource : arguments.validationdata.datasource
 		} : {};
 		// now get IDvalue or null if there's no ID value yet
-		var IdValue = invoke(
-			target,
-			"get#validationData.keyProperty#"
-		);
+		var IdValue  = invoke( target, "get#validationData.keyProperty#" );
 		// isLoaded: if not present detect isLoaded by valid ID which has some length
 		var isLoaded = !arguments.validationData.KeyExists( "isLoaded" ) ? !isNull( idValue ) && len( IdValue ) : arguments.validationData.isLoaded;
 		// add datasource property, or use default

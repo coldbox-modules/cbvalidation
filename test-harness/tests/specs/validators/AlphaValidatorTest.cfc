@@ -23,33 +23,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			it( "can evaluate true when alpha", function(){
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-				expect(
-					model.validate(
-						result,
-						this,
-						"testField",
-						"alpha",
-						""
-					)
-				).toBeTrue();
-				expect(
-					model.validate(
-						result,
-						this,
-						"testField",
-						"asdf22",
-						""
-					)
-				).toBeFalse();
-				expect(
-					model.validate(
-						result,
-						this,
-						"testField",
-						"234--$",
-						""
-					)
-				).toBeFalse();
+				expect( model.validate( result, this, "testField", "alpha", "" ) ).toBeTrue();
+				expect( model.validate( result, this, "testField", "asdf22", "" ) ).toBeFalse();
+				expect( model.validate( result, this, "testField", "234--$", "" ) ).toBeFalse();
 			} );
 		} );
 	}

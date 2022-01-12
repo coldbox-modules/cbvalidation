@@ -104,15 +104,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 					.$( "getMissing", javacast( "null", "" ) );
 				var result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 
-				expect(
-					model.validate(
-						result,
-						mock,
-						"testField",
-						"",
-						"name"
-					)
-				).toBeFalse();
+				expect( model.validate( result, mock, "testField", "", "name" ) ).toBeFalse();
 
 				// expect(
 				//     model.validate(

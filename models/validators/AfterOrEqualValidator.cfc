@@ -4,11 +4,7 @@
  * ---
  * Evaluates if the target date is after or equal the validation date
  */
-component
-	extends  ="BaseValidator"
-	accessors="true"
-	singleton
-{
+component extends="BaseValidator" accessors="true" singleton {
 
 	/**
 	 * Constructor
@@ -22,11 +18,11 @@ component
 	 * Will check if an incoming value validates
 	 *
 	 * @validationResult The result object of the validation
-	 * @target The target object to validate on
-	 * @field The field on the target object to validate on
-	 * @targetValue The target value to validate
-	 * @validationData The validation data the validator was created with
-	 * @rules The rules imposed on the currently validating field
+	 * @target           The target object to validate on
+	 * @field            The field on the target object to validate on
+	 * @targetValue      The target value to validate
+	 * @validationData   The validation data the validator was created with
+	 * @rules            The rules imposed on the currently validating field
 	 *
 	 * @throws InvalidValidationData If the passed target value is not a date
 	 */
@@ -53,10 +49,7 @@ component
 		// The compare value is set or it can be another field
 		var compareValue = arguments.validationData;
 		if ( !isDate( compareValue ) ) {
-			compareValue = invoke(
-				arguments.target,
-				"get#arguments.validationData#"
-			);
+			compareValue = invoke( arguments.target, "get#arguments.validationData#" );
 		}
 
 		// return true if no value to compare against

@@ -1,8 +1,6 @@
 /**
-********************************************************************************
-Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
+* *******************************************************************************
+* *******************************************************************************
 */
 component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.models.validators.RegexValidator" {
 
@@ -16,23 +14,11 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 
 
 		// not empty
-		r = model.validate(
-			result,
-			this,
-			"test",
-			"woot",
-			"^luis$"
-		);
+		r = model.validate( result, this, "test", "woot", "^luis$" );
 		assertEquals( false, r );
 
 		// not empty
-		r = model.validate(
-			result,
-			this,
-			"test",
-			"luis",
-			"^luis$"
-		);
+		r = model.validate( result, this, "test", "luis", "^luis$" );
 		assertEquals( true, r );
 	}
 

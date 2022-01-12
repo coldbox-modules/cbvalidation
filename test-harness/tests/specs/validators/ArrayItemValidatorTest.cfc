@@ -48,11 +48,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						target          : this,
 						field           : "luckyNumbers",
 						targetValue     : [ 7, 11, 21, 111 ],
-						validationData  : {
-							"required" : true,
-							"type"     : "numeric"
-						},
-						rules: {}
+						validationData  : { "required" : true, "type" : "numeric" },
+						rules           : {}
 					)
 				).toBeTrue();
 			} );
@@ -65,11 +62,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						target          : this,
 						field           : "luckyNumbers",
 						targetValue     : [ 7, 11, "not a number", 111 ],
-						validationData  : {
-							"required" : true,
-							"type"     : "numeric"
-						},
-						rules: {}
+						validationData  : { "required" : true, "type" : "numeric" },
+						rules           : {}
 					)
 				).toBeFalse();
 				expect( vResult.getAllErrors( "luckyNumbers[3]" ) ).toHaveLength( 1 );
