@@ -16,9 +16,17 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				variables.result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 			} );
 
-            it( "skips over null values", function() {
-                expect( model.validate( variables.result, this, "test", javacast( "null", "" ), true ) ).toBeTrue();
-            } );
+			it( "skips over null values", function(){
+				expect(
+					model.validate(
+						variables.result,
+						this,
+						"test",
+						javacast( "null", "" ),
+						true
+					)
+				).toBeTrue();
+			} );
 
 			describe( "empty: true", function(){
 				it( "passes when given an empty string", function(){
