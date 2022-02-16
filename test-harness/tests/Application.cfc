@@ -1,5 +1,4 @@
-﻿
-component {
+﻿component {
 
 	// APPLICATION CFC PROPERTIES
 	this.name               = "ColdBoxTestingSuite" & hash( getCurrentTemplatePath() );
