@@ -40,6 +40,11 @@ component extends="BaseValidator" accessors="true" singleton {
 			);
 		}
 
+        // return true if no data to check, empty needs a data element to be checked.
+		if ( isNull( arguments.targetValue ) ) {
+			return true;
+		}
+
 		var isFilled = hasValue( arguments.targetValue );
 		if ( arguments.validationData && !isFilled ) {
 			return true;
