@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"3.4.0",
+    "version":"3.5.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -25,7 +25,7 @@
     "dependencies":{
         "cbi18n":"^2.0.0"
     },
-	"devDependencies":{
+    "devDependencies":{
         "commandbox-cfformat":"*",
         "commandbox-docbox":"*",
         "commandbox-dotenv":"*",
@@ -36,7 +36,7 @@
         "test-harness",
         "/server*.json"
     ],
-	"testbox":{
+    "testbox":{
         "runner":"http://localhost:60299/tests/runner.cfm"
     },
     "scripts":{
