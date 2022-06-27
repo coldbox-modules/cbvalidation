@@ -1,17 +1,21 @@
-.vscode
-
+# Artifacts and temp folders
 .artifacts/**
 .tmp/**
 
-modules/
+# Engine + Secrets + databases
+.env
+.engine/**
+.db/**
 
-test-harness/.engine/**
-test-harness/.env
+# Dependencies
 test-harness/coldbox/**
 test-harness/docbox/**
 test-harness/testbox/**
 test-harness/logs/**
 test-harness/modules/**
+
+# modules
+modules/**
 
 # log files
 logs/**

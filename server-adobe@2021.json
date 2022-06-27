@@ -11,9 +11,13 @@
         "rewrites":{
             "enable":"true"
         },
+		"webroot":"test-harness",
         "aliases":{
-            "/moduleroot/cbvalidation":"../"
+            "/moduleroot/cbvalidation":"./"
         }
     },
-    "openBrowser":"false"
+    "openBrowser":"false",
+	"cfconfig": {
+		"file" : ".cfconfig.json"
+	}
 }

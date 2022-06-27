@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"3.3.0",
+    "version":"3.4.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -25,18 +25,30 @@
     "dependencies":{
         "cbi18n":"^2.0.0"
     },
+	"devDependencies":{
+        "commandbox-cfformat":"*",
+        "commandbox-docbox":"*",
+        "commandbox-dotenv":"*",
+        "commandbox-cfconfig":"*"
+    },
     "ignore":[
         "**/.*",
-        "tests/*",
-        ".git*"
+        "test-harness",
+        "/server*.json"
     ],
-    "scripts":{
-        "release":"recipe build/release.boxr",
-        "format":"cfformat run interfaces,models/,test-harness/tests/,ModuleConfig.cfc --overwrite",
-        "format:watch":"cfformat watch interfaces,models/,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
-        "format:check":"cfformat check interfaces,models/,test-harness/tests/,ModuleConfig.cfc"
+	"testbox":{
+        "runner":"http://localhost:60299/tests/runner.cfm"
     },
-    "installPaths":{
-        "cbi18n":"modules/cbi18n/"
+    "scripts":{
+        "build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
+        "build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
+        "release":"recipe build/release.boxr",
+        "format":"cfformat run helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc --overwrite",
+        "format:watch":"cfformat watch helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
+        "format:check":"cfformat check helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc",
+        "cfpm":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\"' | run",
+        "cfpm:install":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\" install ${1}' | run",
+        "install:2021":"run-script cfpm:install zip",
+        "install:dependencies":"install && cd test-harness && install"
     }
 }
