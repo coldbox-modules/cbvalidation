@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [3.4.0] => 2022-JUN-
+
+### Added
+
+* `EmptyValidator` by @elpete. This validator is useful when a field is not required but if it exists it cannot be empty: https://github.com/coldbox-modules/cbvalidation/pull/61
+* New module template updates and enhancements
+* Update to use the new virtual app from ColdBox 6.7
+
+----
+
 ## [3.3.0] => 2022-JAN-12
 
 ### Added

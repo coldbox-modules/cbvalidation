@@ -8,6 +8,7 @@ component {
 
 	// UPDATE THE NAME OF THE MODULE IN TESTING BELOW
 	request.MODULE_NAME = "cbvalidation";
+	request.MODULE_PATH = "cbvalidation";
 
 	// Application properties
 	this.name              = hash( getCurrentTemplatePath() );
@@ -71,6 +72,13 @@ component {
 
 	// request start
 	public boolean function onRequestStart( String targetPage ){
+
+		if ( url.keyExists( "fwreinit" ) ) {
+			if ( server.keyExists( "lucee" ) ) {
+				pagePoolClear();
+			}
+		}
+
 		// Process ColdBox Request
 		application.cbBootstrap.onRequestStart( arguments.targetPage );
 
