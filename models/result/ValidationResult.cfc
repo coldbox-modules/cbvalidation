@@ -209,13 +209,17 @@ component accessors="true" {
 
 		// process result metadata replacements
 		var errorData = arguments.error.getErrorMetadata();
-		for ( var key in errorData ) {
-			arguments.message = replaceNoCase(
-				arguments.message,
-				"{#key#}",
-				errorData[ key ],
-				"all"
-			);
+
+		if ( !isNull(errorData) ) {
+			for ( var key in errorData ) {
+				arguments.message = replaceNoCase(
+					arguments.message,
+					"{#key#}",
+					errorData[ key ],
+					"all"
+				);
+			}
+	
 		}
 
 		// override message
