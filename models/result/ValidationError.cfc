@@ -8,12 +8,12 @@ component accessors="true" {
 
 	// constructor
 	ValidationError function init(){
-		message        = "";
-		field          = "";
-		rejectedValue  = "";
-		validationType = "";
-		validationData = "";
-		errorMetadata  = {};
+		variables.message        = "";
+		variables.field          = "";
+		variables.rejectedValue  = "";
+		variables.validationType = "";
+		variables.validationData = "";
+		variables.errorMetadata  = {};
 		return this;
 	}
 

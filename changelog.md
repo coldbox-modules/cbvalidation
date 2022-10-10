@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Fix process result metadata replacements https://github.com/coldbox-modules/cbvalidation/pull/64/files thanks to @alessio-de-padova
+* Fix process result metadata replacements https://github.com/coldbox-modules/cbvalidation/pull/64/files thanks to @alessio-de-padova, when using full null support
 
 ### Changed
 
