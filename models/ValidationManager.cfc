@@ -62,7 +62,7 @@ component accessors="true" serialize="false" singleton {
 	/**
 	 * A resource bundle plugin for i18n capabilities
 	 */
-	property name="resourceService" inject="ResourceService@cbi18n";
+	property name="resourceService" inject="provider:ResourceService@cbi18n";
 
 	/**
 	 * Shared constraints that can be loaded into the validation manager
@@ -74,9 +74,6 @@ component accessors="true" serialize="false" singleton {
 	 */
 	property name="registeredValidators" type="Struct";
 
-	// Unique manager id
-	this.id = createUUID();
-
 	/**
 	 * Constructor
 	 *
@@ -85,10 +82,8 @@ component accessors="true" serialize="false" singleton {
 	ValidationManager function init( struct sharedConstraints = {} ){
 		// store shared constraints if passed
 		variables.sharedConstraints    = arguments.sharedConstraints;
-		// Validators Path
-		variables.validatorsPath       = getDirectoryFromPath( getMetadata( this ).path ) & "validators";
 		// Register validators
-		variables.registeredValidators = discoverValidators( variables.validatorsPath );
+		variables.registeredValidators = "";
 		// Register aliases
 		variables.validatorAliases     = {
 			"items"       : "arrayItem",
@@ -98,7 +93,26 @@ component accessors="true" serialize="false" singleton {
 		return this;
 	}
 
-	public struct function discoverValidators( required string path ){
+	/**
+	 * Lazy loader getter to get all the registered validators in the system
+	 *
+	 * @return The discovered map of validators and aliases
+	 */
+	struct function getRegisteredValidators(){
+		if( isSimpleValue( variables.registeredValidators ) ){
+			variables.registeredValidators = discoverValidators( getDirectoryFromPath( getMetadata( this ).path ) & "validators" );
+		}
+		return variables.registeredValidators;
+	}
+
+	/**
+	 * Discover all the core validators found in the system
+	 *
+	 * @path The path to discover
+	 *
+	 * @return The discovered map of validators and aliases
+	 */
+	struct private function discoverValidators( required string path ){
 		return directoryList( arguments.path, false, "name", "*.cfc" )
 			// don't do the interfaces
 			.filter( function( item ){
@@ -316,14 +330,16 @@ component accessors="true" serialize="false" singleton {
 	 * @throws ValidationManager.InvalidValidatorType
 	 */
 	any function getValidator( required string validatorType, required any validationData ){
+		var coreValidators = getRegisteredValidators();
+
 		// Are we an alias?
 		if ( structKeyExists( variables.validatorAliases, arguments.validatorType ) ) {
 			arguments.validatorType = variables.validatorAliases[ arguments.validatorType ];
 		}
 
 		// Are we a core validator?
-		if ( structKeyExists( variables.registeredValidators, arguments.validatorType ) ) {
-			return wirebox.getInstance( variables.registeredValidators[ arguments.validatorType ] );
+		if ( structKeyExists( coreValidators, arguments.validatorType ) ) {
+			return wirebox.getInstance( coreValidators[ arguments.validatorType ] );
 		}
 
 		// Else switch checks

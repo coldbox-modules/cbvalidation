@@ -30,8 +30,9 @@ component {
 	function configure(){
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
 		settings = {
+			// The default Validation manager
 			manager           : this.COLDBOX_VALIDATION_MANAGER,
-			// i18nResource = "",
+			// Global constraints
 			sharedConstraints : {}
 		};
 	}

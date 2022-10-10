@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Major bump of all dependencies
+* New `InstanceOf` validator thanks to @homestar9 : https://github.com/coldbox-modules/cbvalidation/pull/65
+* New virtual app testing and tuning
 
 ### Fixed
 
@@ -20,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Dropped ACF2016
-
 
 ----
 

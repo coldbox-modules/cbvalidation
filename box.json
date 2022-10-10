@@ -50,5 +50,8 @@
         "cfpm:install":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\" install ${1}' | run",
         "install:2021":"run-script cfpm:install zip",
         "install:dependencies":"install && cd test-harness && install"
+    },
+    "installPaths":{
+        "cbi18n":"modules/cbi18n/"
     }
 }

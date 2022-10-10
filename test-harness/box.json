@@ -7,11 +7,13 @@
     "dependencies":{
         "coldbox":"^6.0.0",
         "cbi18n":"^3.0.0",
-        "testbox":"*"
+        "testbox":"*",
+        "cbdebugger":"^3.5.0+64"
     },
     "installPaths":{
         "coldbox":"coldbox/",
         "testbox":"testbox/",
-        "cbi18n":"modules/cbi18n/"
+        "cbi18n":"modules/cbi18n/",
+        "cbdebugger":"modules/cbdebugger/"
     }
 }

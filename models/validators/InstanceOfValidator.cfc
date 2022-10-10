@@ -10,7 +10,7 @@ component extends="BaseValidator" accessors="true" singleton {
 	 * Constructor
 	 */
 	InstanceOfValidator function init(){
-		variables.name       = "InstanceOf";
+		variables.name = "InstanceOf";
 		return this;
 	}
 
@@ -38,9 +38,9 @@ component extends="BaseValidator" accessors="true" singleton {
 		}
 
 		// value is valid if it is an object and of the correct type
-		var r = ( 
-			isObject( arguments.targetValue ) && 
-			isInstanceOf( arguments.targetValue, arguments.validationData ) 
+		var r = (
+			isObject( arguments.targetValue ) &&
+			isInstanceOf( arguments.targetValue, arguments.validationData )
 		);
 
 		if ( !r ) {
