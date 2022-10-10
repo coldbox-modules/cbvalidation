@@ -112,7 +112,7 @@ component accessors="true" serialize="false" singleton {
 	 *
 	 * @return The discovered map of validators and aliases
 	 */
-	struct private function discoverValidators( required string path ){
+	private struct function discoverValidators( required string path ){
 		return directoryList( arguments.path, false, "name", "*.cfc" )
 			// don't do the interfaces
 			.filter( function( item ){
