@@ -65,6 +65,9 @@
 		};
 
 		moduleSettings = {
+			cbdebugger : {
+				modules  : { enabled : true, expanded : false }
+			},
 			cbvalidation : {
 				sharedConstraints : {
 					"sharedUser" : {

@@ -11,7 +11,7 @@ env:
   MODULE_ID: cbvalidation
 
 jobs:
-    #############################################
+  #############################################
   # Tests First baby! We fail, no build :(
   #############################################
   tests:
@@ -20,7 +20,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   #############################################
-  # Build Module
+  # Build
   #############################################
   build:
     name: Build & Publish
@@ -37,6 +37,15 @@ jobs:
         with:
           distribution: "adopt"
           java-version: "11"
+
+      - name: Cache CommandBox Dependencies
+        uses: actions/cache@v1
+        if: ${{ true }}
+        with:
+          path: ~/.CommandBox/artifacts
+          key: ${{ runner.OS }}-commandbox-cache-${{ hashFiles( 'box.json' ) }}-${{ hashFiles( 'test-harness/box.json' ) }}
+          restore-keys: |
+            ${{ runner.OS }}-commandbox-cache-${{ hashFiles( 'box.json' ) }}-${{ hashFiles( 'test-harness/box.json' ) }}
 
       - name: Setup CommandBox
         uses: Ortus-Solutions/setup-commandbox@main
@@ -55,7 +64,6 @@ jobs:
           then
             echo "BRANCH=development" >> $GITHUB_ENV
           fi
-
       - name: Build ${{ env.MODULE_ID }}
         run: |
           box install commandbox-docbox
@@ -97,7 +105,7 @@ jobs:
           cat box.json
           box forgebox publish
 
-      - name: Inform Slack
+      - name: Inform Slack of Build
         if: ${{ always() }}
         uses: rtCamp/action-slack-notify@v2
         env:

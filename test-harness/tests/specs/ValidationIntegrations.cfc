@@ -1,5 +1,7 @@
 component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 
+	this.unLoadColdBox = false;
+
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
 	function beforeAll(){

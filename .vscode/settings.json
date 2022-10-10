@@ -6,6 +6,11 @@
 			"isPhysicalDirectoryPath": false
 		},
 		{
+			"logicalPath": "/testbox",
+			"directoryPath": "./test-harness/testbox",
+			"isPhysicalDirectoryPath": false
+		},
+		{
 			"logicalPath": "/cbvalidation",
 			"directoryPath": "./",
 			"isPhysicalDirectoryPath": false

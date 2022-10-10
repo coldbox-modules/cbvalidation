@@ -5,6 +5,8 @@
  */
 component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 
+	this.unLoadColdBox = false;
+
 	function beforeAll(){
 		super.beforeAll();
 		// do your own stuff here

@@ -12,12 +12,12 @@
             "enable":"true"
         },
         "webroot":"test-harness",
-		"aliases":{
+        "aliases":{
             "/moduleroot/cbvalidation":"./"
         }
     },
     "openBrowser":"false",
-	"cfconfig": {
-		"file" : ".cfconfig.json"
-	}
+    "cfconfig":{
+        "file":".cfconfig.json"
+    }
 }

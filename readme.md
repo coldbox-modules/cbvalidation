@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/coldbox-modules/cbvalidation.svg?branch=development)](https://travis-ci.org/coldbox-modules/cbvalidation)
+[![cbvalidation CI](https://github.com/coldbox-modules/cbvalidation/actions/workflows/ci.yml/badge.svg)](https://github.com/coldbox-modules/cbvalidation/actions/workflows/ci.yml)
 
 # WELCOME TO THE COLDBOX VALIDATION MODULE
 
@@ -17,7 +17,7 @@ Apache License, Version 2.0.
 ## SYSTEM REQUIREMENTS
 
 - Lucee 5.x+
-- Adobe ColdFusion 2016+
+- Adobe ColdFusion 2018+
 
 ## Installation
 
@@ -129,30 +129,30 @@ this.constraints = {
 	propertyName = {
         // The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
         accepted : any value
-        
+
         // The field under validation must be a date after the set targetDate
         after : targetDate
-        
+
         // The field under validation must be a date after or equal the set targetDate
         afterOrEqual : targetDate
 
         // The field must be alphanumeric ONLY
         alpha : any value
-        
+
         // The field under validation is an array and all items must pass this validation as well
         arrayItem : {
             // All the constraints to validate the items with
         }
-        
+
         // The field under validation must be a date before the set targetDate
         before : targetDate
-        
+
         // The field under validation must be a date before or equal the set targetDate
         beforeOrEqual : targetDate
-        
+
         // The field under validation must be a date that is equal the set targetDate
         dateEquals : targetDate
-        
+
         // discrete math modifiers
         discrete : (gt,gte,lt,lte,eq,neq):value
 
@@ -162,7 +162,7 @@ this.constraints = {
         // max value
         max : value
 
-        // Validation method to use in the target object must return boolean accept the incoming value and target object 
+        // Validation method to use in the target object must return boolean accept the incoming value and target object
         method : methodName
 
         // min value
@@ -182,7 +182,7 @@ this.constraints = {
             anotherfield:value, anotherfield:value
         }
 
-        // The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed 
+        // The field under validation must be present and not empty unless the `anotherfield` field is equal to the passed
         requiredUnless : {
             anotherfield:value, anotherfield:value
         }
