@@ -33,7 +33,7 @@ component accessors="true" {
 	 * Get the error metadata
 	 */
 	struct function getErrorMetadata(){
-		return variables.errorMetadata;
+		return variables.errorMetadata ?: {};
 	}
 
 	/**
