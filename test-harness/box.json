@@ -6,20 +6,12 @@
     "description":"",
     "dependencies":{
         "coldbox":"^6.0.0",
-        "cbi18n":"^2.0.0",
-        "testbox":"^4.0.0"
+        "cbi18n":"^3.0.0",
+        "testbox":"*"
     },
     "installPaths":{
         "coldbox":"coldbox/",
         "testbox":"testbox/",
         "cbi18n":"modules/cbi18n/"
-    },
-    "testbox":{
-        "runner":"http://localhost:60299/tests/runner.cfm"
-    },
-	"scripts":{
-        "cfpm":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\"' | run",
-        "cfpm:install":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\" install ${1}' | run",
-        "install:2021":"run-script cfpm:install zip"
     }
 }
