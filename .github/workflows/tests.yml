@@ -22,37 +22,40 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      # Not Needed in this module
+      #- name: Setup Database and Fixtures
+      #  run: |
+      #    sudo /etc/init.d/mysql start
+      #    mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE coolblog;'
+      #    mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} < test-harness/tests/resources/coolblog.sql
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: "adopt"
           java-version: "11"
 
-        - name: Setup Database and Fixtures
-        run: |
-          #sudo systemctl start mysql.service
-          # Create Database
-          #mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE mementifier;'
-          # Import Database
-          #mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} < test-harness/tests/resources/coolblog.sql
-
-      - name: Setup Environment For Testing Process
-        run: |
-          # Setup .env
-          touch .env
-          # ENV
-          printf "ENVIRONMENT=development\n" >> .env
-          printf "DB_HOST=localhost\n" >> .env
-          printf "DB_USER=${{ env.DB_USER }}\n" >> .env
-          printf "DB_PASSWORD=${{ env.DB_PASSWORD }}\n" >> .env
-          printf "DB_CLASS=com.mysql.cj.jdbc.Driver\n" >> .env
-          printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
-          printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
-
       - name: Setup CommandBox CLI
         uses: Ortus-Solutions/setup-commandbox@main
 
-      - name: Install Dependencies
+      # Not Needed in this module
+      #- name: Setup Environment For Testing Process
+      #  working-directory: ./test-harness
+      #  run: |
+      #    # Setup .env
+      #    touch .env
+      #    # ENV
+      #    printf "DB_HOST=localhost\n" >> .env
+      #    printf "DB_DATABASE=mydatabase\n" >> .env
+      #    printf "DB_DRIVER=MySQL\n" >> .env
+      #    printf "DB_USER=${{ env.DB_USER }}\n" >> .env
+      #    printf "DB_PASSWORD=${{ env.DB_PASSWORD }}\n" >> .env
+      #    printf "DB_CLASS=com.mysql.cj.jdbc.Driver\n" >> .env
+      #    printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
+      #    printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
+
+
+      - name: Install Test Harness Dependencies
         run: |
           box install
           cd test-harness && box install
@@ -70,7 +73,6 @@ jobs:
         run: |
           mkdir -p test-harness/tests/results
           box testbox run --verbose outputFile=test-harness/tests/results/test-results outputFormats=json,antjunit
-          ls -lR test-harness/tests
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -87,12 +89,12 @@ jobs:
           path: |
             test-harness/tests/results/**/*
 
-      - name: Failure Debugging Log
+      - name: Show Server Log On Failures
         if: ${{ failure() }}
         run: |
           box server log serverConfigFile="server-${{ matrix.cfengine }}.json"
 
-      - name: Upload Debugging Log To Artifacts
+      - name: Upload Debug Logs To Artifacts
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
