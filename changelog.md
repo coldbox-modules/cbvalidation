@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [4.1.0] => 2022-NOV-14
+
+### Added
+
+* New ColdBox 7 delegate: `Validatable@cbValidation` which can be used to make objects validatable
+* New validators: `notSameAs, notSameAsNoCase`
+
+### Changed
+
+* All date comparison validators now validate as `false` when the comparison target dates values are NOT dates instead of throwing an exception.
+
+----
+
 ## [4.0.0] => 2022-OCT-10
 
 ### Added
@@ -64,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
-## [3.1.0] => 2021-MAY-17
+## [3.1.1] => 2021-MAY-17
 
 ### Fixed
 

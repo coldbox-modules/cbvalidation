@@ -73,7 +73,7 @@ boolean function validateHasValue( any targetValue ){
  * @targetValue the value to check for nullness/emptyness
  */
 boolean function validateIsNullOrEmpty( any targetValue ){
-	return getValidationManager().getValidator( "Required", {} ).hasValue( argumentCollection = arguments );
+	return !getValidationManager().getValidator( "Required", {} ).hasValue( argumentCollection = arguments );
 }
 
 /**
