@@ -38,12 +38,22 @@ component extends="BaseValidator" accessors="true" singleton {
 		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
-		// If target is not a date, throw it
+
+		// If target is not a date, invalidate it
 		if ( !isDate( arguments.targetValue ) ) {
-			throw(
-				message = "The date you sent is an invalid date [#arguments.targetValue#]",
-				type    = "InvalidValidationData"
+			validationResult.addError(
+				validationResult.newError(
+					argumentCollection = {
+						message        : "The '#arguments.targetValue#' is not a valid date, so we cannot compare them.",
+						field          : arguments.field,
+						validationType : getName(),
+						rejectedValue  : ( arguments.targetValue ),
+						validationData : arguments.validationData,
+						errorMetadata  : { "afterOrEqual" : arguments.targetValue }
+					}
+				)
 			);
+			return false;
 		}
 
 		// The compare value is set or it can be another field
