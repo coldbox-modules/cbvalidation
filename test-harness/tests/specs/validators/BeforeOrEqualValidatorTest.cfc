@@ -24,8 +24,8 @@ component
 				result = createMock( "cbvalidation.models.result.ValidationResult" ).init();
 			} );
 
-			it( "can throw an exception if the target value is not a date", function(){
-				expect( function(){
+			it( "can invalidate if the target value is not a date", function(){
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
@@ -33,8 +33,8 @@ component
 						targetValue     : "I am not a date",
 						validationData  : now(),
 						rules           : {}
-					);
-				} ).toThrow();
+					)
+				).toBeFalse();
 			} );
 
 			it( "can validate true if the field under validation is before the target", function(){

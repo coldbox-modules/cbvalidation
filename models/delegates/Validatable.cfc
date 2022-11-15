@@ -102,7 +102,7 @@ component accessors="true" {
 	 * @targetValue the value to check for nullness/emptyness
 	 */
 	boolean function validateIsNullOrEmpty( any targetValue ){
-		return variables.validationManager
+		return !variables.validationManager
 			.getValidator( "Required", {} )
 			.hasValue( argumentCollection = arguments );
 	}
