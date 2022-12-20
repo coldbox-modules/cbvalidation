@@ -39,7 +39,7 @@ jobs:
           java-version: "11"
 
       - name: Cache CommandBox Dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         if: ${{ true }}
         with:
           path: ~/.CommandBox/artifacts
