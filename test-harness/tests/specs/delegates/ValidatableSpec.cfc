@@ -21,7 +21,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			beforeEach( function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
-				delegate         = getInstance( "Validatable@cbValidation" );
+				delegate = getInstance( "Validatable@cbValidation" );
 				delegate.injectPropertyMixin( "$parent", this );
 			} );
 
@@ -49,22 +49,18 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			it( "can validate", function(){
 				var results = delegate.validate();
 				expect( results.hasErrors() ).toBeFalse();
-			});
+			} );
 
 			it( "can validate or fail", function(){
 				expect( () => delegate.validateOrFail() ).notToThrow();
-				expect( () => delegate.validateOrFail(
-					constraints = {
-						"data" : { required : true }
-					}
-				) ).toThrow();
-			});
+				expect( () => delegate.validateOrFail( constraints = { "data" : { required : true } } ) ).toThrow();
+			} );
 
 			it( "can self validate", function(){
 				var results = delegate.isValid();
 				expect( results ).toBeTrue();
 				expect( delegate.getValidationResults().hasErrors() ).toBeFalse();
-			});
+			} );
 		} );
 	}
 

@@ -99,8 +99,10 @@ component accessors="true" serialize="false" singleton {
 	 * @return The discovered map of validators and aliases
 	 */
 	struct function getRegisteredValidators(){
-		if( isSimpleValue( variables.registeredValidators ) ){
-			variables.registeredValidators = discoverValidators( getDirectoryFromPath( getMetadata( this ).path ) & "validators" );
+		if ( isSimpleValue( variables.registeredValidators ) ) {
+			variables.registeredValidators = discoverValidators(
+				getDirectoryFromPath( getMetadata( this ).path ) & "validators"
+			);
 		}
 		return variables.registeredValidators;
 	}
