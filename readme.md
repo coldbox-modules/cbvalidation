@@ -1,4 +1,4 @@
-[![cbvalidation CI](https://github.com/coldbox-modules/cbvalidation/actions/workflows/ci.yml/badge.svg)](https://github.com/coldbox-modules/cbvalidation/actions/workflows/ci.yml)
+[![cbvalidation CI](https://github.com/coldbox-modules/cbvalidation/actions/workflows/snapshot.yml/badge.svg)](https://github.com/coldbox-modules/cbvalidation/actions/workflows/snapshot.yml)
 
 # WELCOME TO THE COLDBOX VALIDATION MODULE
 
