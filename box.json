@@ -45,10 +45,7 @@
         "release":"recipe build/release.boxr",
         "format":"cfformat run helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc --overwrite",
         "format:watch":"cfformat watch helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
-        "format:check":"cfformat check helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc",
-        "cfpm":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\"' | run",
-        "cfpm:install":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\" install ${1}' | run",
-        "install:2021":"run-script cfpm:install zip",
+        "format:check":"cfformat check helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "install:dependencies":"install && cd test-harness && install"
     },
     "installPaths":{
