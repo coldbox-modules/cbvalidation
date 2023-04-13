@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix for `tasks.json` file to include no recursion
+- #71 - ValidationManager errors when returning `validatedKeys` due to `sharedconstraint` name
 
 ## [4.1.0] => 2022-NOV-14
 
