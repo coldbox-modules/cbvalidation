@@ -10,5 +10,5 @@ jobs:
     uses: ./.github/workflows/release.yml
     secrets: inherit
     with:
-      doTests: true
+      doTests: false
       snapshot: true

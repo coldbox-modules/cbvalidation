@@ -129,8 +129,8 @@ jobs:
             .artifacts/**/*
 
       - name: Publish To ForgeBox
-        working-directory: .tmp/${{ env.MODULE_ID }}}
         run: |
+          ls -lR .tmp/${{ env.MODULE_ID }}
           box forgebox publish --force
 
       - name: Create Github Release
