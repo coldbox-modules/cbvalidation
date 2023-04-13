@@ -147,7 +147,7 @@ jobs:
   # Prep Next Release
   ##########################################################################################
   prep-next-release:
-    name: Build & Publish
+    name: Prep Next Release
     if: ${{ !inputs.snapshot && success() }}
     needs: [ build ]
     runs-on: ubuntu-20.04
