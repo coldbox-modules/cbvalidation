@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix for `tasks.json` file to include no recursion
 - #71 - ValidationManager errors when returning `validatedKeys` due to `sharedconstraint` name
+- #45 - `Type` validator needs to be able to validate against `any` type even if that is an empty string
 
 ## [4.1.0] => 2022-NOV-14
 
