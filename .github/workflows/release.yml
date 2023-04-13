@@ -129,7 +129,7 @@ jobs:
 
       - name: Publish To ForgeBox
         run: |
-          cd ./tmp/${{ env.MODULE_ID }} && box forgebox publish --force
+          cd .tmp/${{ env.MODULE_ID }} && box forgebox publish --force
 
       - name: Create Github Release
         uses: taiki-e/create-gh-release-action@v1.6.2
