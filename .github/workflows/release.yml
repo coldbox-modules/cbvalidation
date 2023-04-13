@@ -102,6 +102,7 @@ jobs:
         run: |
           box install commandbox-docbox
           box task run taskfile=build/Build target=run :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ github.run_number }} :branch=${{ env.BRANCH }}
+          ls -lR .tmp/${{ env.MODULE_ID }}
 
       - name: Commit Changelog
         uses: EndBug/add-and-commit@v9.1.1
@@ -128,7 +129,7 @@ jobs:
             .artifacts/**/*
 
       - name: Publish To ForgeBox
-        working-directory: ./.tmp/${{ env.MODULE_ID }}}/
+        working-directory: .tmp/${{ env.MODULE_ID }}}
         run: |
           box forgebox publish --force
 
