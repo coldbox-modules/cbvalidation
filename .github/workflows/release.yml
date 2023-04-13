@@ -128,7 +128,7 @@ jobs:
             .artifacts/**/*
 
       - name: Publish To ForgeBox
-        working-directory: .tmp
+        working-directory: .tmp/${{ env.MODULE_ID }}}
         run: |
           box forgebox publish --force
 
