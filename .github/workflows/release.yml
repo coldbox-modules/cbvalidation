@@ -6,41 +6,41 @@ on:
     branches:
       - master
       - main
+
   # Reusable workflow : Usually called by a `snapshot` workflow
   workflow_call:
     inputs:
       snapshot:
-          description: 'Is this a snapshot build'
+          description: 'Is this a snapshot build?'
           required: false
           default: false
           type: boolean
       doTests:
-        description: 'Run Tests Before release'
+        description: 'Run tests before the release'
         required: false
         default: true
         type: boolean
-      versionType:
-        description: 'Bump Version as minor or patch'
-        required: false
-        default: 'minor'
-        type: string
 
 env:
   MODULE_ID: cbvalidation
 
 jobs:
+  ##########################################################################################
+  # Module Tests
+  ##########################################################################################
   tests:
     if: ${{ inputs.doTests }}
     secrets: inherit
     uses: ./.github/workflows/tests.yml
 
-  #############################################
-  # Format Source Code and Commit
-  #############################################
+  ##########################################################################################
+  # Format Source Code
+  # This only fires on `development`, stable releases should not have auto-formatting
+  ##########################################################################################
   format:
-    name: Auto-Format and Commit
+    name: Code Auto-Formatting
     runs-on: ubuntu-20.04
-    if: ${{ success() || !inputs.doTests }}
+    if: ${{ inputs.snapshot && ( success() || !inputs.doTests ) }}
     needs: [ tests ]
     steps:
       - uses: actions/checkout@v3
@@ -55,9 +55,9 @@ jobs:
         with:
           commit_message: Apply cfformat changes
 
-  #############################################
+  ##########################################################################################
   # Build & Publish
-  #############################################
+  ##########################################################################################
   build:
     name: Build & Publish
     if: ${{ success() || !inputs.doTests }}
@@ -103,13 +103,14 @@ jobs:
           box install commandbox-docbox
           box task run taskfile=build/Build target=run :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ github.run_number }} :branch=${{ env.BRANCH }}
 
-      - name: Commit Changelog
+      - name: Commit Changelog To Master
         uses: EndBug/add-and-commit@v9.1.1
         if: ${{ !inputs.snapshot }}
         with:
           author_name: Github Actions
           author_email: info@ortussolutions.com
           message: 'Finalized changelog for v${{ env.VERSION }}'
+          add: changelog.md
 
       - name: Tag Version
         uses: rickstaa/action-create-tag@v1.6.1
@@ -126,6 +127,7 @@ jobs:
           name: ${{ env.MODULE_ID }}
           path: |
             .artifacts/**/*
+            changelog.md
 
       - name: Publish To ForgeBox
         run: |
@@ -141,15 +143,44 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: refs/tags/v${{ env.VERSION }}
 
-      - name: Bump Version
-        if: ${{ !inputs.snapshot }}
-        run: |
-          box bump --${{ inputs.versionType }} --!TagVersion
+  ##########################################################################################
+  # Prep Next Release
+  ##########################################################################################
+  prep-next-release:
+    name: Build & Publish
+    if: ${{ !inputs.snapshot && success() }}
+    needs: [ build ]
+    runs-on: ubuntu-20.04
+    steps:
+      # Checkout development
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: development
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.MODULE_ID }}
+          path: .tmp
+
+      # Copy the changelog to the development branch
+      - name: Copy Changelog
+        run: |
+          cp .tmp/changelog.md changelog.md
+
+      # Bump to next version
+      - name: Bump Version
+        run: |
+          box bump --minor --!TagVersion
+
+      # Commit it back to development
       - name: Commit Version Bump
-        if: ${{ !inputs.snapshot }}
         uses: EndBug/add-and-commit@v9.1.1
         with:
           author_name: Github Actions
           author_email: info@ortussolutions.com
           message: 'Version bump'
+          add: |
+            box.json
+            changelog.md
