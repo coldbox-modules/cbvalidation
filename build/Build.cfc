@@ -76,9 +76,6 @@ component {
 		// checksums
 		buildChecksums();
 
-		// Build latest changelog
-		latestChangelog();
-
 		// Finalize Message
 		print
 			.line()
@@ -225,27 +222,6 @@ component {
 			overwrite = true,
 			recurse   = true
 		);
-	}
-
-	/**
-	 * Build the latest changelog file: changelog-latest.md
-	 */
-	function latestChangelog(){
-		print.blueLine( "Building latest changelog..." ).toConsole();
-
-		if ( !fileExists( variables.cwd & "changelog.md" ) ) {
-			return error( "Cannot continue building, changelog.md file doesn't exist!" );
-		}
-
-		fileWrite(
-			variables.cwd & "changelog-latest.md",
-			fileRead( variables.cwd & "changelog.md" ).split( "----" )[ 2 ].trim() & chr( 13 ) & chr( 10 )
-		);
-
-		print
-			.greenLine( "Latest changelog file created at `changelog-latest.md`" )
-			.line()
-			.line( fileRead( variables.cwd & "changelog-latest.md" ) );
 	}
 
 	/********************************************* PRIVATE HELPERS *********************************************/
