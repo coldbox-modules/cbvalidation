@@ -49,17 +49,16 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 
 			it( "can process rules with custom validators from a wirebox mapping", function(){
 				var results       = getInstance( "cbvalidation.models.result.ValidationResult" );
-				var mockValidator = prepareMock( manager.getWirebox().getInstance( "tests.resources.MockValidator" ) ).$(
-					"validate",
-					true
-				);
+				var mockValidator = prepareMock(
+					manager.getWirebox().getInstance( "tests.resources.MockValidator" )
+				).$( "validate", true );
 				var mockRule = { "tests.resources.MockValidator" : { customField : "hi" } };
 				var mock     = createStub().$( "getName", "luis" );
 				manager.processRules(
-					results : results,
-					rules   : mockRule,
-					target  : mock,
-					field   : "name"
+					results: results,
+					rules  : mockRule,
+					target : mock,
+					field  : "name"
 				);
 				assertTrue(
 					mockValidator.$once( "validate" ),
