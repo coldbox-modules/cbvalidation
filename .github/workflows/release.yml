@@ -15,55 +15,16 @@ on:
           required: false
           default: false
           type: boolean
-      doTests:
-        description: 'Run tests before the release'
-        required: false
-        default: true
-        type: boolean
 
 env:
   MODULE_ID: cbvalidation
-  doTests: ${{ inputs.doTests || false }}
-  snapshot: ${{ inputs.snapshot || false }}
 
 jobs:
-  ##########################################################################################
-  # Module Tests
-  ##########################################################################################
-  tests:
-    if: ${{ inputs.doTests }}
-    secrets: inherit
-    uses: ./.github/workflows/tests.yml
-
-  ##########################################################################################
-  # Format Source Code
-  # This only fires on `development`, stable releases should not have auto-formatting
-  ##########################################################################################
-  format:
-    name: Code Auto-Formatting
-    runs-on: ubuntu-20.04
-    if: ${{ inputs.snapshot && ( success() || !inputs.doTests ) }}
-    needs: [ tests ]
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Auto-format
-        uses: Ortus-Solutions/commandbox-action@v1.0.2
-        with:
-          cmd: run-script format
-
-      - name: Commit Format Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply cfformat changes
-
   ##########################################################################################
   # Build & Publish
   ##########################################################################################
   build:
     name: Build & Publish
-    if: ${{ success() || !inputs.doTests }}
-    needs: [ tests, format ]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
@@ -74,10 +35,6 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "11"
-
-      - name: Test
-        run: |
-          echo "${{ env.snapshot }} ${{ env.doTests }}"
 
       # - name: Setup CommandBox
       #   uses: Ortus-Solutions/setup-commandbox@v2.0.1
