@@ -23,6 +23,8 @@ on:
 
 env:
   MODULE_ID: cbvalidation
+  doTests: ${{ inputs.doTests || false }}
+  snapshot: ${{ inputs.snapshot || false }}
 
 jobs:
   ##########################################################################################
@@ -59,7 +61,7 @@ jobs:
   # Build & Publish
   ##########################################################################################
   build:
-    name: Build & Publish
+    name: Build & Publish : ${{ env.snapshot }}
     if: ${{ success() || !inputs.doTests }}
     needs: [ tests, format ]
     runs-on: ubuntu-20.04
@@ -146,7 +148,7 @@ jobs:
   ##########################################################################################
   # Prep Next Release
   ##########################################################################################
-  prep-next-release:
+  prep_next_release:
     name: Prep Next Release
     runs-on: ubuntu-20.04
     needs: [ build ]
