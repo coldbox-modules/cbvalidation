@@ -36,7 +36,7 @@ jobs:
         with:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
-      - name: Setup Environment Variables For Build Process: ${{ env.SNAPSHOT }}
+      - name: "Setup Environment Variables For Build Process: ${{ env.SNAPSHOT }}"
         if: ${{ !env.SNAPSHOT }}
         id: current_version
         run: |
