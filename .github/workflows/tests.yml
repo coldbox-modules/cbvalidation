@@ -14,10 +14,16 @@ jobs:
     env:
       DB_USER: root
       DB_PASSWORD: root
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         cfengine: [ "lucee@5", "adobe@2018", "adobe@2021" ]
+        coldboxVersion: [ "^6.0.0" ]
+        experimental: [ false ]
+        include:
+          - coldboxVersion: "be"
+            experimental: true
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -54,10 +60,12 @@ jobs:
       #    printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
       #    printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
 
-      - name: Install Test Harness Dependencies
+      - name: Install Test Harness with ColdBox ${{ matrix.coldboxVersion }}
         run: |
           box install
-          cd test-harness && box install
+          cd test-harness
+          box package set dependencies.coldbox=${{ matrix.coldboxVersion }}
+          box install
 
       - name: Start ${{ matrix.cfengine }} Server
         run: |
@@ -74,13 +82,13 @@ jobs:
         if: always()
         with:
           junit_files: test-harness/tests/results/**/*.xml
-          check_name: "${{ matrix.cfengine }} Test Results"
+          check_name: "${{ matrix.cfengine }} ColdBox Version ${{ matrix.coldboxVersion }} Test Results"
 
       - name: Upload Test Results to Artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: test-results-${{ matrix.cfengine }}
+          name: test-results-${{ matrix.cfengine }}-${{ matrix.coldboxVersion }}
           path: |
             test-harness/tests/results/**/*
 
@@ -93,7 +101,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
-          name: Failure Debugging Info - ${{ matrix.cfengine }}
+          name: Failure Debugging Info - ${{ matrix.cfengine }} - ${{ matrix.coldboxVersion }}
           path: |
             .engine/**/logs/*
             .engine/**/WEB-INF/cfusion/logs/*
@@ -107,6 +115,6 @@ jobs:
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'green' or '#ff00ff'
           SLACK_ICON_EMOJI: ":bell:"
           SLACK_MESSAGE: '${{ github.repository }} tests failed :cry:'
-          SLACK_TITLE: ${{ github.repository }} Tests For ${{ matrix.cfengine }} failed
+          SLACK_TITLE: ${{ github.repository }} Tests For ${{ matrix.cfengine }} with ColdBox ${{ matrix.coldboxVersion }} failed
           SLACK_USERNAME: CI
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
