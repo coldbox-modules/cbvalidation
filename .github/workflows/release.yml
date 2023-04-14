@@ -149,6 +149,7 @@ jobs:
   prep-next-release:
     name: Prep Next Release
     runs-on: ubuntu-20.04
+    needs: [ build ]
     steps:
       # Checkout development
       - name: Checkout Repository
