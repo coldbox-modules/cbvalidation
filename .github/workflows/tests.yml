@@ -89,7 +89,7 @@ jobs:
         if: always()
         with:
           junit_files: test-harness/tests/results/**/*.xml
-          check_name: "${{ matrix.cfengine }} ColdBox Version ${{ matrix.coldboxVersion }} Test Results"
+          check_name: "${{ matrix.cfengine }} ColdBox ${{ matrix.coldboxVersion }} Test Results"
 
       - name: Upload Test Results to Artifacts
         if: always()
