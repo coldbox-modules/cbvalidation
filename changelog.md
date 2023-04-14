@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.0] - 2023-04-14
+
 ### Added
 
 -   New github action versions and consolidation of actions
@@ -265,5 +267,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Create first module version
 
 [Unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.2.0...HEAD
+
+[4.2.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.2.0...v4.2.0
 
 [4.2.0]: https://github.com/coldbox-modules/cbvalidation/compare/6b05d704ca5bb5af4bdad3e78f521f96e4c09069...v4.2.0
