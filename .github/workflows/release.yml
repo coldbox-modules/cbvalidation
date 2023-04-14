@@ -148,8 +148,8 @@ jobs:
   ##########################################################################################
   prep-next-release:
     name: Prep Next Release
-    if: ${{ !inputs.snapshot && success() }}
-    needs: [ tests, format, build ]
+    if: ${{ !inputs.snapshot }}
+    needs: [ build ]
     runs-on: ubuntu-20.04
     steps:
       # Checkout development
