@@ -106,7 +106,7 @@ jobs:
   ##########################################################################################
   prep_next_release:
     name: Prep Next Release
-    if: env.SNAPSHOT == 'false'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-20.04
     needs: [ build ]
     steps:
