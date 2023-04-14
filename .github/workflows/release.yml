@@ -18,7 +18,7 @@ on:
 
 env:
   MODULE_ID: cbvalidation
-  SNAPSHOT: ${{ inputs.snapshot || true }}
+  SNAPSHOT: ${{ inputs.snapshot || false }}
 
 jobs:
   ##########################################################################################
