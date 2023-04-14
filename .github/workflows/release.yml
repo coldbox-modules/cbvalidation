@@ -148,7 +148,7 @@ jobs:
   ##########################################################################################
   prep-next-release:
     name: Prep Next Release
-    needs: [ build ]
+    needs: build
     runs-on: ubuntu-20.04
     steps:
       # Checkout development
