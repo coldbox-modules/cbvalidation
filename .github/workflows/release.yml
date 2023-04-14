@@ -36,23 +36,22 @@ jobs:
         with:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
-      - name: "Setup Environment Variables For Build Process: ${{ env.SNAPSHOT }}"
-        if: env.SNAPSHOT == 'false'
-        id: current_version
-        run: |
-          echo "VERSION=`cat box.json | jq '.version' -r`" >> $GITHUB_ENV
-          box package set version=@build.version@+@build.number@
-          # master or snapshot
-          echo "Github Ref is $GITHUB_REF"
-          echo "BRANCH=master" >> $GITHUB_ENV
-          if [ $GITHUB_REF == 'refs/heads/development' ]
-          then
-            echo "BRANCH=development" >> $GITHUB_ENV
-          fi
+      # - name: "Setup Environment Variables For Build Process"
+      #   id: current_version
+      #   run: |
+      #     echo "VERSION=`cat box.json | jq '.version' -r`" >> $GITHUB_ENV
+      #     box package set version=@build.version@+@build.number@
+      #     # master or snapshot
+      #     echo "Github Ref is $GITHUB_REF"
+      #     echo "BRANCH=master" >> $GITHUB_ENV
+      #     if [ $GITHUB_REF == 'refs/heads/development' ]
+      #     then
+      #       echo "BRANCH=development" >> $GITHUB_ENV
+      #     fi
 
       # - name: Update changelog [unreleased] with latest version
       #   uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
-      #   if: ${{ !env.SNAPSHOT }}
+      #   if: env.SNAPSHOT == 'false'
       #   with:
       #     changelogPath: ./changelog.md
       #     tag: v${{ env.VERSION }}
@@ -64,7 +63,7 @@ jobs:
 
       # - name: Commit Changelog To Master
       #   uses: EndBug/add-and-commit@v9.1.1
-      #   if: ${{ !env.SNAPSHOT }}
+      #   if: env.SNAPSHOT == 'false'
       #   with:
       #     author_name: Github Actions
       #     author_email: info@ortussolutions.com
@@ -73,7 +72,7 @@ jobs:
 
       # - name: Tag Version
       #   uses: rickstaa/action-create-tag@v1.6.1
-      #   if: ${{ !env.SNAPSHOT }}
+      #   if: env.SNAPSHOT == 'false'
       #   with:
       #     tag: "v${{ env.VERSION }}"
       #     force_push_tag: true
@@ -95,7 +94,7 @@ jobs:
       # - name: Create Github Release
       #   uses: taiki-e/create-gh-release-action@v1.6.2
       #   continue-on-error: true
-      #   if: ${{ !env.SNAPSHOT }}
+      #   if: env.SNAPSHOT == 'false'
       #   with:
       #     title: ${{ env.VERSION }}
       #     changelog: changelog.md
@@ -107,6 +106,7 @@ jobs:
   ##########################################################################################
   prep_next_release:
     name: Prep Next Release
+    if: env.SNAPSHOT == 'false'
     runs-on: ubuntu-20.04
     needs: [ build ]
     steps:
@@ -116,10 +116,10 @@ jobs:
         with:
           ref: development
 
-      - name: Setup CommandBox
-        uses: Ortus-Solutions/setup-commandbox@v2.0.1
-        with:
-          forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
+      # - name: Setup CommandBox
+      #   uses: Ortus-Solutions/setup-commandbox@v2.0.1
+      #   with:
+      #     forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
       # - name: Download build artifacts
       #   uses: actions/download-artifact@v2
