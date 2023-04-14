@@ -344,7 +344,6 @@ component accessors="true" serialize="false" singleton {
 			return wirebox.getInstance( coreValidators[ arguments.validatorType ] );
 		}
 
-		// Else switch checks
 		switch ( arguments.validatorType ) {
 			// Custom Validator
 			case "validator": {
@@ -353,15 +352,9 @@ component accessors="true" serialize="false" singleton {
 				}
 				return wirebox.getInstance( arguments.validationData );
 			}
-			// See if it's a WireBox Mapping
+			// Delegate to WireBox
 			default: {
-				if ( wirebox.getBinder().mappingExists( validatorType ) ) {
-					return wirebox.getInstance( validatorType );
-				}
-				throw(
-					message = "The validator you requested #arguments.validatorType# is not a valid validator",
-					type    = "ValidationManager.InvalidValidatorType"
-				);
+				return wirebox.getInstance( validatorType );
 			}
 		}
 	}

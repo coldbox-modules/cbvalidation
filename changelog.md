@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The way custom validators are retrieved so they are ColdBox 7+ compatible
 - `pr` github action now just does format checks to avoid issues with other repos.
 - Consolidated Adobe 2021 scripts into the server scripts
 
