@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"4.3.0",
+    "version":"4.2.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
