@@ -24,10 +24,9 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			} );
 
 			it( "validates true when expecting a User and receives a User", function(){
-				
-                var user = createMock( "root.models.User" ).init();
-                
-                expect(
+				var user = createMock( "root.models.User" ).init();
+
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
@@ -39,11 +38,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				).toBeTrue();
 			} );
 
-            it( "validates false when expecting a Car and receives a User", function(){
-				
-                var user = createMock( "root.models.User" ).init();
-                
-                expect(
+			it( "validates false when expecting a Car and receives a User", function(){
+				var user = createMock( "root.models.User" ).init();
+
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
@@ -55,9 +53,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				).toBeFalse();
 			} );
 
-            it( "validates true when passed nothing", function(){
-                
-                expect(
+			it( "validates true when passed nothing", function(){
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
@@ -69,9 +66,8 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				).toBeTrue();
 			} );
 
-            it( "validates false when passed a non-object", function(){
-                
-                expect(
+			it( "validates false when passed a non-object", function(){
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
@@ -81,17 +77,17 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 						rules           : {}
 					)
 				).toBeFalse();
-                expect(
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,
 						field           : "testField",
-						targetValue     : { "name": "not an object" }, // not an object
+						targetValue     : { "name" : "not an object" }, // not an object
 						validationData  : "car",
 						rules           : {}
 					)
 				).toBeFalse();
-                expect(
+				expect(
 					model.validate(
 						validationResult: result,
 						target          : this,

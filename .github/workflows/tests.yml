@@ -14,13 +14,26 @@ jobs:
     env:
       DB_USER: root
       DB_PASSWORD: root
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         cfengine: [ "lucee@5", "adobe@2018", "adobe@2021" ]
+        coldboxVersion: [ "^6.0.0" ]
+        experimental: [ false ]
+        include:
+          - coldboxVersion: "be"
+            cfengine: "lucee@5"
+            experimental: true
+          - coldboxVersion: "be"
+            cfengine: "adobe@2018"
+            experimental: true
+          - coldboxVersion: "be"
+            cfengine: "adobe@2021"
+            experimental: true
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Not Needed in this module
       #- name: Setup Database and Fixtures
@@ -30,13 +43,13 @@ jobs:
       #    mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} < test-harness/tests/resources/coolblog.sql
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          distribution: "adopt"
+          distribution: "temurin"
           java-version: "11"
 
       - name: Setup CommandBox CLI
-        uses: Ortus-Solutions/setup-commandbox@main
+        uses: Ortus-Solutions/setup-commandbox@v2.0.1
 
       # Not Needed in this module
       #- name: Setup Environment For Testing Process
@@ -54,19 +67,16 @@ jobs:
       #    printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
       #    printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
 
-
-      - name: Install Test Harness Dependencies
+      - name: Install Test Harness with ColdBox ${{ matrix.coldboxVersion }}
         run: |
           box install
-          cd test-harness && box install
+          cd test-harness
+          box package set dependencies.coldbox=${{ matrix.coldboxVersion }}
+          box install
 
       - name: Start ${{ matrix.cfengine }} Server
         run: |
           box server start serverConfigFile="server-${{ matrix.cfengine }}.json" --noSaveSettings --debug
-          # Install Adobe 2021 cfpm modules
-          if [[ "${{ matrix.cfengine }}" == "adobe@2021" ]] ; then
-            box run-script install:2021
-          fi
           curl http://127.0.0.1:60299
 
       - name: Run Tests
@@ -75,17 +85,17 @@ jobs:
           box testbox run --verbose outputFile=test-harness/tests/results/test-results outputFormats=json,antjunit
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: test-harness/tests/results/**/*.xml
-          check_name: "${{ matrix.cfengine }} Test Results"
+          junit_files: test-harness/tests/results/**/*.xml
+          check_name: "${{ matrix.cfengine }} ColdBox ${{ matrix.coldboxVersion }} Test Results"
 
       - name: Upload Test Results to Artifacts
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: test-results-${{ matrix.cfengine }}
+          name: test-results-${{ matrix.cfengine }}-${{ matrix.coldboxVersion }}
           path: |
             test-harness/tests/results/**/*
 
@@ -96,9 +106,9 @@ jobs:
 
       - name: Upload Debug Logs To Artifacts
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: Failure Debugging Info - ${{ matrix.cfengine }}
+          name: Failure Debugging Info - ${{ matrix.cfengine }} - ${{ matrix.coldboxVersion }}
           path: |
             .engine/**/logs/*
             .engine/**/WEB-INF/cfusion/logs/*
@@ -112,6 +122,6 @@ jobs:
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'green' or '#ff00ff'
           SLACK_ICON_EMOJI: ":bell:"
           SLACK_MESSAGE: '${{ github.repository }} tests failed :cry:'
-          SLACK_TITLE: ${{ github.repository }} Tests For ${{ matrix.cfengine }} failed
+          SLACK_TITLE: ${{ github.repository }} Tests For ${{ matrix.cfengine }} with ColdBox ${{ matrix.coldboxVersion }} failed
           SLACK_USERNAME: CI
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}

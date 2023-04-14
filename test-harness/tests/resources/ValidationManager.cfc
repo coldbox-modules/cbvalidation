@@ -230,7 +230,7 @@ component accessors="true" serialize="false" singleton {
 	 * @IncludeFields An optional list of fields to include in the validation.
 	 * @profiles      If passed, a list of profile names to use for validation constraints
 	 *
-	 * @return any,struct: The target object that was validated, or the structure fields that where validated.
+	 * @return {Object,struct}: The target object that was validated, or the structure fields that where validated ONLY
 	 *
 	 * @throws ValidationException
 	 */
@@ -260,9 +260,7 @@ component accessors="true" serialize="false" singleton {
 		}
 
 		// Return validated keys
-		return arguments.target.filter( function( key ){
-			return constraints.keyExists( key );
-		} );
+		return arguments.target.filter( ( key ) => vResults.getConstraints().keyExists( arguments.key ) );
 	}
 
 	/**

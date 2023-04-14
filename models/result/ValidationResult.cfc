@@ -48,13 +48,12 @@ component accessors="true" {
 		string locale       = "",
 		string targetName   = "",
 		any resourceService = "",
-		struct constraints  = structNew(),
+		struct constraints  = {},
 		string profiles     = ""
 	){
-		variables.errors         = [];
-		variables.resultMetadata = {};
-		variables.errorTemplate  = new ValidationError();
-
+		variables.errors          = [];
+		variables.resultMetadata  = {};
+		variables.errorTemplate   = new ValidationError();
 		variables.locale          = arguments.locale;
 		variables.targetName      = arguments.targetName;
 		variables.resourceService = arguments.resourceService;

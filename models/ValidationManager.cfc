@@ -99,8 +99,10 @@ component accessors="true" serialize="false" singleton {
 	 * @return The discovered map of validators and aliases
 	 */
 	struct function getRegisteredValidators(){
-		if( isSimpleValue( variables.registeredValidators ) ){
-			variables.registeredValidators = discoverValidators( getDirectoryFromPath( getMetadata( this ).path ) & "validators" );
+		if ( isSimpleValue( variables.registeredValidators ) ) {
+			variables.registeredValidators = discoverValidators(
+				getDirectoryFromPath( getMetadata( this ).path ) & "validators"
+			);
 		}
 		return variables.registeredValidators;
 	}
@@ -342,7 +344,6 @@ component accessors="true" serialize="false" singleton {
 			return wirebox.getInstance( coreValidators[ arguments.validatorType ] );
 		}
 
-		// Else switch checks
 		switch ( arguments.validatorType ) {
 			// Custom Validator
 			case "validator": {
@@ -351,15 +352,9 @@ component accessors="true" serialize="false" singleton {
 				}
 				return wirebox.getInstance( arguments.validationData );
 			}
-			// See if it's a WireBox Mapping
+			// Delegate to WireBox
 			default: {
-				if ( wirebox.getBinder().mappingExists( validatorType ) ) {
-					return wirebox.getInstance( validatorType );
-				}
-				throw(
-					message = "The validator you requested #arguments.validatorType# is not a valid validator",
-					type    = "ValidationManager.InvalidValidatorType"
-				);
+				return wirebox.getInstance( validatorType );
 			}
 		}
 	}

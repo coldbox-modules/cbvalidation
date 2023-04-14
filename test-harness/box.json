@@ -5,15 +5,13 @@
     "private":true,
     "description":"",
     "dependencies":{
-        "coldbox":"^6.0.0",
         "cbi18n":"^3.0.0",
         "testbox":"*",
-        "cbdebugger":"^3.5.0+64"
+        "coldbox":"^6"
     },
     "installPaths":{
-        "coldbox":"coldbox/",
         "testbox":"testbox/",
         "cbi18n":"modules/cbi18n/",
-        "cbdebugger":"modules/cbdebugger/"
+        "coldbox":"coldbox/"
     }
 }
