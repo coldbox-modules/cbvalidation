@@ -37,7 +37,7 @@ jobs:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
       - name: "Setup Environment Variables For Build Process: ${{ env.SNAPSHOT }}"
-        if: !env.SNAPSHOT
+        if: env.SNAPSHOT == 'false'
         id: current_version
         run: |
           echo "VERSION=`cat box.json | jq '.version' -r`" >> $GITHUB_ENV
