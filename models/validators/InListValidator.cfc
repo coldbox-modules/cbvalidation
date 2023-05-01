@@ -38,21 +38,19 @@ component extends="BaseValidator" accessors="true" singleton {
 
 		// check data element value and return error if it is not simple value.
 		if ( !isSimpleValue( arguments.targetValue ) ) {
-            var args = {
-                message        : "The '#arguments.field#' value is not a Simple value",
-                field          : arguments.field,
-                validationType : getName(),
-                rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
-                validationData : arguments.validationData
-            };
-            var error = validationResult
-                .newError( argumentCollection = args )
-                .setErrorMetadata( {
-                    "inlist" : arguments.validationData
-                } );
-            validationResult.addError( error );
-          return false;
-        }
+			var args = {
+				message        : "The '#arguments.field#' value is not a Simple value",
+				field          : arguments.field,
+				validationType : getName(),
+				rejectedValue  : ( isSimpleValue( arguments.targetValue ) ? arguments.targetValue : "" ),
+				validationData : arguments.validationData
+			};
+			var error = validationResult
+				.newError( argumentCollection = args )
+				.setErrorMetadata( { "inlist" : arguments.validationData } );
+			validationResult.addError( error );
+			return false;
+		}
 
 		// Now check
 		if ( listFindNoCase( arguments.validationData, arguments.targetValue ) ) {
