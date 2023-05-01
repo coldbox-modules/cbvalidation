@@ -47,6 +47,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		assertEquals( false, r );
 		r = model.validate( result, this, "test", 4, "gte:4" );
 		assertEquals( true, r );
+
+		// Validation check - if simple value
+		r = model.validate( result, this, "test", [], "gte:1" );
+		assertEquals( false, r );
 	}
 
 }
