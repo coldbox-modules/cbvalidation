@@ -1,4 +1,19 @@
-[![cbvalidation CI](https://github.com/coldbox-modules/cbvalidation/actions/workflows/snapshot.yml/badge.svg)](https://github.com/coldbox-modules/cbvalidation/actions/workflows/snapshot.yml)
+<p align="center">
+	<img src="https://www.ortussolutions.com/__media/coldbox-185-logo.png">
+	<br>
+	<img src="https://www.ortussolutions.com/__media/wirebox-185.png" height="125">
+	<img src="https://www.ortussolutions.com/__media/cachebox-185.png" height="125" >
+	<img src="https://www.ortussolutions.com/__media/logbox-185.png"  height="125">
+</p>
+
+<p align="center">
+	Copyright Since 2005 ColdBox Platform by Luis Majano and Ortus Solutions, Corp
+	<br>
+	<a href="https://www.coldbox.org">www.coldbox.org</a> |
+	<a href="https://www.ortussolutions.com">www.ortussolutions.com</a>
+</p>
+
+----
 
 # WELCOME TO THE COLDBOX VALIDATION MODULE
 

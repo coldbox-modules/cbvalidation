@@ -32,6 +32,16 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			"luis,joe,alexia,vero"
 		);
 		assertEquals( true, r );
+
+		// not simple value
+		r = model.validate(
+			result,
+			this,
+			"test",
+			[],
+			"luis,joe,alexia,vero"
+		);
+		assertEquals( false, r );
 	}
 
 	function getLuis(){
