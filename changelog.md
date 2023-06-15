@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Only perform type evaluation if target value is not null or empty string #75
+
 ## [4.3.0] - 2023-05-05
 
 ## [4.2.0] - 2023-04-14

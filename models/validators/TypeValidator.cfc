@@ -44,7 +44,7 @@ component extends="BaseValidator" accessors="true" singleton {
 		}
 
 		// return true if no data to check, type needs a data element to be checked.
-		if ( isNull( arguments.targetValue ) ) {
+		if ( isNull( arguments.targetValue ) || isNullOrEmpty( arguments.targetValue ) ) {
 			return true;
 		}
 
