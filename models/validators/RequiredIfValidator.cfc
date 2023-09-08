@@ -37,8 +37,8 @@ component
 		any validationData,
 		struct rules
 	){
-		var isRequired = true;
-        var errorMetadata = {};
+		var isRequired    = true;
+		var errorMetadata = {};
 
 		// If you passed in simple data, simply check that the target field has a value
 		if ( isSimpleValue( arguments.validationData ) && len( arguments.validationData ) ) {
@@ -61,22 +61,19 @@ component
 				.reduce( function( result, key, value ){
 					return ( arguments.value && arguments.result );
 				}, true );
-        // If passed a UDF/closure
-        } else if ( 
-            isCustomFunction( arguments.validationData ) || 
-            isClosure( arguments.validationData )
-        ) {
-            
-            // Validate against the UDF/closure
-            var isRequired = arguments.validationData(
-                isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
-                arguments.target,
-                errorMetadata
-            );
-
-        } else {
-            
-            validationResult.addError(
+			// If passed a UDF/closure
+		} else if (
+			isCustomFunction( arguments.validationData ) ||
+			isClosure( arguments.validationData )
+		) {
+			// Validate against the UDF/closure
+			var isRequired = arguments.validationData(
+				isNull( arguments.targetValue ) ? javacast( "null", "" ) : arguments.targetValue,
+				arguments.target,
+				errorMetadata
+			);
+		} else {
+			validationResult.addError(
 				validationResult.newError(
 					message        = "The target for RequiredIf must be a simple field name or a struct of field to target value pairs.",
 					field          = arguments.field,
@@ -109,9 +106,9 @@ component
 			validationData : arguments.validationData
 		};
 
-		validationResult.addError( 
-            validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata ) 
-        );
+		validationResult.addError(
+			validationResult.newError( argumentCollection = args ).setErrorMetadata( errorMetadata )
+		);
 		return false;
 	}
 
