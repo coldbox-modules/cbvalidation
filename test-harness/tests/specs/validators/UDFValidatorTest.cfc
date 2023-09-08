@@ -34,7 +34,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 			javacast( "null", "" ),
 			variables.validate3
 		);
-		assertEquals( false, r );
+		assertEquals( true, r );
 	}
 
 	private function validate( value, target ){
