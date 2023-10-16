@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.4.0] - 2023-10-16
+
 ### Added
 
 - requiredIf accepts a UDF and closure now
@@ -282,7 +284,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Create first module version
 
-[Unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.3.1...HEAD
+[Unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.4.0...HEAD
+
+[4.4.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.3.1...v4.4.0
 
 [4.3.1]: https://github.com/coldbox-modules/cbvalidation/compare/v4.3.0...v4.3.1
 
