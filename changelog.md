@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- requiredIf accepts a UDF and closure now
+
+### Fixed
+
+- UDF validator now treats nulls correctly
+
 ## [4.3.1] - 2023-06-15
 
 ### Fixed
