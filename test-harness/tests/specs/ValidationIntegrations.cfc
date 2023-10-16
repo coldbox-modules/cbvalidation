@@ -159,7 +159,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 						params = {
 							username : "luis",
 							email    : "lmajano@ortussolutions.com",
-							password : "luis"
+							password : "luis",
+							status   : 4 // should not validate
 						},
 						method = "post"
 					);
