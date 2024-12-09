@@ -34,6 +34,9 @@ jobs:
           - coldboxVersion: "be"
             cfengine: "adobe@2021"
             experimental: true
+          - coldboxVersion: "be"
+            cfengine: "boxlang@1"
+            experimental: true
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
