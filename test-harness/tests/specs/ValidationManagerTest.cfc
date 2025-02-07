@@ -106,6 +106,17 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				debug( r.getAllErrors() );
 			} );
 
+			it( "can apply default values before validating", function(){
+				var mockData        = { name : "luis" };
+				var mockConstraints = {
+					name : { required : true },
+					age  : { required : true, max : 35, defaultValue : 30 }
+				};
+
+				var r = manager.validate( target = mockData, constraints = mockConstraints );
+				assertEquals( false, r.hasErrors() );
+			} );
+
 			it( "can validate with specific fields", function(){
 				var mockData        = { name : "", age : "" };
 				var mockConstraints = {
