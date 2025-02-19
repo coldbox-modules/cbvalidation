@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- BoxLang certification
+- Add `defaultValue` to apply default values before constraints are checked
+
 ## [4.4.0] - 2023-10-16
 
 ### Added

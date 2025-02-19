@@ -13,26 +13,25 @@
 	<a href="https://www.ortussolutions.com">www.ortussolutions.com</a>
 </p>
 
-----
+# Welcome to the Validation Module for ColdBox
 
-# WELCOME TO THE COLDBOX VALIDATION MODULE
+This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.  You can validate objects or structures and even use profiles to target specific fields for validation.  The validation engine is highly extensible and can be used in any kind of application.
 
-This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.
-
-## LICENSE
+## License
 
 Apache License, Version 2.0.
 
-## IMPORTANT LINKS
+## Important Links
 
 - https://github.com/coldbox-modules/cbvalidation
 - https://coldbox-validation.ortusbooks.com
 - https://forgebox.io/view/cbvalidation
 
-## SYSTEM REQUIREMENTS
+## Requirements
 
+- BoxLang 1+
 - Lucee 5.x+
-- Adobe ColdFusion 2018+
+- Adobe ColdFusion 2021+
 
 ## Installation
 

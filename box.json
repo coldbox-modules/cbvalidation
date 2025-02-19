@@ -26,6 +26,7 @@
         "cbi18n":"^3.0.0"
     },
     "devDependencies":{
+		"commandbox-boxlang":"*",
         "commandbox-cfformat":"*",
         "commandbox-docbox":"*",
         "commandbox-dotenv":"*",
@@ -58,6 +59,5 @@
         "logs:2021":"server log serverConfigFile=server-adobe@2021.json --follow"
     },
     "installPaths":{
-        "cbi18n":"modules/cbi18n/"
     }
 }
