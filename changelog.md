@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.5.0] - 2025-02-19
+
 ### Removed
 
 - `eurodate` doesn't event work in ACF/Lucee as it uses just a single standard.  Remove it so the user can validate as they see fit.
@@ -294,7 +296,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Create first module version
 
-[Unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.4.0...HEAD
+[Unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.5.0...HEAD
+
+[4.5.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.4.0...v4.5.0
 
 [4.4.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.3.1...v4.4.0
 
