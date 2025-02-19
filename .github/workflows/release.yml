@@ -17,7 +17,7 @@ on:
           type: boolean
 
 env:
-  MODULE_ID: cbvalidation
+  MODULE_ID: ${{ github.event.repository.name }}
   SNAPSHOT: ${{ inputs.snapshot || false }}
 
 jobs:
@@ -26,10 +26,10 @@ jobs:
   ##########################################################################################
   build:
     name: Build & Publish
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup CommandBox
         uses: Ortus-Solutions/setup-commandbox@v2.0.1
@@ -64,7 +64,7 @@ jobs:
           box task run taskfile=build/Build target=run :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ github.run_number }} :branch=${{ env.BRANCH }}
 
       - name: Commit Changelog To Master
-        uses: EndBug/add-and-commit@v9.1.1
+        uses: EndBug/add-and-commit@v9.1.4
         if: env.SNAPSHOT == 'false'
         with:
           author_name: Github Actions
@@ -73,7 +73,7 @@ jobs:
           add: changelog.md
 
       - name: Tag Version
-        uses: rickstaa/action-create-tag@v1.6.1
+        uses: rickstaa/action-create-tag@v1.7.2
         if: env.SNAPSHOT == 'false'
         with:
           tag: "v${{ env.VERSION }}"
@@ -82,7 +82,7 @@ jobs:
 
       - name: Upload Build Artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MODULE_ID }}
           path: |
@@ -118,7 +118,7 @@ jobs:
           box forgebox publish --force
 
       - name: Create Github Release
-        uses: taiki-e/create-gh-release-action@v1.6.2
+        uses: taiki-e/create-gh-release-action@v1.8.2
         continue-on-error: true
         if: env.SNAPSHOT == 'false'
         with:
@@ -133,12 +133,12 @@ jobs:
   prep_next_release:
     name: Prep Next Release
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [ build ]
     steps:
       # Checkout development
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: development
 
@@ -148,7 +148,7 @@ jobs:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.MODULE_ID }}
           path: .tmp
@@ -165,7 +165,7 @@ jobs:
 
       # Commit it back to development
       - name: Commit Version Bump
-        uses: EndBug/add-and-commit@v9.1.1
+        uses: EndBug/add-and-commit@v9.1.4
         with:
           author_name: Github Actions
           author_email: info@ortussolutions.com

@@ -1,0 +1,36 @@
+{
+    "app":{
+        "cfengine":"boxlang@be",
+        "serverHomeDirectory":".engine/boxlang"
+    },
+    "name":"cbvalidation-boxlang@1",
+    "force":true,
+    "openBrowser":false,
+    "web":{
+        "directoryBrowsing":true,
+        "http":{
+            "port":"60299"
+        },
+        "rewrites":{
+            "enable":"true"
+        },
+        "webroot":"test-harness",
+        "aliases":{
+            "/moduleroot/cbvalidation":"./"
+        }
+    },
+    "JVM":{
+        "heapSize":"1024",
+        "javaVersion":"openjdk21_jre",
+        "args":"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888 -Dboxlang.debugMode=true"
+    },
+    "cfconfig":{
+        "file":".cfconfig.json"
+    },
+    "env":{
+        "BOXLANG_DEBUG":true
+    },
+    "scripts":{
+        "onServerInitialInstall":"install bx-compat-cfml --noSave"
+    }
+}

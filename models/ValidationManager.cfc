@@ -18,7 +18,7 @@
  * // required or not
  * required : boolean [false]
  * // type constraint
- * type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+ * type  : (ssn,email,url,alpha,boolean,date,usdate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
  * // size or length of the value (struct,string,array,query)
  * size  : numeric or range, eg: 10 or 6..8
  * // range is a range of values the property value should exist in
@@ -212,6 +212,27 @@ component accessors="true" serialize="false" singleton {
 			arguments.includeFields = arrayToList( arguments.includeFields );
 		}
 
+		// iterate over fields to apply default values
+		for ( var thisField in allConstraints ) {
+			/*
+						results = results,
+						rules   = allConstraints[ thisField ],
+						target  = arguments.target,
+						field   = thisField,
+						locale  = arguments.locale
+						*/
+			if ( allConstraints[ thisField ].keyExists( "defaultValue" ) ) {
+				var targetValue = invoke( arguments.target, "get" & thisField );
+				if ( isNull( targetValue ) || !hasValue( targetValue ) ) {
+					invoke(
+						arguments.target,
+						"set" & thisField,
+						[ allConstraints[ thisField ].defaultValue ]
+					);
+				}
+			}
+		}
+
 		// iterate over constraints defined
 		for ( var thisField in allConstraints ) {
 			var validateField = true;
@@ -304,7 +325,7 @@ component accessors="true" serialize="false" singleton {
 		// process the incoming rules
 		for ( var key in arguments.rules ) {
 			// if message validators, just ignore
-			if ( reFindNoCase( "Message$", key ) ) {
+			if ( reFindNoCase( "Message$", key ) || key == "defaultValue" ) {
 				continue;
 			}
 
@@ -505,6 +526,38 @@ component accessors="true" serialize="false" singleton {
 			currentKey      = nextKey,
 			nestedKeys      = nextKeys
 		);
+	}
+
+	/**
+	 * Verify if the target value has a value
+	 * Checks for nullness or for length if it's a simple value, array, query, struct or object.
+	 */
+	boolean function hasValue( any targetValue ){
+		// Null Tests
+		if ( isNull( arguments.targetValue ) ) {
+			return false;
+		}
+		// Simple Tests
+		if ( isSimpleValue( arguments.targetValue ) AND len( trim( arguments.targetValue ) ) ) {
+			return true;
+		}
+		// Array Tests
+		if ( isArray( arguments.targetValue ) and arrayLen( arguments.targetValue ) ) {
+			return true;
+		}
+		// Query Tests
+		if ( isQuery( arguments.targetValue ) and arguments.targetValue.recordcount ) {
+			return true;
+		}
+		// Struct Tests
+		if ( isStruct( arguments.targetValue ) and structCount( arguments.targetValue ) ) {
+			return true;
+		}
+		// Object
+		if ( isObject( arguments.targetValue ) ) {
+			return true;
+		}
+		return false;
 	}
 
 }

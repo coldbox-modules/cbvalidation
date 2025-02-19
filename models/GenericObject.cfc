@@ -30,14 +30,34 @@ component {
 	 * @missingMethodName     
 	 * @missingMethodArguments
 	 */
-	any function onMissingMethod( required string missingMethodName, required struct missingMethodArguments ){
-		var key = replaceNoCase( arguments.missingMethodName, "get", "" );
-
-		if ( structKeyExists( variables.collection, key ) ) {
+	any function onMissingMethod( required string missingMethodName, required any missingMethodArguments ){
+		if ( startsWith( arguments.missingMethodName, "set" ) ) {
+			var key = mid(
+				arguments.missingMethodName,
+				4,
+				len( arguments.missingMethodName ) - 3
+			);
+			variables.collection[ key ] = arguments.missingMethodArguments[ 1 ];
 			return variables.collection[ key ];
 		}
 
+		if ( startsWith( arguments.missingMethodName, "get" ) ) {
+			var key = mid(
+				arguments.missingMethodName,
+				4,
+				len( arguments.missingMethodName ) - 3
+			);
+			if ( structKeyExists( variables.collection, key ) ) {
+				return variables.collection[ key ];
+			}
+		}
+
 		// Return null
+		return javacast( "null", "" );
+	}
+
+	private boolean function startsWith( word, substring ){
+		return left( word, len( substring ) ) == substring;
 	}
 
 }

@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- `eurodate` doesn't event work in ACF/Lucee as it uses just a single standard.  Remove it so the user can validate as they see fit.
+
+### Added
+
+- BoxLang certification
+- Lucee 6, Adobe 2023
+- Add `defaultValue` to apply default values before constraints are checked
+
 ## [4.4.0] - 2023-10-16
 
 ### Added

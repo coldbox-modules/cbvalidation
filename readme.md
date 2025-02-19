@@ -13,26 +13,25 @@
 	<a href="https://www.ortussolutions.com">www.ortussolutions.com</a>
 </p>
 
-----
+# Welcome to the Validation Module for ColdBox
 
-# WELCOME TO THE COLDBOX VALIDATION MODULE
+This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.  You can validate objects or structures and even use profiles to target specific fields for validation.  The validation engine is highly extensible and can be used in any kind of application.
 
-This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.
-
-## LICENSE
+## License
 
 Apache License, Version 2.0.
 
-## IMPORTANT LINKS
+## Important Links
 
 - https://github.com/coldbox-modules/cbvalidation
 - https://coldbox-validation.ortusbooks.com
 - https://forgebox.io/view/cbvalidation
 
-## SYSTEM REQUIREMENTS
+## Requirements
 
+- BoxLang 1+
 - Lucee 5.x+
-- Adobe ColdFusion 2018+
+- Adobe ColdFusion 2021+
 
 ## Installation
 
@@ -212,7 +211,7 @@ this.constraints = {
         size  : numeric or range, eg: 10 or 6..8
 
         // specific type constraint, one in the list.
-        type  : (alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode),
+        type  : (alpha,array,binary,boolean,component,creditcard,date,email,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode),
 
         // UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
         udf = variables.UDF or this.UDF or a closure.
