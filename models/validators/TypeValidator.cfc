@@ -11,7 +11,7 @@ component extends="BaseValidator" accessors="true" singleton {
 	 */
 	TypeValidator function init(){
 		variables.name       = "Type";
-		variables.validTypes = "alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
+		variables.validTypes = "alpha,array,binary,boolean,component,creditcard,date,email,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode";
 
 		return this;
 	}
@@ -81,10 +81,6 @@ component extends="BaseValidator" accessors="true" singleton {
 			}
 			case "usdate": {
 				r = isValid( "usdate", arguments.targetValue );
-				break;
-			}
-			case "eurodate": {
-				r = isValid( "eurodate", arguments.targetValue );
 				break;
 			}
 			case "numeric": {

@@ -2,7 +2,7 @@
     "name":"cbvalidation-adobe@2023",
     "app":{
         "serverHomeDirectory":".engine/adobe2023",
-        "cfengine":"adobe@2023.0.0-beta.1"
+        "cfengine":"adobe@2023"
     },
     "web":{
         "http":{
@@ -11,19 +11,19 @@
         "rewrites":{
             "enable":"true"
         },
-		"webroot": "test-harness",
-		"aliases":{
-            "/moduleroot/cbvalidation":"../"
+		"webroot":"test-harness",
+        "aliases":{
+            "/moduleroot/cbvalidation":"./"
         }
     },
-    "jvm":{
+	"jvm":{
         "heapSize":"1024"
     },
     "openBrowser":"false",
 	"cfconfig": {
 		"file" : ".cfconfig.json"
 	},
-    "scripts" : {
+	"scripts" : {
         "onServerInstall":"cfpm install zip,debugger"
     }
 }

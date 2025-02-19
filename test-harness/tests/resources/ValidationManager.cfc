@@ -18,7 +18,7 @@
  * // required or not
  * required : boolean [false]
  * // type constraint
- * type  : (ssn,email,url,alpha,boolean,date,usdate,eurodate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
+ * type  : (ssn,email,url,alpha,boolean,date,usdate,numeric,GUID,UUID,integer,[string],telephone,zipcode,ipaddress,creditcard,binary,component,query,struct,json,xml),
  * // size or length of the value (struct,string,array,query)
  * size  : numeric or range, eg: 10 or 6..8
  * // range is a range of values the property value should exist in

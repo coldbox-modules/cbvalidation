@@ -66,12 +66,6 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 		r = model.validate( result, this, "test", "01/01/2012", "usdate" );
 		assertEquals( true, r );
 
-		// eurodate
-		r = model.validate( result, this, "test", "1aa", "eurodate" );
-		assertEquals( false, r );
-		r = model.validate( result, this, "test", "23/01/2012", "eurodate" );
-		assertEquals( true, r );
-
 		// numeric
 		r = model.validate( result, this, "test", "1aa", "numeric" );
 		assertEquals( false, r );

@@ -211,7 +211,7 @@ this.constraints = {
         size  : numeric or range, eg: 10 or 6..8
 
         // specific type constraint, one in the list.
-        type  : (alpha,array,binary,boolean,component,creditcard,date,email,eurodate,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode),
+        type  : (alpha,array,binary,boolean,component,creditcard,date,email,float,GUID,integer,ipaddress,json,numeric,query,ssn,string,struct,telephone,url,usdate,UUID,xml,zipcode),
 
         // UDF to use for validation, must return boolean accept the incoming value and target object, validate(value,target):boolean
         udf = variables.UDF or this.UDF or a closure.
