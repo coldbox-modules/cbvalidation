@@ -82,6 +82,10 @@ component extends="coldbox.system.testing.BaseModelTest" model="cbvalidation.mod
 				it( "fails when given an empty struct", function(){
 					expect( model.validate( variables.result, this, "test", {}, false ) ).toBeFalse();
 				} );
+
+				it( "does not fail when given a non-empty string", () => {
+					expect( model.validate( variables.result, this, "test", 10, false ) ).toBeTrue();
+				} );
 			} );
 		} );
 	}

@@ -58,5 +58,7 @@
         "logs:2018":"server log serverConfigFile=server-adobe@2018.json --follow",
         "logs:2021":"server log serverConfigFile=server-adobe@2021.json --follow"
     },
-    "installPaths":{}
+    "installPaths":{
+        "cbi18n":"modules/cbi18n/"
+    }
 }

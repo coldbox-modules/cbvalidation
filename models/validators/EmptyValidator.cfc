@@ -46,9 +46,16 @@ component extends="BaseValidator" accessors="true" singleton {
 		}
 
 		var isFilled = hasValue( arguments.targetValue );
-		if ( arguments.validationData && !isFilled ) {
+
+		if (
+			// if it should be empty and it is empty
+			( arguments.validationData && !isFilled ) ||
+			// or it shouldn't be empty and is not empty
+			( !arguments.validationData && isFilled )
+		) {
 			return true;
 		}
+
 
 		// No data, fail it
 		var args = {
