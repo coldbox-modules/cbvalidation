@@ -1,9 +1,9 @@
+[![Total Downloads](https://forgebox.io/api/v1/entry/cbvalidation/badges/downloads)](https://forgebox.io/view/cbvalidation)
+[![Latest Stable Version](https://forgebox.io/api/v1/entry/cbvalidation/badges/version)](https://forgebox.io/view/cbvalidation)
+[![Apache2 License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://forgebox.io/view/cbvalidation)
+
 <p align="center">
-	<img src="https://www.ortussolutions.com/__media/coldbox-185-logo.png">
-	<br>
-	<img src="https://www.ortussolutions.com/__media/wirebox-185.png" height="125">
-	<img src="https://www.ortussolutions.com/__media/cachebox-185.png" height="125" >
-	<img src="https://www.ortussolutions.com/__media/logbox-185.png"  height="125">
+	<img src="https://www.ortussolutions.com/__media/coldbox-185-logo.png" alt="ColdBox Platform Logo">
 </p>
 
 <p align="center">
@@ -17,6 +17,8 @@
 
 This module is a server side rules validation engine that can provide you with a unified approach to object, struct and form validation.  You can construct validation constraint rules and then tell the engine to validate them accordingly.  You can validate objects or structures and even use profiles to target specific fields for validation.  The validation engine is highly extensible and can be used in any kind of application.
 
+The module leverages the power of the cbi18n module for internationalization support, providing localized validation messages, and integrates seamlessly with ColdBox's WireBox dependency injection container for maximum flexibility and testability.
+
 ## License
 
 Apache License, Version 2.0.
@@ -29,17 +31,26 @@ Apache License, Version 2.0.
 
 ## Requirements
 
-- BoxLang 1+
-- Lucee 5.x+
-- Adobe ColdFusion 2021+
+- **BoxLang** 1.0+ (Preferred)
+- **Lucee** 5.x+
+- **Adobe ColdFusion** 2021+
+- **Dependencies**: ColdBox 7+, cbi18n 3.0+
 
 ## Installation
 
 Leverage CommandBox to install:
 
-`box install cbvalidation`
+```bash
+box install cbvalidation
+```
 
 The module will register several objects into WireBox using the `@cbvalidation` namespace.  The validation manager is registered as `ValidationManager@cbvalidation`.  It will also register several helper methods that can be used throughout the ColdBox application: `validate(), validateOrFail(), getValidationManager()`
+
+### WireBox Registrations
+
+- `ValidationManager@cbvalidation` - The core validation engine
+- `validationManager@cbvalidation` - Alias for convenience
+- Global validation helper methods injected into all ColdBox components
 
 ## Mixins
 
@@ -115,14 +126,22 @@ Here are the module settings you can place in your `ColdBox.cfc` by using the `c
 
 ```js
 modulesettings = {
-	cbValidation = {
+	cbvalidation = {
 		// The third-party validation manager to use, by default it uses CBValidation.
 		manager = "class path",
 
 		// You can store global constraint rules here with unique names
 		sharedConstraints = {
-			name = {
-				field = { constraints here }
+			userRegistration = {
+				email = { required=true, type="email" },
+				password = { required=true, size="8..50" },
+				firstName = { required=true, size="1..50" },
+				lastName = { required=true, size="1..50" }
+			},
+			userUpdate = {
+				email = { required=true, type="email" },
+				firstName = { required=true, size="1..50" },
+				lastName = { required=true, size="1..50" }
 			}
 		}
 	}
@@ -227,6 +246,80 @@ this.constraints = {
 	}
 
 }
+```
+
+## Usage Examples
+
+### Basic Validation in Handlers
+
+```js
+function saveUser( event, rc, prc ){
+	var results = validate( target=rc, constraints="userRegistration" );
+	if( results.hasErrors() ){
+		prc.errors = results.getAllErrors();
+		return event.setView( "users/registration" );
+	}
+	// Process valid data
+	var user = userService.create( rc );
+}
+```
+
+### Exception Based Validation
+
+```js
+function apiCreateUser( event, rc, prc ){
+	try{
+		var validData = validateOrFail( target=rc, profiles="registration" );
+		var user = userService.create( validData );
+		return event.renderData( data=user );
+	} catch( ValidationException e ){
+		return event.renderData(
+			statusCode=422,
+			data={ errors: deserializeJSON( e.extendedInfo ) }
+		);
+	}
+}
+```
+
+### Object-Based Constraints
+
+```js
+class {
+
+	this.constraints = {
+		email = { required=true, type="email" },
+		age = { required=true, min=18, max=65 },
+		password = { required=true, size="8..50" },
+		confirmPassword = { required=true, sameAs="password" },
+		"address.street" = { required=true, size="5..100" },
+		"preferences.*" = { type="string" }
+	};
+
+	this.constraintProfiles = {
+		registration = "email,password,confirmPassword",
+		update = "email,firstName,lastName",
+		passwordChange = "password,confirmPassword"
+	};
+
+}
+```
+
+## BoxLang CLI Runner
+
+Run your validation tests with the BoxLang CLI:
+
+```bash
+# Run all tests
+boxlang-cli test run
+
+# Run with specific runner
+boxlang-cli test run --runner="http://localhost:60299/tests/runner.cfm"
+
+# Run specific test bundle
+boxlang-cli test run --bundles="test-harness/tests"
+
+# Run with verbose output
+boxlang-cli test run --verbose
 ```
 
 ## Constraint Profiles

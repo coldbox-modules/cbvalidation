@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix for cases where a non-empty value wasn't passing an `empty: false` validation check
+
+### Added
+
+- GitHub Actions update
+- BoxLang PRIME
+- Adobe 2025
+
 ## [4.5.0] - 2025-02-19
 
 ### Removed

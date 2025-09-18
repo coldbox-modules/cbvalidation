@@ -1,9 +1,9 @@
 {
     "app":{
-        "cfengine":"boxlang@be",
-        "serverHomeDirectory":".engine/boxlang"
+        "cfengine":"boxlang@1",
+        "serverHomeDirectory":".engine/boxlang-cfml"
     },
-    "name":"cbvalidation-boxlang@1",
+    "name":"cbvalidation-boxlang-cfml@1",
     "force":true,
     "openBrowser":false,
     "web":{
@@ -12,7 +12,7 @@
             "port":"60299"
         },
         "rewrites":{
-            "enable":"true"
+            "enable":true
         },
         "webroot":"test-harness",
         "aliases":{
@@ -20,7 +20,7 @@
         }
     },
     "JVM":{
-        "heapSize":"1024",
+        "heapSize":"768",
         "javaVersion":"openjdk21_jre",
         "args":"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888 -Dboxlang.debugMode=true"
     },

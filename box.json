@@ -1,7 +1,7 @@
 {
     "name":"ColdBox Validation",
     "author":"Ortus Solutions <info@ortussolutions.com>",
-    "version":"4.5.0",
+    "version":"4.6.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/cbvalidation/@build.version@/cbvalidation-@build.version@.zip",
     "slug":"cbvalidation",
     "type":"modules",
@@ -26,11 +26,9 @@
         "cbi18n":"^3.0.0"
     },
     "devDependencies":{
-		"commandbox-boxlang":"*",
+        "commandbox-boxlang":"*",
         "commandbox-cfformat":"*",
-        "commandbox-docbox":"*",
-        "commandbox-dotenv":"*",
-        "commandbox-cfconfig":"*"
+        "commandbox-docbox":"*"
     },
     "ignore":[
         "**/.*",
@@ -43,21 +41,21 @@
     "scripts":{
         "build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
         "build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
-        "release":"recipe build/release.boxr",
         "format":"cfformat run helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc --overwrite",
         "format:watch":"cfformat watch helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "format:check":"cfformat check helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "install:dependencies":"install && cd test-harness && install",
         "start:lucee":"server start serverConfigFile=server-lucee@5.json",
-        "start:2018":"server start serverConfigFile=server-adobe@2018.json",
-        "start:2021":"server start serverConfigFile=server-adobe@2021.json",
+        "start:adobe":"server start serverConfigFile=server-adobe@2025.json",
+        "start:boxlang":"server start serverConfigFile=server-boxlang@1.json",
         "stop:lucee":"server stop serverConfigFile=server-lucee@5.json",
-        "stop:2018":"server stop serverConfigFile=server-adobe@2018.json",
-        "stop:2021":"server stop serverConfigFile=server-adobe@2021.json",
+        "stop:adobe":"server stop serverConfigFile=server-adobe@2025.json",
+        "stop:boxlang":"server stop serverConfigFile=server-boxlang@1.json",
         "logs:lucee":"server log serverConfigFile=server-lucee@5.json --follow",
-        "logs:2018":"server log serverConfigFile=server-adobe@2018.json --follow",
-        "logs:2021":"server log serverConfigFile=server-adobe@2021.json --follow"
+        "logs:adobe":"server log serverConfigFile=server-adobe@2025.json --follow",
+        "logs:boxlang":"server log serverConfigFile=server-boxlang@1.json --follow"
     },
     "installPaths":{
+        "cbi18n":"modules/cbi18n/"
     }
 }

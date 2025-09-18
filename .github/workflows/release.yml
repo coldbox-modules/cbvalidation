@@ -16,9 +16,13 @@ on:
           default: false
           type: boolean
 
+  # Manual Trigger
+  workflow_dispatch:
 env:
   MODULE_ID: ${{ github.event.repository.name }}
+  JDK: 21
   SNAPSHOT: ${{ inputs.snapshot || false }}
+  BUILD_ID: ${{ github.run_number }}
 
 jobs:
   ##########################################################################################
@@ -26,15 +30,26 @@ jobs:
   ##########################################################################################
   build:
     name: Build & Publish
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+      issues: write
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup CommandBox
         uses: Ortus-Solutions/setup-commandbox@v2.0.1
         with:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JDK }}
 
       - name: "Setup Environment Variables For Build Process"
         id: current_version
@@ -50,7 +65,7 @@ jobs:
           fi
 
       - name: Update changelog [unreleased] with latest version
-        uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
+        uses: thomaseizinger/keep-a-changelog-new-release@3.1.0
         if: env.SNAPSHOT == 'false'
         with:
           changelogPath: ./changelog.md
@@ -61,9 +76,9 @@ jobs:
           npm install -g markdownlint-cli
           markdownlint changelog.md --fix
           box install commandbox-docbox
-          box task run taskfile=build/Build target=run :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ github.run_number }} :branch=${{ env.BRANCH }}
+          box task run taskfile=build/Build target=run :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ env.BUILD_ID }} :branch=${{ env.BRANCH }}
 
-      - name: Commit Changelog To Master
+      - name: Commit Changelog [unreleased] with latest version
         uses: EndBug/add-and-commit@v9.1.4
         if: env.SNAPSHOT == 'false'
         with:
@@ -118,7 +133,7 @@ jobs:
           box forgebox publish --force
 
       - name: Create Github Release
-        uses: taiki-e/create-gh-release-action@v1.8.2
+        uses: taiki-e/create-gh-release-action@v1.9.1
         continue-on-error: true
         if: env.SNAPSHOT == 'false'
         with:
@@ -127,18 +142,35 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: refs/tags/v${{ env.VERSION }}
 
+      - name: Inform Slack
+        if: ${{ always() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: coding
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'green' or '#ff00ff'
+          SLACK_ICON_EMOJI: ":bell:"
+          SLACK_MESSAGE: "Module ${{ env.MODULE_ID }} v${{ env.VERSION }} Built with ${{ job.status }}!"
+          SLACK_TITLE: "ColdBox Module ${{ env.MODULE_ID }}"
+          SLACK_USERNAME: CI
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   ##########################################################################################
   # Prep Next Release
   ##########################################################################################
   prep_next_release:
     name: Prep Next Release
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     needs: [ build ]
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+      issues: write
     steps:
       # Checkout development
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: development
 
@@ -148,7 +180,7 @@ jobs:
           forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ env.MODULE_ID }}
           path: .tmp
