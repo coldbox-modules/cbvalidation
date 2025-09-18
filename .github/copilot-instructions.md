@@ -20,11 +20,11 @@ component {
         email: { required: true, type: "email" },
         age: { required: true, min: 18, max: 65 }
     };
-    
+
     // Profile-based field selection for targeted validation
     this.constraintProfiles = {
         registration: "email,password,confirmPassword",
-        update: "email,firstName,lastName"  
+        update: "email,firstName,lastName"
     };
 }
 
@@ -49,7 +49,7 @@ moduleSettings = {
 
 ### Validation Workflow
 1. **Constraint Resolution**: `determineConstraintsDefinition()` - object properties → shared constraints → inline structs
-2. **Profile Processing**: Constraint profiles expand to `includeFields` for targeted validation scenarios  
+2. **Profile Processing**: Constraint profiles expand to `includeFields` for targeted validation scenarios
 3. **Rule Processing**: `processRules()` iterates constraints, delegating to specific validators
 4. **Result Aggregation**: ValidationResult accumulates errors with i18n message formatting
 
@@ -81,7 +81,7 @@ email: {
 }
 
 // Custom validation methods
-password: { 
+password: {
     method: "validatePasswordStrength",  // Call this.validatePasswordStrength()
     udf: variables.customValidator       // Direct function reference
 }
@@ -105,7 +105,7 @@ password: {
 box install
 box server start serverConfigFile=server-lucee@5.json
 
-# Run tests during development  
+# Run tests during development
 box testbox run
 
 # Format code to standards
@@ -159,7 +159,7 @@ function apiCreateUser(event, rc, prc) {
         return event.renderData(data=user);
     } catch(ValidationException e) {
         return event.renderData(
-            statusCode=422, 
+            statusCode=422,
             data={errors: deserializeJSON(e.extendedInfo)}
         );
     }
@@ -180,5 +180,5 @@ function apiCreateUser(event, rc, prc) {
 
 ### Testing Validators
 - Extend `coldbox.system.testing.BaseTestCase` for integration tests
-- Mock ValidationResult for unit testing individual validators  
+- Mock ValidationResult for unit testing individual validators
 - Test constraint edge cases: null values, empty strings, boundary conditions
