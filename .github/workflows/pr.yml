@@ -6,8 +6,10 @@ on:
       - "main"
       - "master"
       - "development"
+      - "releases/v*"
   pull_request:
     branches:
+      - "releases/v*"
       - development
 
 jobs:
@@ -18,11 +20,11 @@ jobs:
   # Format PR
   format_check:
     name: Checks Source Code Formatting
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - uses: Ortus-Solutions/commandbox-action@v1.0.2
+      - uses: Ortus-Solutions/commandbox-action@v1.0.3
         with:
           cmd: run-script format:check

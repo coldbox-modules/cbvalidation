@@ -9,7 +9,7 @@ on:
 
 # Unique group name per workflow-branch/tag combo
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -25,17 +25,20 @@ jobs:
   ##########################################################################################
   format:
     name: Code Auto-Formatting
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Auto-format
-        uses: Ortus-Solutions/commandbox-action@v1.0.2
+        uses: Ortus-Solutions/commandbox-action@v1.0.3
         with:
           cmd: run-script format
 
       - name: Commit Format Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Apply cfformat changes
 
@@ -46,5 +49,10 @@ jobs:
     uses: ./.github/workflows/release.yml
     needs: [ tests, format ]
     secrets: inherit
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+      issues: write
     with:
       snapshot: true

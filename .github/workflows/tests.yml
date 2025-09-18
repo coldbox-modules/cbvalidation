@@ -10,7 +10,7 @@ on:
 jobs:
   tests:
     name: Tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     env:
       DB_USER: root
       DB_PASSWORD: root
@@ -18,9 +18,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cfengine: [ "boxlang-cfml@1", "lucee@5", "lucee@6", "adobe@2021", "adobe@2023" ]
+        cfengine: [ "boxlang@1", "boxlang-cfml@1", "lucee@5", "lucee@6", "adobe@2023", "adobe@2025" ]
         coldboxVersion: [ "^7.0.0" ]
         experimental: [ false ]
+        # Experimental: ColdBox BE vs All Engines
         include:
           - coldboxVersion: "be"
             cfengine: "lucee@5"
@@ -29,28 +30,48 @@ jobs:
             cfengine: "lucee@6"
             experimental: true
           - coldboxVersion: "be"
-            cfengine: "adobe@2021"
-            experimental: true
-          - coldboxVersion: "be"
-            cfengine: "adobe@2023"
+            cfengine: "adobe@2025"
             experimental: true
           - coldboxVersion: "be"
             cfengine: "boxlang-cfml@1"
             experimental: true
+          - coldboxVersion: "be"
+            cfengine: "boxlang@1"
+            experimental: true
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      # DATABASE SETUP: uncomment if you need to setup a database
+      # - name: Setup Database and Fixtures
+      #   run: |
+      #     sudo systemctl start mysql.service
+      #     mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE mementifier;'
+      #     mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} < test-harness/tests/resources/coolblog.sql
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: "temurin"
           java-version: "21"
 
+      - name: Setup Environment For Testing Process
+        run: |
+          # Setup .env
+          touch .env
+          # ENV
+          printf "ENVIRONMENT=development\n" >> .env
+          printf "DB_HOST=localhost\n" >> .env
+          printf "DB_USER=${{ env.DB_USER }}\n" >> .env
+          printf "DB_PASSWORD=${{ env.DB_PASSWORD }}\n" >> .env
+          printf "DB_CLASS=com.mysql.cj.jdbc.Driver\n" >> .env
+          printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
+          printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
+
       - name: Setup CommandBox CLI
         uses: Ortus-Solutions/setup-commandbox@v2.0.1
 
-      - name: Install Test Harness with ColdBox ${{ matrix.coldboxVersion }}
+      - name: Install Dependencies
         run: |
           box install
           cd test-harness
@@ -67,12 +88,16 @@ jobs:
           mkdir -p test-harness/tests/results
           box testbox run --verbose outputFile=test-harness/tests/results/test-results outputFormats=json,antjunit
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+      - name: Publish Test Reports
+        uses: mikepenz/action-junit-report@v5.6.2
         if: always()
         with:
-          junit_files: test-harness/tests/results/**/*.xml
-          check_name: "${{ matrix.cfengine }} ColdBox ${{ matrix.coldboxVersion }} Test Results"
+          report_paths: |
+            test-harness/tests/results/**/*.xml
+          check_name: "TestBox Report ${{ matrix.cfengine }}-${{ matrix.coldboxVersion }}"
+          include_passed: false
+          fail_on_failure: true
+          detailed_summary: true
 
       - name: Upload Test Results to Artifacts
         if: always()
