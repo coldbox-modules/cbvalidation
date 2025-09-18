@@ -6,9 +6,9 @@
 component {
 
 	// The name of the module used in cfmappings ,etc
-	request.MODULE_NAME = "@MODULE_NAME@";
+	request.MODULE_NAME = "cbvalidation";
 	// The directory name of the module on disk. Usually, it's the same as the module name
-	request.MODULE_PATH = "@MODULE_NAME@";
+	request.MODULE_PATH = "cbvalidation";
 
 	// APPLICATION CFC PROPERTIES
 	this.name                 = "#request.MODULE_NAME# Testing Suite";
