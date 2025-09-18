@@ -7,7 +7,7 @@
     "dependencies":{
         "cbi18n":"^3.0.0",
         "testbox":"*",
-        "coldbox":"^6"
+        "coldbox":"be"
     },
     "installPaths":{
         "testbox":"testbox/",
