@@ -387,7 +387,9 @@ component accessors="true" serialize="false" singleton {
 	 */
 	struct function getSharedConstraints( string name ){
 		return (
-			structKeyExists( arguments, "name" ) ? variables.sharedConstraints[ arguments.name ] : variables.sharedConstraints
+			structKeyExists( arguments, "name" ) && !isNull( arguments.name ) ? variables.sharedConstraints[
+				arguments.name
+			] : variables.sharedConstraints
 		);
 	}
 

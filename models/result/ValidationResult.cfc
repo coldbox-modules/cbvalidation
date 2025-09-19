@@ -247,7 +247,7 @@ component accessors="true" {
 	array function getAllErrors( string field ){
 		var errorTarget = variables.errors;
 
-		if ( structKeyExists( arguments, "field" ) ) {
+		if ( structKeyExists( arguments, "field" ) && !isNull( arguments.field ) ) {
 			errorTarget = getFieldErrors( arguments.field );
 		}
 
@@ -266,7 +266,7 @@ component accessors="true" {
 		var errorTarget = variables.errors;
 
 		// filter by field?
-		if ( structKeyExists( arguments, "field" ) ) {
+		if ( structKeyExists( arguments, "field" ) && !isNull( arguments.field ) ) {
 			errorTarget = getFieldErrors( arguments.field );
 		}
 
