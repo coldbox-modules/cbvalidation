@@ -326,6 +326,8 @@ component accessors="true" serialize="false" singleton {
 									constraints = arrayConstraints.keyExists( "constraints" ) ? arrayConstraints.constraints : arrayConstraints.nestedConstraints
 								)
 							);
+						} else {
+							arrayAppend( filteredArray, item );
 						}
 					}
 				} else {
