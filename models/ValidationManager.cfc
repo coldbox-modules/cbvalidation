@@ -302,9 +302,50 @@ component accessors="true" serialize="false" singleton {
 		}
 
 		// Return validated keys
-		return arguments.target.filter( function( key ){
-			return constraints.keyExists( key );
-		} );
+		return filterTargetForConstraints( arguments.target, constraints );
+	}
+
+	private any function filterTargetForConstraints( required any target, required struct constraints ){
+		var filteredTarget = {};
+		for ( var key in arguments.target ) {
+			if ( !arguments.constraints.keyExists( key ) ) {
+				continue;
+			}
+
+			var constraint = arguments.constraints[ key ];
+			if ( constraint.keyExists( "items" ) || constraint.keyExists( "arrayItem" ) ) {
+				var filteredArray    = [];
+				var arrayConstraints = ( constraint.keyExists( "items" ) ? constraint.items : constraint.arrayItem );
+				if ( arrayConstraints.keyExists( "constraints" ) || arrayConstraints.keyExists( "nestedConstraints" ) ) {
+					for ( var item in arguments.target[ key ] ) {
+						if ( isStruct( item ) ) {
+							arrayAppend(
+								filteredArray,
+								filterTargetForConstraints(
+									target      = item,
+									constraints = arrayConstraints.keyExists( "constraints" ) ? arrayConstraints.constraints : arrayConstraints.nestedConstraints
+								)
+							);
+						}
+					}
+				} else {
+					filteredArray = arguments.target[ key ];
+				}
+				filteredTarget[ key ] = filteredArray;
+			} else if (
+				constraints[ key ].keyExists( "constraints" ) || constraints[ key ].keyExists( "nestedConstraints" )
+			) {
+				filteredTarget[ key ] = filterTargetForConstraints(
+					target      = arguments.target[ key ],
+					constraints = (
+						constraint.keyExists( "constraints" ) ? constraint.constraints : constraint.nestedConstraints
+					)
+				);
+			} else {
+				filteredTarget[ key ] = arguments.target[ key ];
+			}
+		}
+		return filteredTarget;
 	}
 
 	/**
