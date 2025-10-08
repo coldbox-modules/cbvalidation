@@ -335,7 +335,7 @@ component accessors="true" serialize="false" singleton {
 				}
 				filteredTarget[ key ] = filteredArray;
 			} else if (
-				constraints[ key ].keyExists( "constraints" ) || constraints[ key ].keyExists( "nestedConstraints" )
+				constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" )
 			) {
 				filteredTarget[ key ] = filterTargetForConstraints(
 					target      = arguments.target[ key ],
