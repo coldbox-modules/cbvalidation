@@ -312,11 +312,12 @@ component accessors="true" serialize="false" singleton {
 	 * It handles nested constraints (via "constraints" or "nestedConstraints" keys) and array item constraints (via "items" or "arrayItem" keys)
 	 * by recursively filtering nested objects and arrays as needed.
 	 *
+	 *                 with nested structures and arrays filtered recursively as specified by the constraints.
+	 *
 	 * @target      The target structure or object to filter. Can be a struct or an object containing fields to validate.
 	 * @constraints The structure of constraints to use for filtering the target. Keys correspond to fields in the target.
 	 *
 	 * @return struct: A new structure containing only the fields from the target that match the provided constraints,
-	 *                 with nested structures and arrays filtered recursively as specified by the constraints.
 	 */
 	private any function filterTargetForConstraints( required any target, required struct constraints ){
 		var filteredTarget = {};
@@ -347,9 +348,7 @@ component accessors="true" serialize="false" singleton {
 					filteredArray = arguments.target[ key ];
 				}
 				filteredTarget[ key ] = filteredArray;
-			} else if (
-				constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" )
-			) {
+			} else if ( constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" ) ) {
 				filteredTarget[ key ] = filterTargetForConstraints(
 					target      = arguments.target[ key ],
 					constraints = (
