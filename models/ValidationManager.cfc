@@ -302,9 +302,64 @@ component accessors="true" serialize="false" singleton {
 		}
 
 		// Return validated keys
-		return arguments.target.filter( function( key ){
-			return constraints.keyExists( key );
-		} );
+		return filterTargetForConstraints( arguments.target, constraints );
+	}
+
+	/**
+	 * Recursively filters the given target structure or object according to the provided constraints.
+	 *
+	 * This method processes the target and returns a new structure containing only the keys that exist in the constraints.
+	 * It handles nested constraints (via "constraints" or "nestedConstraints" keys) and array item constraints (via "items" or "arrayItem" keys)
+	 * by recursively filtering nested objects and arrays as needed.
+	 *
+	 *                 with nested structures and arrays filtered recursively as specified by the constraints.
+	 *
+	 * @target      The target structure or object to filter. Can be a struct or an object containing fields to validate.
+	 * @constraints The structure of constraints to use for filtering the target. Keys correspond to fields in the target.
+	 *
+	 * @return struct: A new structure containing only the fields from the target that match the provided constraints,
+	 */
+	private any function filterTargetForConstraints( required any target, required struct constraints ){
+		var filteredTarget = {};
+		for ( var key in arguments.target ) {
+			if ( !arguments.constraints.keyExists( key ) ) {
+				continue;
+			}
+
+			var constraint = arguments.constraints[ key ];
+			if ( constraint.keyExists( "items" ) || constraint.keyExists( "arrayItem" ) ) {
+				var filteredArray    = [];
+				var arrayConstraints = ( constraint.keyExists( "items" ) ? constraint.items : constraint.arrayItem );
+				if ( arrayConstraints.keyExists( "constraints" ) || arrayConstraints.keyExists( "nestedConstraints" ) ) {
+					for ( var item in arguments.target[ key ] ) {
+						if ( isStruct( item ) ) {
+							arrayAppend(
+								filteredArray,
+								filterTargetForConstraints(
+									target      = item,
+									constraints = arrayConstraints.keyExists( "constraints" ) ? arrayConstraints.constraints : arrayConstraints.nestedConstraints
+								)
+							);
+						} else {
+							arrayAppend( filteredArray, item );
+						}
+					}
+				} else {
+					filteredArray = arguments.target[ key ];
+				}
+				filteredTarget[ key ] = filteredArray;
+			} else if ( constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" ) ) {
+				filteredTarget[ key ] = filterTargetForConstraints(
+					target      = arguments.target[ key ],
+					constraints = (
+						constraint.keyExists( "constraints" ) ? constraint.constraints : constraint.nestedConstraints
+					)
+				);
+			} else {
+				filteredTarget[ key ] = arguments.target[ key ];
+			}
+		}
+		return filteredTarget;
 	}
 
 	/**
