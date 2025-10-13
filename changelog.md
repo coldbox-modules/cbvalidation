@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.7.0] - 2025-10-13
+
 ### Changed
 
 - `validateOrFail` now filters nested structs and arrays to only return keys matching constraints, not just top-level keys (PR #85)
@@ -312,7 +314,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Create first module version
 
-[unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.6.0...HEAD
+[unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.7.0...HEAD
+[4.7.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.6.0...v4.7.0
 [4.6.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.5.0...v4.6.0
 [4.5.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.3.1...v4.4.0
