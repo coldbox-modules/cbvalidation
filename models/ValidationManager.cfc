@@ -354,7 +354,9 @@ component accessors="true" serialize="false" singleton {
 						key
 					];
 				}
-				filteredTarget[ key ] = filteredArray;
+				if ( !isNull( filteredArray ) ) {
+					filteredTarget[ key ] = filteredArray;
+				}
 			} else if (
 				( constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" ) ) && !isNull(
 					arguments.target[ key ]
@@ -367,9 +369,9 @@ component accessors="true" serialize="false" singleton {
 					)
 				);
 			} else {
-				filteredTarget[ key ] = isNull( arguments.target[ key ] ) ? javacast( "null", "" ) : arguments.target[
-					key
-				];
+				if ( !isNull( arguments.target[ key ] ) ) {
+					filteredTarget[ key ] = arguments.target[ key ];
+				}
 			}
 		}
 		return filteredTarget;
