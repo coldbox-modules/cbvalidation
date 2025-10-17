@@ -327,11 +327,16 @@ component accessors="true" serialize="false" singleton {
 			}
 
 			var constraint = arguments.constraints[ key ];
-			if ( constraint.keyExists( "items" ) || constraint.keyExists( "arrayItem" ) ) {
+			if (
+				( constraint.keyExists( "items" ) || constraint.keyExists( "arrayItem" ) ) && !isNull(
+					arguments.target[ key ]
+				) && isArray( arguments.target[ key ] )
+			) {
+				var items            = arguments.target[ key ];
 				var filteredArray    = [];
 				var arrayConstraints = ( constraint.keyExists( "items" ) ? constraint.items : constraint.arrayItem );
 				if ( arrayConstraints.keyExists( "constraints" ) || arrayConstraints.keyExists( "nestedConstraints" ) ) {
-					for ( var item in arguments.target[ key ] ) {
+					for ( var item in items ) {
 						if ( isStruct( item ) ) {
 							arrayAppend(
 								filteredArray,
@@ -345,10 +350,18 @@ component accessors="true" serialize="false" singleton {
 						}
 					}
 				} else {
-					filteredArray = arguments.target[ key ];
+					filteredArray = isNull( arguments.target[ key ] ) ? javacast( "null", "" ) : arguments.target[
+						key
+					];
 				}
-				filteredTarget[ key ] = filteredArray;
-			} else if ( constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" ) ) {
+				if ( !isNull( filteredArray ) ) {
+					filteredTarget[ key ] = filteredArray;
+				}
+			} else if (
+				( constraint.keyExists( "constraints" ) || constraint.keyExists( "nestedConstraints" ) ) && !isNull(
+					arguments.target[ key ]
+				) && isStruct( arguments.target[ key ] )
+			) {
 				filteredTarget[ key ] = filterTargetForConstraints(
 					target      = arguments.target[ key ],
 					constraints = (
@@ -356,7 +369,9 @@ component accessors="true" serialize="false" singleton {
 					)
 				);
 			} else {
-				filteredTarget[ key ] = arguments.target[ key ];
+				if ( !isNull( arguments.target[ key ] ) ) {
+					filteredTarget[ key ] = arguments.target[ key ];
+				}
 			}
 		}
 		return filteredTarget;
