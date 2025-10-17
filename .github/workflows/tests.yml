@@ -18,25 +18,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cfengine: [ "boxlang-cfml@1", "lucee@5", "lucee@6", "adobe@2023", "adobe@2025" ]
-        coldboxVersion: [ "^7.0.0" ]
+        cfengine: [ "boxlang-cfml@1", "lucee@5", "lucee@6",  "adobe@2023", "adobe@2025" ]
+        coldboxVersion: [ "^7.0.0", "^8.0.0" ]
         experimental: [ false ]
         # Experimental: ColdBox BE vs All Engines
         include:
           - coldboxVersion: "be"
-            cfengine: "lucee@5"
-            experimental: true
-          - coldboxVersion: "be"
             cfengine: "lucee@6"
             experimental: true
           - coldboxVersion: "be"
-            cfengine: "adobe@2025"
+            cfengine: "adobe@2023"
             experimental: true
           - coldboxVersion: "be"
             cfengine: "boxlang-cfml@1"
             experimental: true
-          - coldboxVersion: "be"
-            cfengine: "boxlang@1"
+          # BoxLang PRIME with ColdBox 8
+          - coldboxVersion: "8"
+            cfengine: "boxlang-cfml@1"
+            experimental: true
+          # BoxLang CFML BE with ColdBox 8
+          - coldboxVersion: "8"
+            cfengine: "boxlang-cfml@be"
             experimental: true
     steps:
       - name: Checkout Repository
@@ -88,16 +90,12 @@ jobs:
           mkdir -p test-harness/tests/results
           box testbox run --verbose outputFile=test-harness/tests/results/test-results outputFormats=json,antjunit
 
-      - name: Publish Test Reports
-        uses: mikepenz/action-junit-report@v5.6.2
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          report_paths: |
-            test-harness/tests/results/**/*.xml
-          check_name: "TestBox Report ${{ matrix.cfengine }}-${{ matrix.coldboxVersion }}"
-          include_passed: false
-          fail_on_failure: true
-          detailed_summary: true
+          junit_files: test-harness/tests/results/**/*.xml
+          check_name: "${{ matrix.cfengine }} ColdBox ${{ matrix.coldboxVersion }} Test Results"
 
       - name: Upload Test Results to Artifacts
         if: always()

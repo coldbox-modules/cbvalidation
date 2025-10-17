@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Copilot instructions added.
+- Null values are now properly filtered out when `validateOrFail` returns validated struct/array results
+- Handle null values correctly when filtering constraints in nested structures and arrays
+- GitHub Actions workflow fixes
+
 ## [4.7.0] - 2025-10-13
 
 ### Changed

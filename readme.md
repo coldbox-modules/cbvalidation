@@ -33,7 +33,7 @@ Apache License, Version 2.0.
 
 - **BoxLang** 1.0+ (Preferred)
 - **Lucee** 5.x+
-- **Adobe ColdFusion** 2021+
+- **Adobe ColdFusion** 2023+
 - **Dependencies**: ColdBox 7+, cbi18n 3.0+
 
 ## Installation
@@ -46,7 +46,11 @@ box install cbvalidation
 
 The module will register several objects into WireBox using the `@cbvalidation` namespace.  The validation manager is registered as `ValidationManager@cbvalidation`.  It will also register several helper methods that can be used throughout the ColdBox application: `validate(), validateOrFail(), getValidationManager()`
 
-### WireBox Registrations
+## Documentation
+
+This module is fully documented at: https://coldbox-validation.ortusbooks.com/. It also has an MCP server with live docs and examples.
+
+## WireBox Registrations
 
 - `ValidationManager@cbvalidation` - The core validation engine
 - `validationManager@cbvalidation` - Alias for convenience
@@ -348,7 +352,7 @@ www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
 ```
 
-### HONOR GOES TO GOD ABOVE ALL
+## HONOR GOES TO GOD ABOVE ALL
 
 Because of His grace, this project exists. If you don't like this, then don't read it, its not for you.
 
@@ -358,6 +362,6 @@ And not only so, but we glory in tribulations also: knowing that tribulation wor
 And patience, experience; and experience, hope:
 And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the Holy Ghost which is given unto us. ." Romans 5:5
 
-### THE DAILY BREAD
+## THE DAILY BREAD
 
  > "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12
