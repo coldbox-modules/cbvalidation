@@ -4,7 +4,12 @@
  * ---
  * This validator validates if a value is unique in a database
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	property name="name";
 	property name="res"           inject="model:resourceService@cbi18n";

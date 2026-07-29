@@ -4,7 +4,12 @@
  * ---
  * This validator checks if a field has a value
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	/**
 	 * Constructor

@@ -4,7 +4,12 @@
  * ---
  * This validator validates against a UDF
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	/**
 	 * Constructor

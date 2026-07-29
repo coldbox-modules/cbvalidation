@@ -3,7 +3,12 @@
  * www.ortussolutions.com
  * ---
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	/**
 	 * Constructor

@@ -4,7 +4,7 @@
  * ---
  * All validators should inherit from this abstract utility object
  */
-component accessors=true threadsafe{
+component accessors=true threadsafe {
 
 	// DI
 	property name="ValidationManager" inject="ValidationManager@cbvalidation";

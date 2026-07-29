@@ -4,7 +4,12 @@
  * ---
  * This validator validates if an incoming value exists in a range of values
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	/**
 	 * Constructor

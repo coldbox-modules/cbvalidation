@@ -5,7 +5,12 @@
  * This validator will validate array items according to the validation data passed.
  * All items must pass the validation in order for this validation to pass.
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	ArrayItemValidator function init(){
 		variables.name = "ArrayItemValidator";

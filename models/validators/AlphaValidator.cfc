@@ -4,7 +4,12 @@
  * ---
  * The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
  */
-component extends="BaseValidator" accessors="true" singleton threadsafe {
+component
+	extends  ="BaseValidator"
+	accessors="true"
+	singleton
+	threadsafe
+{
 
 	/**
 	 * Constructor

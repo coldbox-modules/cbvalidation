@@ -20,7 +20,7 @@ component {
 	this.applicationHelper = [ "helpers/Mixins.cfm" ];
 
 	// Module Dependencies That Must Be Loaded First, use internal names or aliases
-	this.dependencies               = [ "cbi18n" ];
+	this.dependencies = [ "cbi18n" ];
 
 	// ColdBox Static path to validation manager
 	static.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
