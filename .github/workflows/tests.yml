@@ -42,7 +42,7 @@ jobs:
             experimental: true
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # DATABASE SETUP: uncomment if you need to setup a database
       # - name: Setup Database and Fixtures
