@@ -45,13 +45,10 @@
         "format:watch":"cfformat watch helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "format:check":"cfformat check helpers,interfaces,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "install:dependencies":"install && cd test-harness && install",
-        "start:lucee":"server start serverConfigFile=server-lucee@5.json",
         "start:adobe":"server start serverConfigFile=server-adobe@2025.json",
         "start:boxlang":"server start serverConfigFile=server-boxlang@1.json",
-        "stop:lucee":"server stop serverConfigFile=server-lucee@5.json",
         "stop:adobe":"server stop serverConfigFile=server-adobe@2025.json",
         "stop:boxlang":"server stop serverConfigFile=server-boxlang@1.json",
-        "logs:lucee":"server log serverConfigFile=server-lucee@5.json --follow",
         "logs:adobe":"server log serverConfigFile=server-adobe@2025.json --follow",
         "logs:boxlang":"server log serverConfigFile=server-boxlang@1.json --follow"
     },

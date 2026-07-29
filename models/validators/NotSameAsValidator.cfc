@@ -4,7 +4,7 @@
  * ---
  * This validator validates if a field is NOT the same as another field with case sensitivity
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

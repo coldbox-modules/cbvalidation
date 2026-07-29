@@ -4,7 +4,7 @@
  * ---
  * This validator validates if an incoming value exists in a certain list
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

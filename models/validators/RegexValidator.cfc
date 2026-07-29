@@ -4,7 +4,7 @@
  * ---
  * This validator validates against a user defined regular expression
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

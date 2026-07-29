@@ -5,7 +5,7 @@
  * This validator will validate array items according to the validation data passed.
  * All items must pass the validation in order for this validation to pass.
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	NestedConstraintsValidator function init(){
 		variables.name = "NestedConstraintsValidator";

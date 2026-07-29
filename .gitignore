@@ -19,3 +19,9 @@ modules/**
 
 # log files
 logs/**
+
+### AI ###
+.agents/skills/**
+.agents/guidelines/**
+.opencode/**
+.pi/**

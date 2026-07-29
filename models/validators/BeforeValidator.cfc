@@ -4,7 +4,7 @@
  * ---
  * Evaluates if the target date is before the validation date
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

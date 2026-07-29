@@ -21,17 +21,18 @@ component {
 
 	// Module Dependencies That Must Be Loaded First, use internal names or aliases
 	this.dependencies               = [ "cbi18n" ];
+
 	// ColdBox Static path to validation manager
-	this.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
+	static.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
 
 	/**
 	 * Configure module
 	 */
 	function configure(){
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
-		settings = {
+		variables.settings = {
 			// The default Validation manager
-			manager           : this.COLDBOX_VALIDATION_MANAGER,
+			manager           : static.COLDBOX_VALIDATION_MANAGER,
 			// Global constraints
 			sharedConstraints : {}
 		};
@@ -42,7 +43,7 @@ component {
 	 */
 	function onLoad(){
 		// Did you change the validation manager?
-		if ( variables.settings.manager != this.COLDBOX_VALIDATION_MANAGER ) {
+		if ( variables.settings.manager != static.COLDBOX_VALIDATION_MANAGER ) {
 			binder
 				.map( alias = "validationManager@cbvalidation", force = true )
 				.to( variables.settings.manager )

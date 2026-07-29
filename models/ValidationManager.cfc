@@ -52,7 +52,7 @@
  */
 import cbvalidation.models.*;
 import cbvalidation.models.result.*;
-component accessors="true" serialize="false" singleton {
+component accessors="true" serialize="false" singleton threadsafe {
 
 	/**
 	 * WireBox Object Factory

@@ -1,8 +1,8 @@
 {
-    "name":"cbvalidation-lucee@5",
+    "name":"cbi18n-lucee@7",
     "app":{
-        "serverHomeDirectory":".engine/lucee5",
-        "cfengine":"lucee@5"
+        "serverHomeDirectory":".engine/lucee7",
+        "cfengine":"lucee@7"
     },
     "web":{
         "http":{
@@ -13,7 +13,7 @@
         },
         "webroot":"test-harness",
         "aliases":{
-            "/moduleroot/cbvalidation":"./"
+            "/moduleroot/cbi18n":"../"
         }
     },
     "openBrowser":"false",

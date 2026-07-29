@@ -4,7 +4,7 @@
  * ---
  * This validator validates if a value is is greater than a minimum number
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

@@ -4,7 +4,7 @@
  * ---
  * This validator validates the size or length of the value of a field
  */
-component extends="BaseValidator" accessors="true" singleton {
+component extends="BaseValidator" accessors="true" singleton threadsafe {
 
 	/**
 	 * Constructor

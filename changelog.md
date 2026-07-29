@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Upgrades to BoxLang Prime
+- AI instructions, skills and more
+- Updated all github actions
+
+### Fixed
+
+- Added the `threadSafe` annotation for high concurrency issues.
+
 ## [4.8.0] - 2025-10-17
 
 ### Fixed
