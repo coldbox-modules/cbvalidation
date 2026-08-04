@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Updating to use JRE 21 on newer engines
+- Removed `static` usage due to many issues with Adobe ColdFusion.
 
 ## [4.9.0] - 2026-07-29
 
