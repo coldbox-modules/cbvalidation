@@ -19,7 +19,7 @@ component {
 	// Helpers
 	this.applicationHelper = [ "helpers/Mixins.cfm" ]
 	// Module Dependencies That Must Be Loaded First, use internal names or aliases
-	this.dependencies = [ "cbi18n" ]
+	this.dependencies      = [ "cbi18n" ]
 
 	variables.managerClass = "cbvalidation.models.ValidationManager"
 
@@ -30,7 +30,7 @@ component {
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
 		variables.settings = {
 			// The default Validation manager
-			manager : variables.managerClass,
+			manager           : variables.managerClass,
 			// Global constraints
 			sharedConstraints : {}
 		}
