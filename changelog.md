@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.9.1] - 2026-08-04
+
 ### Fixed
 
 - Updating to use JRE 21 on newer engines
@@ -340,7 +342,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Create first module version
 
-[unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.9.0...HEAD
+[unreleased]: https://github.com/coldbox-modules/cbvalidation/compare/v4.9.1...HEAD
+[4.9.1]: https://github.com/coldbox-modules/cbvalidation/compare/v4.9.0...v4.9.1
 [4.9.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.8.0...v4.9.0
 [4.8.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/coldbox-modules/cbvalidation/compare/v4.6.0...v4.7.0
