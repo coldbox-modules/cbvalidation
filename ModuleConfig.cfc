@@ -6,24 +6,22 @@
 component {
 
 	// Module Properties
-	this.title       = "validation";
-	this.author      = "Luis Majano";
-	this.webURL      = "https://www.ortussolutions.com";
-	this.description = "This module provides server-side validation to ColdBox applications";
-	this.version     = "@build.version@+@build.number@";
+	this.title       = "validation"
+	this.author      = "Luis Majano"
+	this.webURL      = "https://www.ortussolutions.com"
+	this.description = "This module provides server-side validation to ColdBox applications"
+	this.version     = "@build.version@+@build.number@"
 
 	// Model Namespace
-	this.modelNamespace    = "cbvalidation";
+	this.modelNamespace    = "cbvalidation"
 	// CF Mapping
-	this.cfmapping         = "cbvalidation";
+	this.cfmapping         = "cbvalidation"
 	// Helpers
-	this.applicationHelper = [ "helpers/Mixins.cfm" ];
-
+	this.applicationHelper = [ "helpers/Mixins.cfm" ]
 	// Module Dependencies That Must Be Loaded First, use internal names or aliases
-	this.dependencies = [ "cbi18n" ];
+	this.dependencies      = [ "cbi18n" ]
 
-	// ColdBox Static path to validation manager
-	static.COLDBOX_VALIDATION_MANAGER = "cbvalidation.models.ValidationManager";
+	variables.managerClass = "cbvalidation.models.ValidationManager"
 
 	/**
 	 * Configure module
@@ -32,10 +30,10 @@ component {
 		// Mixin our own methods on handlers, interceptors and views via the ColdBox UDF Library File setting
 		variables.settings = {
 			// The default Validation manager
-			manager           : static.COLDBOX_VALIDATION_MANAGER,
+			manager           : variables.managerClass,
 			// Global constraints
 			sharedConstraints : {}
-		};
+		}
 	}
 
 	/**
@@ -43,16 +41,16 @@ component {
 	 */
 	function onLoad(){
 		// Did you change the validation manager?
-		if ( variables.settings.manager != static.COLDBOX_VALIDATION_MANAGER ) {
+		if ( variables.settings.manager != variables.managerClass ) {
 			binder
 				.map( alias = "validationManager@cbvalidation", force = true )
 				.to( variables.settings.manager )
-				.asSingleton();
+				.asSingleton()
 		}
 		// setup shared constraints
 		wirebox
 			.getInstance( "validationManager@cbvalidation" )
-			.setSharedConstraints( variables.settings.sharedConstraints );
+			.setSharedConstraints( variables.settings.sharedConstraints )
 	}
 
 	/**

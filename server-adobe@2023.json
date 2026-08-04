@@ -17,6 +17,7 @@
         }
     },
 	"jvm":{
+		"javaVersion":"openjdk21_jre",
         "heapSize":"1024"
     },
     "openBrowser":"false",

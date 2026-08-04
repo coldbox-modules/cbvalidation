@@ -1,5 +1,4 @@
 <cfscript>
-
 /**
  * Validate an object or structure according to the constraints rules.
  *

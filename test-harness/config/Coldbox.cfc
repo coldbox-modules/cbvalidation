@@ -78,7 +78,8 @@
 			.registerAndActivateModule(
 				moduleName     = request.MODULE_NAME,
 				invocationPath = "moduleroot"
-			);
+			)
+		controller.getRenderer().startup()
 	}
 
 }

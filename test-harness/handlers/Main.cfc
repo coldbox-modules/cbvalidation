@@ -4,7 +4,7 @@
 component {
 
 	// Index
-	any function index( event, rc, prc ){
+	function index( event, rc, prc ){
 		// Test Mixins
 		log.info( "validateHasValue #validateHasValue( "true" )# has passed!" );
 		log.info( "validateIsNullOrEmpty #validateIsNullOrEmpty( "true" )# has passed!" );
@@ -12,6 +12,7 @@ component {
 		try {
 			assert( false, "bogus line" );
 		} catch ( AssertException e ) {
+			// Ignore this exception, it is expected
 		} catch ( any e ) {
 			rethrow;
 		}
@@ -19,7 +20,7 @@ component {
 		event.setView( "main/index" );
 	}
 
-	any function save( event, rc, prc ){
+	function save( event, rc, prc ){
 		var constraints = {
 			username : { required : true, size : "6..20" },
 			password : { required : true, size : "6..20" }
