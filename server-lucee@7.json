@@ -16,6 +16,10 @@
             "/moduleroot/cbi18n":"../"
         }
     },
+	"JVM":{
+        "heapSize":"768",
+        "javaVersion":"openjdk21_jre"
+    },
     "openBrowser":"false",
     "cfconfig":{
         "file":".cfconfig.json"
