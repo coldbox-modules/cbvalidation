@@ -86,8 +86,8 @@ component
 		validationResult.addError(
 			validationResult
 				.newError( argumentCollection = args )
-				.setErrorMetadata( { 
-					table : arguments.validationData.table,
+				.setErrorMetadata( {
+					table  : arguments.validationData.table,
 					column : arguments.validationData.column
 				} )
 		);
