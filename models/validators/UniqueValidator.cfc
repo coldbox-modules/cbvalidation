@@ -20,7 +20,7 @@ component
 	 * Constructor
 	 */
 	UniqueValidator function init(){
-		variables.name = "UniqueValidator";
+		variables.name = "Unique";
 		return this;
 	}
 
@@ -86,7 +86,10 @@ component
 		validationResult.addError(
 			validationResult
 				.newError( argumentCollection = args )
-				.setErrorMetadata( { UniqueValidator : arguments.validationData } )
+				.setErrorMetadata( { 
+					table : arguments.validationData.table,
+					column : arguments.validationData.column
+				} )
 		);
 		return false;
 	}
